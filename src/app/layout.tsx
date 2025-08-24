@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from '@/components/layout/header'
 import { SiteFooter } from '@/components/layout/footer'
 import { Toaster } from "@/components/ui/toaster"
+import FirebaseProvider from '@/components/layout/firebase-provider'
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -23,14 +24,16 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
       </head>
       <body className={cn("min-h-screen bg-background font-body antialiased")}>
-        <div className="relative flex min-h-screen flex-col">
-          <SiteHeader />
-          <main className="flex-1 container py-8">
-            {children}
-          </main>
-          <SiteFooter />
-        </div>
-        <Toaster />
+        <FirebaseProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <SiteHeader />
+            <main className="flex-1 container py-8">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
+          <Toaster />
+        </FirebaseProvider>
       </body>
     </html>
   );
