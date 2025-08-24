@@ -151,13 +151,16 @@ export function SiteHeader() {
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-3">
-            <Image 
-                src={logoUrl}
-                width={144} 
-                height={144} 
-                alt="Logo" 
-                className="h-36 w-36"
-            />
+            <div className="relative overflow-hidden rounded-full">
+              <Image 
+                  src={logoUrl}
+                  width={144} 
+                  height={144} 
+                  alt="Logo" 
+                  className="h-36 w-36"
+              />
+              <div className="glint-effect"></div>
+            </div>
              <div className="flex flex-col justify-center">
               <h1 className="text-xl font-bold font-display whitespace-nowrap gradient-text">Liên Đội Trần Quang Khải</h1>
               <p className="text-sm text-muted-foreground mt-1 italic">Phường Tân Sơn Nhì</p>
