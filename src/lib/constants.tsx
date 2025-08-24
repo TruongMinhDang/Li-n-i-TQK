@@ -90,3 +90,22 @@ export const newsArticles = [
     href: "/vuon-uom/cau-chuyen-dep"
   }
 ];
+
+
+export const testimonials = [
+  {
+    quote: "Với tâm huyết xây dựng ‘Nhà Xanh’ Trần Quang Khải thành một mái nhà chung ấm áp, nơi ươm mầm những tài năng và nhân cách đẹp, tôi và ban chỉ huy Liên Đội luôn nỗ lực đổi mới, sáng tạo trong từng hoạt động của Liên Đội. Chúng tôi tin rằng, từ những việc làm nhỏ bé hôm nay, các em sẽ hình thành nên những giá trị lớn lao, góp phần xây dựng một cộng đồng tốt đẹp hơn. Trang thông tin này là một bước tiến để Liên Đội đến gần hơn với đội viên, phụ huynh và cộng đồng, lan tỏa những giá trị tích cực mà chúng ta đang cùng nhau vun đắp.",
+    author: "Trương Minh Đăng",
+    title: "Giáo viên Tổng Phụ Trách Đội",
+  },
+  {
+    quote: "Trang web của Liên đội thật sự là một nguồn thông tin hữu ích. Là một phụ huynh, tôi có thể dễ dàng theo dõi các hoạt động của con em mình tại trường, cũng như cập nhật các thông báo quan trọng một cách nhanh chóng. Giao diện thân thiện, dễ sử dụng!",
+    author: "Chị Nguyễn Thị Mai",
+    title: "Phụ huynh học sinh",
+  },
+  {
+    quote: "Em rất thích chuyên mục 'Vườn Ươm' trên trang web. Đọc những câu chuyện đẹp và gương mặt tiêu biểu đã tiếp thêm cho em rất nhiều động lực để học tập và rèn luyện tốt hơn. Em cảm thấy tự hào khi là một thành viên của Liên đội Trần Quang Khải.",
+    author: "Em Lê Minh Khang",
+    title: "Đội viên Chi đội 8A2",
+  },
+];
