@@ -162,8 +162,8 @@ export function SiteHeader() {
               <div className="glint-effect"></div>
             </div>
              <div className="flex flex-col justify-center">
-              <h1 className="text-xl font-bold font-display whitespace-nowrap gradient-text">Liên Đội Trần Quang Khải</h1>
-              <p className="text-sm text-muted-foreground mt-1 italic">Phường Tân Sơn Nhì</p>
+              <h1 className="text-xl font-display whitespace-nowrap gradient-text">Liên Đội Trần Quang Khải</h1>
+              <p className="text-sm text-muted-foreground mt-1 italic font-slogan">Phường Tân Sơn Nhì</p>
              </div>
           </Link>
           
@@ -189,7 +189,7 @@ export function SiteHeader() {
             />
             <div className="flex flex-col">
               <span className="font-bold font-display gradient-text text-base whitespace-nowrap">Liên Đội TQK</span>
-              <span className="text-xs text-muted-foreground italic">Phường Tân Sơn Nhì</span>
+              <span className="text-xs text-muted-foreground italic font-slogan">Phường Tân Sơn Nhì</span>
             </div>
           </Link>
           <Sheet>
@@ -210,7 +210,7 @@ export function SiteHeader() {
                         />
                         <div className="text-center">
                             <h1 className="text-xl font-bold font-display whitespace-nowrap gradient-text">Liên Đội Trần Quang Khải</h1>
-                            <p className="text-sm text-muted-foreground italic">Phường Tân Sơn Nhì</p>
+                            <p className="text-sm text-muted-foreground italic font-slogan">Phường Tân Sơn Nhì</p>
                         </div>
                     </Link>
                     <div className="w-full mt-4">
