@@ -1,54 +1,68 @@
-
 "use client";
 
+import * as React from "react";
 import { useRef } from "react";
 import CountUp from "react-countup";
 import { motion, useInView } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Users, Library, CalendarCheck, Calendar, Trophy, Award } from "lucide-react";
+import { Users, Library, CalendarCheck, Calendar, Trophy, Award, Flag, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const stats = [
   {
-    icon: <Users className="h-10 w-10 text-primary" />,
+    icon: <Users className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
     value: 1300,
     title: "Đội Viên",
     description: "Năng động, tự tin & đoàn kết",
     color: "primary",
   },
   {
-    icon: <Library className="h-10 w-10 text-primary" />,
+    icon: <Library className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
     value: 32,
     title: "Chi Đội",
     description: "Toàn trường vững mạnh",
     color: "primary",
   },
   {
-    icon: <CalendarCheck className="h-10 w-10 text-primary" />,
+    icon: <CalendarCheck className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
     value: 30,
     title: "Hoạt Động/Năm",
     description: "Đa dạng, phong phú & hấp dẫn",
     color: "primary",
   },
-  {
-    icon: <Calendar className="h-10 w-10 text-primary" />,
-    value: 14,
-    title: "Năm Hoạt Động",
-    description: "Gìn giữ và phát huy truyền thống",
+   {
+    icon: <Flag className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    value: 2,
+    title: "Cờ Thi Đua Xuất Sắc",
+    description: "Vinh danh tại cụm thi đua",
     color: "primary",
   },
   {
-    icon: <Trophy className="h-10 w-10 text-warning" />,
+    icon: <Trophy className="h-10 w-10 text-warning transition-colors duration-300 group-hover:text-warning" />,
     value: 12,
     title: "Năm Liên Đội Mạnh Liên Tục",
     description: "Nỗ lực duy trì kết quả ổn định",
     color: "warning",
   },
   {
-    icon: <Award className="h-10 w-10 text-primary" />,
+    icon: <Calendar className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    value: 14,
+    title: "Năm Hoạt Động",
+    description: "Gìn giữ và phát huy truyền thống",
+    color: "primary",
+  },
+  {
+    icon: <Award className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
     value: 2,
     title: "Bằng Khen Thành Đoàn",
     description: "Ghi nhận đóng góp cấp Thành phố",
+    color: "primary",
+  },
+   {
+    icon: <Star className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    value: 1,
+    title: "Bằng Khen TW",
+    description: "Khẳng định nỗ lực toàn diện",
     color: "primary",
   },
 ];
@@ -102,16 +116,28 @@ export function StatsSection() {
         
         <motion.div 
             variants={containerVariants}
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
         >
-            {stats.map((stat) => (
-                <motion.div key={stat.title} variants={itemVariants}>
+            {stats.map((stat, index) => (
+                <motion.div 
+                    key={stat.title} 
+                    variants={itemVariants}
+                    className={cn(
+                       (index === 3 || index === 4) && "lg:col-start-2 lg:col-end-4"
+                    )}
+                >
                     <Card className={cn(
-                        "text-center h-full transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl border-transparent border-2",
+                        "text-center h-full transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl border-transparent border-2 group",
                         cardColorVariants[stat.color] || "hover:border-primary"
                     )}>
                         <CardHeader className="items-center">
-                            {stat.icon}
+                            {React.cloneElement(stat.icon, { 
+                                className: cn(
+                                    stat.icon.props.className, 
+                                    "text-muted-foreground", // Default color
+                                    `group-hover:text-${stat.color}`
+                                )
+                            })}
                         </CardHeader>
                         <CardContent className="space-y-2">
                             <div className="text-5xl font-bold text-foreground">
