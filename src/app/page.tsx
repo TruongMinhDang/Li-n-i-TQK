@@ -86,23 +86,25 @@ export default function Home() {
 
       <section className="w-full pb-12 md:pb-24 lg:pb-32">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <Card key={feature.title} className="flex flex-col hover:shadow-lg transition-shadow duration-300">
-                <CardHeader className="flex flex-row items-center gap-4 pb-4">
-                  {feature.icon}
-                  <CardTitle className="font-headline">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-muted-foreground">{feature.description}</p>
-                </CardContent>
-                <div className="p-6 pt-0">
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link href={feature.href}>Xem chi tiết</Link>
-                  </Button>
-                </div>
-              </Card>
-            ))}
+          <div className="bg-card p-8 rounded-lg shadow-inner">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {features.map((feature) => (
+                <Link key={feature.title} href={feature.href} className="block group">
+                  <Card className="flex flex-col h-full hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                    <CardHeader className="flex flex-row items-center gap-4 pb-4">
+                      {feature.icon}
+                      <CardTitle className="font-headline group-hover:text-primary transition-colors">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                      <p className="text-muted-foreground">{feature.description}</p>
+                    </CardContent>
+                    <div className="p-6 pt-0">
+                      <Button variant="outline" className="w-full">Xem chi tiết</Button>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
