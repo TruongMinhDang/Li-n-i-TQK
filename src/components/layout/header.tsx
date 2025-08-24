@@ -49,7 +49,7 @@ function SearchInput() {
   )
 }
 
-const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9F937877-6455-41C5-B814-8D0FD806C613";
+const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9f937877-6455-41c5-b814-8d0fd806c613";
 
 
 export function SiteHeader() {
