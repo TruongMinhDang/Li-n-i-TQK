@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   "projectId": "website-lin-i",
@@ -18,5 +19,8 @@ if (!getApps().length) {
 } else {
   firebaseApp = getApp();
 }
+
+// Initialize Firestore
+getFirestore(firebaseApp);
 
 export default firebaseApp;
