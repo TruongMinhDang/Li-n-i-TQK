@@ -1,38 +1,38 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Download, FileText } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Library, FolderKanban, FileText, BookOpen, BarChart2 } from "lucide-react";
+import Image from "next/image";
 
-const documents = [
+const subCategories = [
   {
-    title: "Điều lệ Đội TNTP Hồ Chí Minh",
-    category: "Quy định",
-    lastUpdated: "10/05/2024",
-    fileUrl: "#",
+    icon: <Library className="h-8 w-8 text-primary" />,
+    title: "Chiêu Minh Hội Quán",
+    description: "Nơi giao lưu, học hỏi và chia sẻ kinh nghiệm của các thế hệ chỉ huy Đội.",
+    href: "/balo/chieu-minh-hoi-quan",
   },
   {
-    title: "Sổ tay Nghi thức Đội",
-    category: "Hướng dẫn",
-    lastUpdated: "01/04/2024",
-    fileUrl: "#",
+    icon: <FolderKanban className="h-8 w-8 text-destructive" />,
+    title: "Kế Hoạch",
+    description: "Tổng hợp các kế hoạch, chương trình hành động của Liên đội.",
+    href: "/balo/ke-hoach",
   },
   {
-    title: "Mẫu báo cáo tổng kết năm học",
-    category: "Biểu mẫu",
-    lastUpdated: "15/03/2024",
-    fileUrl: "#",
+    icon: <FileText className="h-8 w-8 text-warning" />,
+    title: "Tài Liệu",
+    description: "Kho tài liệu, văn bản và biểu mẫu cần thiết cho hoạt động Đội.",
+    href: "/balo/tai-lieu",
   },
   {
-    title: "Hướng dẫn tổ chức Đại hội Chi đội",
-    category: "Hướng dẫn",
-    lastUpdated: "20/02/2024",
-    fileUrl: "#",
+    icon: <BookOpen className="h-8 w-8 text-success" />,
+    title: "Kỷ Yếu",
+    description: "Lưu giữ những khoảnh khắc, những kỷ niệm đẹp của một thời đội viên.",
+    href: "/balo/ky-yeu",
   },
-  {
-    title: "Kế hoạch hoạt động tháng 9",
-    category: "Kế hoạch",
-    lastUpdated: "01/09/2023",
-    fileUrl: "#",
+   {
+    icon: <BarChart2 className="h-8 w-8 text-accent" />,
+    title: "Infographic",
+    description: "Những thông tin, kiến thức được trình bày một cách trực quan, sinh động.",
+    href: "/balo/infographic",
   },
 ];
 
@@ -41,48 +41,31 @@ export default function BackpackPage() {
     <div className="space-y-12">
       <section className="text-center">
         <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Hành Trang Đội Viên
+          Balo
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-          Kho tài liệu, văn bản và biểu mẫu cần thiết cho hoạt động Đội.
+          Hành trang số với đầy đủ tài liệu, kế hoạch và kiến thức cần thiết cho mỗi đội viên.
         </p>
       </section>
 
       <section>
-        <Card className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Tên tài liệu</TableHead>
-                <TableHead className="hidden md:table-cell">Phân loại</TableHead>
-                <TableHead className="hidden sm:table-cell">Cập nhật lần cuối</TableHead>
-                <TableHead className="text-right">Tải về</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {documents.map((doc) => (
-                <TableRow key={doc.title}>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="font-medium">{doc.title}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">{doc.category}</TableCell>
-                  <TableCell className="hidden sm:table-cell">{doc.lastUpdated}</TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href={doc.fileUrl} download>
-                        <Download className="h-4 w-4" />
-                        <span className="sr-only">Tải về</span>
-                      </a>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Card>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {subCategories.map((category) => (
+             <Link key={category.title} href={category.href} className="block group">
+                <Card className="h-full flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <CardHeader className="flex-row items-center gap-4">
+                        <div className="bg-secondary p-4 rounded-full">
+                           {category.icon}
+                        </div>
+                        <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">{category.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                        <p className="text-muted-foreground">{category.description}</p>
+                    </CardContent>
+                </Card>
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );

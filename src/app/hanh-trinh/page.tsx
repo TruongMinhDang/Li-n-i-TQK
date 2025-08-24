@@ -1,39 +1,29 @@
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BookOpen, Handshake, Star } from "lucide-react";
 import Image from "next/image";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
-const activities = [
+const subCategories = [
   {
-    title: "Chiến dịch Mùa Hè Xanh",
-    category: "Tình nguyện",
-    date: "Tháng 6, 2024",
-    description: "Các đội viên tham gia dọn dẹp vệ sinh môi trường, trồng cây xanh và tuyên truyền bảo vệ môi trường tại địa phương.",
-    image: { src: "https://placehold.co/600x400.png", hint: "volunteers planting trees" },
-    badgeColor: "bg-success/10 text-success border-success/20",
+    icon: <BookOpen className="h-8 w-8 text-primary" />,
+    title: "Làm theo lời Bác",
+    description: "Những câu chuyện và hoạt động học tập, làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh.",
+    href: "/hanh-trinh/lam-theo-loi-bac",
+    image: { src: "https://placehold.co/600x400.png", hint: "students studying history" },
   },
   {
-    title: "Hội trại 'Nối Vòng Tay Lớn'",
-    category: "Kỹ năng",
-    date: "Tháng 4, 2024",
-    description: "Hội trại truyền thống với các hoạt động teambuilding, lửa trại và thi tài năng, giúp gắn kết các đội viên.",
-    image: { src: "https://placehold.co/600x400.png", hint: "students campfire" },
-    badgeColor: "bg-warning/10 text-warning border-warning/20",
+    icon: <Handshake className="h-8 w-8 text-destructive" />,
+    title: "Xây Dựng Đội Vững Mạnh",
+    description: "Các hoạt động rèn luyện kỹ năng, nghiệp vụ công tác Đội, nâng cao chất lượng đội viên.",
+    href: "/hanh-trinh/xay-dung-doi-vung-manh",
+    image: { src: "https://placehold.co/600x400.png", hint: "students team building" },
   },
   {
-    title: "Ngày hội 'Tiến bước lên Đoàn'",
-    category: "Nghi thức",
-    date: "Tháng 3, 2024",
-    description: "Tổ chức lễ kết nạp Đoàn viên mới và các hoạt động ý nghĩa chào mừng ngày thành lập Đoàn TNCS Hồ Chí Minh.",
-    image: { src: "https://placehold.co/600x400.png", hint: "student ceremony" },
-    badgeColor: "bg-primary/10 text-primary border-primary/20",
-  },
-  {
-    title: "Cuộc thi 'Sáng tạo Khoa học Kỹ thuật'",
-    category: "Học thuật",
-    date: "Tháng 1, 2024",
-    description: "Sân chơi bổ ích để các đội viên thể hiện tài năng, niềm đam mê nghiên cứu và sáng tạo khoa học.",
-    image: { src: "https://placehold.co/600x400.png", hint: "science fair project" },
-    badgeColor: "bg-accent/10 text-accent border-accent/20",
+    icon: <Star className="h-8 w-8 text-warning" />,
+    title: "Cùng Tiến Bước Lên Đoàn",
+    description: "Hành trình phấn đấu của các đội viên ưu tú để được đứng vào hàng ngũ của Đoàn TNCS Hồ Chí Minh.",
+    href: "/hanh-trinh/cung-tien-buoc-len-doan",
+    image: { src: "https://placehold.co/600x400.png", hint: "youth union ceremony" },
   },
 ];
 
@@ -42,36 +32,42 @@ export default function JourneyPage() {
     <div className="space-y-12">
       <section className="text-center">
         <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Hành Trình Hoạt Động
+          Hành Trình
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-          Những dấu ấn đáng nhớ trên chặng đường phát triển của Liên đội.
+          Khám phá các hoạt động, sự kiện và phong trào sôi nổi của Liên đội qua các chuyên mục.
         </p>
       </section>
 
       <section>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
-          {activities.map((activity) => (
-            <Card key={activity.title} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <Image
-                src={activity.image.src}
-                alt={activity.title}
-                data-ai-hint={activity.image.hint}
-                width={600}
-                height={400}
-                className="w-full h-48 object-cover"
-              />
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <Badge variant="outline" className={activity.badgeColor}>{activity.category}</Badge>
-                  <p className="text-sm text-muted-foreground">{activity.date}</p>
-                </div>
-                <CardTitle className="font-headline pt-2">{activity.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{activity.description}</p>
-              </CardContent>
-            </Card>
+        <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
+          {subCategories.map((category) => (
+            <Link key={category.title} href={category.href} className="block group">
+                <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl transition-shadow duration-300">
+                    <div className="relative">
+                        <Image
+                            src={category.image.src}
+                            alt={category.title}
+                            data-ai-hint={category.image.hint}
+                            width={600}
+                            height={400}
+                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                         <div className="absolute inset-0 bg-black/20"></div>
+                    </div>
+                    <CardHeader>
+                        <div className="flex items-center gap-4">
+                            <div className="bg-secondary p-3 rounded-full">
+                                {category.icon}
+                            </div>
+                            <CardTitle className="font-headline pt-2 text-xl group-hover:text-primary transition-colors">{category.title}</CardTitle>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                        <p className="text-muted-foreground">{category.description}</p>
+                    </CardContent>
+                </Card>
+            </Link>
           ))}
         </div>
       </section>
