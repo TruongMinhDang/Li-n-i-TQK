@@ -36,16 +36,16 @@ export function SiteHeader() {
   const renderNavLink = (link: any, isMobile = false) => {
     const active = isLinkActive(link.href, link.subLinks);
     const linkClasses = cn(
-        "flex items-center gap-2 transition-colors duration-300",
-        isMobile ? "py-2 text-lg font-semibold" : "px-3 py-2 text-sm font-medium rounded-md",
+        "transition-colors px-3 py-1.5 rounded-md flex items-center gap-2 text-sm font-medium",
         active 
             ? "nav-link-active text-primary" 
             : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
+        isMobile ? "py-2 text-lg font-semibold w-full justify-start" : "",
         {'border-b': isMobile && !link.subLinks}
     );
      const dropdownClasses = cn(
         "transition-colors px-3 py-1.5 rounded-md flex items-center gap-1 text-sm font-medium",
-        active ? "nav-link-active text-primary" : "text-muted-foreground",
+        active ? "text-primary" : "text-muted-foreground",
         // Apply hover effect to the button itself for dropdowns
         "hover:bg-secondary hover:text-secondary-foreground"
     );
@@ -104,28 +104,32 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-28 items-center">
+      <div className="container flex h-24 items-center">
         {/* Desktop Header */}
-        <div className="mr-4 hidden md:flex items-center w-full">
+        <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Image 
-                src="https://placehold.co/120x120.png"
+                src="https://placehold.co/80x80.png"
                 data-ai-hint="school logo"
-                width={100} 
-                height={100} 
+                width={50} 
+                height={50} 
                 alt="Logo" 
+                className="h-12 w-12"
             />
-          </Link>
-          <div className="flex flex-col items-center flex-grow">
-              <h1 className="text-2xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
+             <div className="flex flex-col">
+              <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
               <p className="text-sm text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
-              <nav className="flex items-center space-x-1 mt-4 rounded-lg bg-secondary/50 p-1 font-headline">
-                {navLinks.map((link) => renderNavLink(link))}
-              </nav>
-          </div>
-          <div className="relative ml-auto">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Tìm Kiếm" className="pl-9" />
+             </div>
+          </Link>
+          
+          <div className="flex items-center gap-2">
+            <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1 font-headline">
+              {navLinks.map((link) => renderNavLink(link))}
+            </nav>
+            <div className="relative ml-2">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Tìm Kiếm" className="pl-9" />
+            </div>
           </div>
         </div>
         
