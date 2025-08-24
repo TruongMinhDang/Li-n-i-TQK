@@ -216,4 +216,12 @@
   .animation-delay-500 {
     animation-delay: 500ms;
   }
+
+  .chat-bubble-user {
+    @apply bg-primary text-primary-foreground rounded-lg p-2 max-w-xs self-end;
+  }
+
+  .chat-bubble-bot {
+      @apply bg-muted text-muted-foreground rounded-lg p-2 max-w-xs self-start;
+  }
 }
