@@ -5,6 +5,8 @@ import { SiteHeader } from '@/components/layout/header'
 import { SiteFooter } from '@/components/layout/footer'
 import { Toaster } from "@/components/ui/toaster"
 import FirebaseProvider from '@/components/layout/firebase-provider'
+import { BackToTopButton } from '@/components/layout/back-to-top-button'
+import { ChatBubble } from '@/components/layout/chat-bubble'
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -31,6 +33,8 @@ export default function RootLayout({
               {children}
             </main>
             <SiteFooter />
+            <BackToTopButton />
+            <ChatBubble />
           </div>
           <Toaster />
         </FirebaseProvider>
