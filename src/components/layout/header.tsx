@@ -160,7 +160,7 @@ export function SiteHeader() {
             />
              <div className="flex flex-col justify-center">
               <h1 className="text-xl font-bold text-primary font-display">Liên Đội Trần Quang Khải</h1>
-              <p className="text-sm text-muted-foreground mt-1 italic">Phường Tân Sơn Nhì, TP. Hồ Chí Minh</p>
+              <p className="text-sm text-muted-foreground mt-1 italic">Phường Tân Sơn Nhì</p>
              </div>
           </Link>
           
@@ -186,7 +186,7 @@ export function SiteHeader() {
             />
             <div className="flex flex-col">
               <span className="font-bold font-display text-primary text-base">Liên Đội TQK</span>
-              <span className="text-xs text-muted-foreground italic">Phường Tân Sơn Nhì, TP. Hồ Chí Minh</span>
+              <span className="text-xs text-muted-foreground italic">Phường Tân Sơn Nhì</span>
             </div>
           </Link>
           <Sheet>
@@ -207,7 +207,7 @@ export function SiteHeader() {
                         />
                         <div className="text-center">
                             <h1 className="text-xl font-bold text-primary font-display">Liên Đội Trần Quang Khải</h1>
-                            <p className="text-sm text-muted-foreground italic">Phường Tân Sơn Nhì, TP. Hồ Chí Minh</p>
+                            <p className="text-sm text-muted-foreground italic">Phường Tân Sơn Nhì</p>
                         </div>
                     </Link>
                     <div className="w-full mt-4">
