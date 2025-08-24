@@ -95,18 +95,21 @@ export const newsArticles = [
 
 export const testimonials = [
   {
-    quote: "Với tâm huyết xây dựng ‘Nhà Xanh’ Trần Quang Khải thành một mái nhà chung ấm áp, nơi ươm mầm những tài năng và nhân cách đẹp, tôi và ban chỉ huy Liên Đội luôn nỗ lực đổi mới, sáng tạo trong từng hoạt động của Liên Đội. Chúng tôi tin rằng, từ những việc làm nhỏ bé hôm nay, các em sẽ hình thành nên những giá trị lớn lao, góp phần xây dựng một cộng đồng tốt đẹp hơn. Trang thông tin này là một bước tiến để Liên Đội đến gần hơn với đội viên, phụ huynh và cộng đồng, lan tỏa những giá trị tích cực mà chúng ta đang cùng nhau vun đắp.",
-    author: "Trương Minh Đăng",
-    title: "Giáo viên Tổng Phụ Trách Đội",
+    quote: "Tôi vô cùng tự hào khi được đồng hành cùng Liên Đội Trần Quang Khải—một môi trường giáo dục tuyệt vời, nơi các đội viên không chỉ được học tập mà còn phát triển toàn diện về kỹ năng, phẩm chất và tinh thần đồng đội. Tôi đã tận mắt chứng kiến sự trưởng thành, lòng nhân ái và những nỗ lực không ngừng nghỉ của các em. Mỗi hoạt động, mỗi thành quả đều là kết tinh của sự kiên trì, lòng đam mê và tinh thần đoàn kết. Liên Đội không chỉ là nơi ươm mầm tài năng mà còn là nơi hun đúc những giá trị sống cao đẹp. Những trang sử rực rỡ mà các em đã viết nên là minh chứng cho sức mạnh của sự đồng lòng và khát vọng vươn lên. Tôi tin tưởng rằng, với nền tảng vững chắc này, các em sẽ tiếp tục tỏa sáng và góp phần tích cực vào sự phát triển của cộng đồng.",
+    author: "Phan Võ Thanh Tú",
+    title: "Cộng Tác Viên",
+    color: "destructive",
   },
   {
     quote: "Trang web của Liên đội thật sự là một nguồn thông tin hữu ích. Là một phụ huynh, tôi có thể dễ dàng theo dõi các hoạt động của con em mình tại trường, cũng như cập nhật các thông báo quan trọng một cách nhanh chóng. Giao diện thân thiện, dễ sử dụng!",
     author: "Chị Nguyễn Thị Mai",
     title: "Phụ huynh học sinh",
+    color: "primary",
   },
   {
     quote: "Em rất thích chuyên mục 'Vườn Ươm' trên trang web. Đọc những câu chuyện đẹp và gương mặt tiêu biểu đã tiếp thêm cho em rất nhiều động lực để học tập và rèn luyện tốt hơn. Em cảm thấy tự hào khi là một thành viên của Liên đội Trần Quang Khải.",
     author: "Em Lê Minh Khang",
     title: "Đội viên Chi đội 8A2",
+    color: "warning",
   },
 ];

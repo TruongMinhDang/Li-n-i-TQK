@@ -10,6 +10,12 @@ import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { testimonials } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
+const colorVariants: { [key: string]: string } = {
+  primary: "border-primary text-primary/30",
+  destructive: "border-destructive text-destructive/30",
+  warning: "border-warning text-warning/30",
+};
+
 export function TestimonialsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -70,7 +76,7 @@ export function TestimonialsSection() {
           variants={itemVariants}
           className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl gradient-text"
         >
-          Góc Sân Trường & Lưu Bút
+          Lời Chứng Thực
         </motion.h2>
         
         <motion.div variants={itemVariants} className="mt-12 max-w-3xl mx-auto">
@@ -79,10 +85,16 @@ export function TestimonialsSection() {
               {testimonials.map((item, index) => (
                 <CarouselItem key={index}>
                   <div className="p-1">
-                    <Card className="bg-background shadow-lg rounded-lg overflow-hidden border-l-4 border-emerald-500">
+                    <Card className={cn(
+                      "bg-background shadow-lg rounded-lg overflow-hidden border-l-4",
+                      colorVariants[item.color] || "border-primary"
+                    )}>
                       <CardContent className="p-8 text-left relative">
-                        <Quote className="absolute top-4 left-4 h-12 w-12 text-emerald-100" />
-                        <p className="relative z-10 text-muted-foreground text-base md:text-lg italic leading-relaxed ml-4 pl-12 border-l border-emerald-200">
+                        <Quote className={cn(
+                           "absolute top-4 left-4 h-12 w-12",
+                           colorVariants[item.color]?.replace('border-', 'text-') || "text-primary/30"
+                           )} />
+                        <p className="relative z-10 text-muted-foreground text-base md:text-lg italic leading-relaxed ml-4 pl-12 border-l border-border/50">
                           {item.quote}
                         </p>
                         <div className="text-right mt-6">
@@ -101,13 +113,16 @@ export function TestimonialsSection() {
                     <span className="sr-only">Trước</span>
                 </Button>
                 <div className="flex items-center gap-2">
-                    {testimonials.map((_, i) => (
+                    {testimonials.map((item, i) => (
                         <button 
                             key={i} 
                             onClick={() => api?.scrollTo(i)}
                             className={cn(
-                                "h-2 w-2 rounded-full bg-primary transition-all",
-                                current - 1 === i ? "w-4 opacity-100" : "opacity-30"
+                                "h-2 w-2 rounded-full transition-all",
+                                current - 1 === i ? "w-4 opacity-100" : "opacity-30",
+                                item.color === 'destructive' && 'bg-destructive',
+                                item.color === 'primary' && 'bg-primary',
+                                item.color === 'warning' && 'bg-warning',
                             )}
                         />
                     ))}
