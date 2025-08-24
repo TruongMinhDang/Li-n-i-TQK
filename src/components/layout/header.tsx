@@ -49,8 +49,7 @@ function SearchInput() {
   )
 }
 
-// TODO: Replace this with the actual public URL from Firebase Storage
-const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.appspot.com/o/logo-tqk.png?alt=media";
+const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9F937877-6455-41C5-B814-8D0FD806C613";
 
 
 export function SiteHeader() {
