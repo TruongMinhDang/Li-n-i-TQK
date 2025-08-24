@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -10,66 +11,69 @@ import { cn } from "@/lib/utils";
 
 const stats = [
   {
-    icon: <Users className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <Users className="h-10 w-10" />,
     value: 1300,
     title: "Đội Viên",
     description: "Năng động, tự tin & đoàn kết",
     color: "primary",
   },
   {
-    icon: <Library className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <Library className="h-10 w-10" />,
     value: 32,
     title: "Chi Đội",
     description: "Toàn trường vững mạnh",
-    color: "primary",
+    color: "accent",
   },
   {
-    icon: <CalendarCheck className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <CalendarCheck className="h-10 w-10" />,
     value: 30,
     title: "Hoạt Động/Năm",
     description: "Đa dạng, phong phú & hấp dẫn",
-    color: "primary",
+    color: "destructive",
   },
    {
-    icon: <Flag className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <Flag className="h-10 w-10" />,
     value: 2,
     title: "Cờ Thi Đua Xuất Sắc",
     description: "Vinh danh tại cụm thi đua",
-    color: "primary",
+    color: "destructive",
   },
   {
-    icon: <Trophy className="h-10 w-10 text-warning transition-colors duration-300 group-hover:text-warning" />,
+    icon: <Trophy className="h-10 w-10" />,
     value: 12,
     title: "Năm Liên Đội Mạnh Liên Tục",
     description: "Nỗ lực duy trì kết quả ổn định",
     color: "warning",
   },
   {
-    icon: <Calendar className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <Calendar className="h-10 w-10" />,
     value: 14,
     title: "Năm Hoạt Động",
     description: "Gìn giữ và phát huy truyền thống",
     color: "primary",
   },
   {
-    icon: <Award className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <Award className="h-10 w-10" />,
     value: 2,
     title: "Bằng Khen Thành Đoàn",
     description: "Ghi nhận đóng góp cấp Thành phố",
-    color: "primary",
+    color: "success",
   },
    {
-    icon: <Star className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-primary" />,
+    icon: <Star className="h-10 w-10" />,
     value: 1,
     title: "Bằng Khen TW",
     description: "Khẳng định nỗ lực toàn diện",
-    color: "primary",
+    color: "warning",
   },
 ];
 
-const cardColorVariants: { [key: string]: string } = {
-  primary: "hover:border-primary",
-  warning: "hover:border-warning border-warning",
+const colorVariants: { [key: string]: string } = {
+  primary: "border-primary text-primary",
+  destructive: "border-destructive text-destructive",
+  success: "border-success text-success",
+  warning: "border-warning text-warning",
+  accent: "border-accent text-accent",
 };
 
 export function StatsSection() {
@@ -127,23 +131,19 @@ export function StatsSection() {
                     )}
                 >
                     <Card className={cn(
-                        "text-center h-full transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl border-transparent border-2 group",
-                        cardColorVariants[stat.color] || "hover:border-primary"
+                        "text-center h-full transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl border-2 group",
+                        colorVariants[stat.color] || "border-primary text-primary"
                     )}>
                         <CardHeader className="items-center">
-                            {React.cloneElement(stat.icon, { 
-                                className: cn(
-                                    stat.icon.props.className, 
-                                    "text-muted-foreground", // Default color
-                                    `group-hover:text-${stat.color}`
-                                )
-                            })}
+                            <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                               {stat.icon}
+                            </div>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <div className="text-5xl font-bold text-foreground">
+                            <div className="text-5xl font-bold">
                                 {isInView && <CountUp end={stat.value} duration={2.5} separator="." />}
                             </div>
-                            <CardTitle className="text-xl font-headline">{stat.title}</CardTitle>
+                            <CardTitle className="text-xl font-headline text-foreground">{stat.title}</CardTitle>
                             <p className="text-muted-foreground text-sm">{stat.description}</p>
                         </CardContent>
                     </Card>

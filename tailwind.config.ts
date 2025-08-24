@@ -8,8 +8,22 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   safelist: [
-    'group-hover:text-primary',
-    'group-hover:text-warning',
+    // This is for dynamic coloring of stats and testimonials
+    'border-primary', 'text-primary',
+    'border-destructive', 'text-destructive',
+    'border-success', 'text-success',
+    'border-warning', 'text-warning',
+    'border-accent', 'text-accent',
+    'text-primary/30',
+    'text-destructive/30',
+    'text-success/30',
+    'text-warning/30',
+    'text-accent/30',
+     'bg-primary',
+    'bg-destructive',
+    'bg-success',
+    'bg-warning',
+    'bg-accent',
   ],
   theme: {
     container: {
@@ -25,6 +39,7 @@ export default {
         display: ['Pacifico', 'cursive'],
         slogan: ['"Dancing Script"', 'cursive'],
         code: ['monospace'],
+        headline: ['"Instrument Sans"', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
