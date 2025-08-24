@@ -52,7 +52,6 @@ function SearchInput() {
 
 const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9F937877-6455-41C5-B814-8D0FD806C613";
 
-
 export function SiteHeader() {
   const pathname = usePathname()
   const [openMenus, setOpenMenus] = React.useState<Record<string, boolean>>({})
@@ -150,16 +149,16 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-[116px] items-center">
+      <div className="container flex h-[132px] items-center">
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-3">
             <Image 
                 src={logoUrl}
-                width={100} 
-                height={100} 
+                width={112} 
+                height={112} 
                 alt="Logo" 
-                className="h-25 w-25"
+                className="h-28 w-28"
             />
              <div className="flex flex-col justify-center">
               <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
