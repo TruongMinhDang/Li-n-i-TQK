@@ -44,3 +44,49 @@ export const navLinks: NavLink[] = [
   },
   { name: 'Liên hệ', href: '/lien-he', icon: <Mail /> },
 ];
+
+
+export const newsArticles = [
+  {
+    title: "Lễ Khai Giảng Năm Học Mới",
+    description: "Hòa chung không khí rộn ràng của cả nước, trường THCS Trần Quang Khải long trọng tổ chức Lễ Khai giảng năm học 2024-2025.",
+    image: { src: "https://placehold.co/600x400.png", hint: "school opening ceremony" },
+    href: "/lich-su-kien"
+  },
+  {
+    title: "Hội Trăng Rằm Yêu Thương",
+    description: "Chương trình Trung thu với nhiều hoạt động ý nghĩa đã mang đến cho các em đội viên một đêm hội đáng nhớ.",
+    image: { src: "https://placehold.co/600x400.png", hint: "mid-autumn festival children" },
+    href: "/lich-su-kien"
+  },
+  {
+    title: "Đại Hội Liên Đội Nhiệm Kỳ Mới",
+    description: "Đại hội đã diễn ra thành công tốt đẹp, bầu ra Ban chỉ huy Liên đội mới đầy nhiệt huyết và sáng tạo.",
+    image: { src: "https://placehold.co/600x400.png", hint: "student council meeting" },
+    href: "/hanh-trinh/xay-dung-doi-vung-manh"
+  },
+  {
+    title: "Tấm Lòng Vàng 'Kế Hoạch Nhỏ'",
+    description: "Phong trào thu gom giấy vụn đã nhận được sự hưởng ứng nhiệt tình, gây quỹ giúp đỡ nhiều bạn học sinh khó khăn.",
+    image: { src: "https://placehold.co/600x400.png", hint: "recycling program kids" },
+    href: "/hanh-trinh/lam-theo-loi-bac"
+  },
+  {
+    title: "Ra Mắt Kênh Podcast 'Nhà Xanh Radio'",
+    description: "Kênh phát thanh của Liên đội đã chính thức lên sóng, hứa hẹn mang đến nhiều nội dung hấp dẫn.",
+    image: { src: "https://placehold.co/600x400.png", hint: "podcast microphone studio" },
+    href: "/podcast"
+  },
+  {
+    title: "Tuyên Dương 'Măng Non Tiêu Biểu'",
+    description: "Vinh danh những tấm gương đội viên xuất sắc trong học tập và rèn luyện, tạo động lực phấn đấu cho toàn Liên đội.",
+    image: { src: "https://placehold.co/600x400.png", hint: "student award ceremony" },
+    href: "/vuon-uom/mang-non-tieu-bieu"
+  },
+  {
+    title: "Hoạt Động Đền Ơn Đáp Nghĩa",
+    description: "Liên đội đã tổ chức thăm và tặng quà các gia đình chính sách, thể hiện đạo lý 'Uống nước nhớ nguồn'.",
+    image: { src: "https://placehold.co/600x400.png", hint: "students visiting veterans" },
+    href: "/vuon-uom/cau-chuyen-dep"
+  }
+];
