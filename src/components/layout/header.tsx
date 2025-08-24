@@ -49,6 +49,10 @@ function SearchInput() {
   )
 }
 
+// TODO: Replace this with the actual public URL from Firebase Storage
+const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.appspot.com/o/logo-tqk.png?alt=media";
+
+
 export function SiteHeader() {
   const pathname = usePathname()
   const [openMenus, setOpenMenus] = React.useState<Record<string, boolean>>({})
@@ -151,11 +155,12 @@ export function SiteHeader() {
         <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Image 
-                src="/logo.png"
+                src={logoUrl}
                 width={50} 
                 height={50} 
                 alt="Logo" 
                 className="h-12 w-12"
+                unoptimized
             />
              <div className="flex flex-col">
               <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
@@ -176,7 +181,13 @@ export function SiteHeader() {
         {/* Mobile Header */}
         <div className="flex flex-1 items-center justify-between space-x-2 md:hidden">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/logo.png" width={40} height={40} alt="Logo" />
+            <Image 
+              src={logoUrl} 
+              width={40} 
+              height={40} 
+              alt="Logo" 
+              unoptimized 
+            />
             <div className="flex flex-col">
               <span className="font-bold font-headline text-primary">Liên Đội TQK</span>
               <span className="text-xs text-muted-foreground">Vững Bước Trường Thành</span>
@@ -192,7 +203,13 @@ export function SiteHeader() {
             <SheetContent side="left" className="flex flex-col">
                 <div className="flex flex-col items-center mb-6">
                     <Link href="/" className="mb-4 flex flex-col items-center space-y-2">
-                        <Image src="/logo.png" width={80} height={80} alt="Logo" />
+                        <Image 
+                          src={logoUrl} 
+                          width={80} 
+                          height={80} 
+                          alt="Logo" 
+                          unoptimized 
+                        />
                         <div className="text-center">
                             <h1 className="text-lg font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
                             <p className="text-xs text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
