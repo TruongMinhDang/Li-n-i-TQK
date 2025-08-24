@@ -1,5 +1,5 @@
 
-import { Home, Info, Leaf, Backpack, Handshake, Mail, BookOpen, Star, Route, FolderKanban, Library, FileText, BarChart2 } from 'lucide-react';
+import { Home, Info, Leaf, Backpack, Handshake, Mail, BookOpen, Star, Route, FolderKanban, Library, FileText, BarChart2, Calendar } from 'lucide-react';
 import { ReactNode } from 'react';
 
 interface NavLink {
@@ -43,6 +43,7 @@ export const navLinks: NavLink[] = [
       { name: 'Infographic', href: '/balo/infographic', icon: <BarChart2 /> },
     ]
   },
+  { name: 'Lịch Sự Kiện', href: '/lich-su-kien', icon: <Calendar /> },
   { name: 'Liên hệ', href: '/lien-he', icon: <Mail /> },
 ];
 
