@@ -28,10 +28,9 @@ export function SiteHeader() {
   const pathname = usePathname()
 
   const isLinkActive = (href: string, subLinks?: any[]) => {
+    if (href === '/') return pathname === '/';
     if (subLinks) {
-      // Check if the current path is the main link or starts with it (for subpages)
-      // and is not just the root path if the link is not the homepage.
-      return pathname.startsWith(href) && (href !== '/' || pathname === '/');
+      return pathname.startsWith(href);
     }
     return pathname === href;
   }
@@ -41,16 +40,21 @@ export function SiteHeader() {
     const linkClasses = cn(
         "transition-colors px-3 py-1.5 rounded-md flex items-center gap-2 text-sm font-medium",
         active 
-            ? "nav-link-active text-primary" 
+            ? "nav-link-active" 
             : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
         isMobile ? "py-2 text-lg font-semibold w-full justify-start" : "",
         {'border-b': isMobile && !link.subLinks}
     );
-     const dropdownClasses = cn(
-        "transition-colors px-3 py-1.5 rounded-md flex items-center gap-1 text-sm font-medium",
-        active ? "text-primary" : "text-muted-foreground",
+    const dropdownTriggerClasses = cn(
+        "transition-colors pl-2 pr-1.5 py-1.5 rounded-r-md flex items-center gap-1 text-sm font-medium",
+        active ? "" : "text-muted-foreground",
         "hover:bg-secondary hover:text-secondary-foreground"
     );
+     const dropdownLinkClasses = cn(
+        "transition-colors pr-2 pl-3 py-1.5 rounded-l-md flex items-center gap-2 text-sm font-medium",
+        active ? "nav-link-active" : "text-muted-foreground",
+        "hover:bg-secondary hover:text-secondary-foreground"
+     )
 
     if (link.subLinks) {
         if (isMobile) {
@@ -74,27 +78,29 @@ export function SiteHeader() {
             )
         }
         return (
-            <DropdownMenu key={link.href}>
-                <DropdownMenuTrigger asChild>
-                     <Button variant="ghost" asChild className={dropdownClasses}>
-                        <Link href={link.href}>
-                            {link.icon}
-                            {link.name}
+            <div className="flex items-center" key={link.href}>
+                <Link href={link.href} className={dropdownLinkClasses}>
+                    {link.icon}
+                    {link.name}
+                </Link>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                         <Button variant="ghost" className={dropdownTriggerClasses}>
                             <ChevronDown className="h-4 w-4" />
-                        </Link>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    {link.subLinks.map((subLink: any) => (
-                        <DropdownMenuItem key={subLink.href} asChild>
-                            <Link href={subLink.href} className="flex items-center gap-2">
-                                {subLink.icon}
-                                {subLink.name}
-                            </Link>
-                        </DropdownMenuItem>
-                    ))}
-                </DropdownMenuContent>
-            </DropdownMenu>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        {link.subLinks.map((subLink: any) => (
+                            <DropdownMenuItem key={subLink.href} asChild>
+                                <Link href={subLink.href} className="flex items-center gap-2">
+                                    {subLink.icon}
+                                    {subLink.name}
+                                </Link>
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         )
     }
 
