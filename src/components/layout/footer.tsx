@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Facebook, Youtube, Mail, School, MapPin, Globe, Eye } from 'lucide-react';
+import { Facebook, Youtube, Mail, Globe, MapPin } from 'lucide-react';
 import PageViewCounter from './page-view-counter';
 
 const footerLogoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/logo-nha-xanh.gif?alt=media&token=0a8db890-a563-4887-a333-6c61d14714eb";
@@ -15,6 +15,8 @@ const usefulLinks = [
 const socialLinks = [
     { name: 'Facebook', href: '#', icon: <Facebook className="h-5 w-5" /> },
     { name: 'YouTube', href: '#', icon: <Youtube className="h-5 w-5" /> },
+    { name: 'Email', href: 'mailto:contact@ldtqk.website', icon: <Mail className="h-5 w-5" /> },
+    { name: 'Website', href: 'https://ldtqk.website', icon: <Globe className="h-5 w-5" /> },
 ];
 
 export function SiteFooter() {
@@ -34,7 +36,7 @@ export function SiteFooter() {
              <div className="flex items-start gap-3 pt-2">
                 <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
                 <p className="text-sm">
-                    <span className="font-semibold text-white">Địa chỉ:</span> 94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì
+                   94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh
                 </p>
             </div>
           </div>
@@ -58,34 +60,24 @@ export function SiteFooter() {
             <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Kết Nối Với Chúng Tôi</h3>
             <div className="flex space-x-4 mb-4">
                 {socialLinks.map(link => (
-                    <Link key={link.name} href={link.href} className="text-slate-300 hover:text-primary transition-colors">
+                    <Link key={link.name} href={link.href} className="text-slate-300 hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
                         {link.icon}
                         <span className="sr-only">{link.name}</span>
                     </Link>
                 ))}
             </div>
-            <ul className="space-y-3 text-sm">
-                <li className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                    <div>
-                        <span className="font-semibold text-white">Email:</span>
-                        <a href="mailto:contact@ldtqk.website" className="block hover:text-primary transition-colors">contact@ldtqk.website</a>
-                    </div>
-                </li>
-                 <li className="flex items-start gap-3">
-                    <Globe className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                     <div>
-                        <span className="font-semibold text-white">Website:</span>
-                        <a href="https://ldtqk.website" target="_blank" rel="noopener noreferrer" className="block hover:text-primary transition-colors">ldtqk.website</a>
-                    </div>
-                </li>
-            </ul>
+             <div className="flex items-start gap-3 pt-2">
+                <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                <p className="text-sm">
+                   94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh
+                </p>
+            </div>
           </div>
         </div>
       </div>
       <div className="border-t border-slate-700">
         <div className="container py-4 flex flex-col md:flex-row justify-between items-center text-center text-xs space-y-2 md:space-y-0">
-          <p>© {new Date().getFullYear()} Thuộc Về Liên Đội Trần Quang Khải. Phát Triển Bởi Chiêu Minh Hội Quán.</p>
+          <p>© Bản Quyền 2025 Thuộc Về Liên Đội Trần Quang Khải. Phát Triển Bởi Chiêu Minh Hội Quán.</p>
           <div className="flex flex-col md:items-end items-center">
             <p>Thiết Kế Dựa Trên Nền Tảng Firebase</p>
             <PageViewCounter />
