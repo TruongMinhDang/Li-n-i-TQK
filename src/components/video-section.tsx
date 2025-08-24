@@ -43,7 +43,7 @@ export function VideoSection() {
                 </h2>
                 <p className="text-muted-foreground md:text-lg">
                     Liên Đội THCS Trần Quang Khải là tổ chức Đội Thiếu Niên Tiền Phong Hồ Chí Minh tại trường THCS Trần Quang Khải, quận Tân Phú. Được thành lập vào ngày 05/12/2011, Liên Đội hoạt động theo nguyên tắc tự nguyện, tự quản, dưới sự hướng dẫn của Hội Đồng Đội quận Tân Phú. 
-                    <Link href="/hanh-trinh" className="font-semibold text-primary hover:underline ml-1">
+                    <Link href="/hanh-trinh" className="font-semibold text-primary hover:text-transparent hover:bg-gradient-to-r hover:from-primary hover:to-amber-500 hover:bg-clip-text ml-1 transition-colors duration-300">
                         Khám phá các hoạt động và thành tích nổi bật của chúng tôi.
                     </Link>
                 </p>
