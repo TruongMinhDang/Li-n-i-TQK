@@ -27,11 +27,10 @@ export function SiteHeader() {
   const pathname = usePathname()
 
   const isLinkActive = (href: string, subLinks?: any[]) => {
-    if (pathname === href) return true;
     if (subLinks) {
-      return subLinks.some(sub => pathname === sub.href);
+      return subLinks.some(sub => pathname.startsWith(sub.href));
     }
-    return false;
+    return pathname === href;
   }
 
   const renderNavLink = (link: any, isMobile = false) => {
@@ -46,7 +45,9 @@ export function SiteHeader() {
     );
      const dropdownClasses = cn(
         "transition-colors px-3 py-1.5 rounded-md flex items-center gap-1 text-sm font-medium",
-        active ? "nav-link-active text-primary" : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground"
+        active ? "nav-link-active text-primary" : "text-muted-foreground",
+        // Apply hover effect to the button itself for dropdowns
+        "hover:bg-secondary hover:text-secondary-foreground"
     );
 
     if (link.subLinks) {
@@ -73,7 +74,7 @@ export function SiteHeader() {
         return (
             <DropdownMenu key={link.href}>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className={dropdownClasses}>
+                     <Button variant="ghost" className={dropdownClasses}>
                         {link.icon}
                         {link.name}
                         <ChevronDown className="h-4 w-4" />
