@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 const colorVariants: { [key: string]: string } = {
   primary: "border-primary text-primary/30",
   destructive: "border-destructive text-destructive/30",
+  success: "border-success text-success/30",
   warning: "border-warning text-warning/30",
 };
 
@@ -67,8 +68,6 @@ export function TestimonialsSection() {
     return null;
   }
 
-  const singleTestimonial = testimonials[0];
-
   return (
     <motion.section
       ref={ref}
@@ -86,26 +85,6 @@ export function TestimonialsSection() {
         </motion.h2>
         
         <motion.div variants={itemVariants} className="mt-12 max-w-3xl mx-auto">
-           {testimonials.length === 1 ? (
-             <Card className={cn(
-                "bg-background shadow-lg rounded-lg overflow-hidden border-l-4",
-                colorVariants[singleTestimonial.color] || "border-primary"
-              )}>
-                <CardContent className="p-8 text-left relative">
-                  <Quote className={cn(
-                      "absolute top-4 left-4 h-12 w-12",
-                      colorVariants[singleTestimonial.color]?.replace('border-', 'text-') || "text-primary/30"
-                      )} />
-                  <p className="relative z-10 text-muted-foreground text-base md:text-lg italic leading-relaxed ml-4 pl-12 border-l border-border/50">
-                    {singleTestimonial.quote}
-                  </p>
-                  <div className="text-right mt-6">
-                      <p className="font-semibold text-foreground font-headline text-lg">{singleTestimonial.author}</p>
-                      <p className="text-sm text-muted-foreground">{singleTestimonial.title}</p>
-                  </div>
-                </CardContent>
-              </Card>
-           ) : (
             <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
               <CarouselContent>
                 {testimonials.map((item, index) => (
@@ -149,6 +128,7 @@ export function TestimonialsSection() {
                                   !item.color && 'bg-primary',
                                   item.color === 'destructive' && 'bg-destructive',
                                   item.color === 'primary' && 'bg-primary',
+                                  item.color === 'success' && 'bg-success',
                                   item.color === 'warning' && 'bg-warning',
                               )}
                           />
@@ -160,7 +140,6 @@ export function TestimonialsSection() {
                   </Button>
               </div>
             </Carousel>
-           )}
         </motion.div>
       </div>
     </motion.section>
