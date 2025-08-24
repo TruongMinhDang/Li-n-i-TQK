@@ -159,13 +159,13 @@ export function SiteHeader() {
                 className="h-36 w-36"
             />
              <div className="flex flex-col justify-center">
-              <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
-              <p className="text-sm text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
+              <h1 className="text-3xl font-bold text-primary font-display">Liên Đội Trần Quang Khải</h1>
+              <p className="text-lg text-muted-foreground font-slogan mt-1">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
              </div>
           </Link>
           
           <div className="flex items-center gap-2">
-            <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1 font-headline">
+            <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1 font-body">
                {navLinks.map((link) => renderNavLink(link))}
             </nav>
             <div className="ml-2 w-48">
@@ -185,8 +185,8 @@ export function SiteHeader() {
               className="h-20 w-20"
             />
             <div className="flex flex-col">
-              <span className="font-bold font-headline text-primary">Liên Đội TQK</span>
-              <span className="text-xs text-muted-foreground">Vững Bước Trường Thành</span>
+              <span className="font-bold font-display text-primary text-xl">Liên Đội TQK</span>
+              <span className="text-sm text-muted-foreground font-slogan">Vững Bước Trường Thành</span>
             </div>
           </Link>
           <Sheet>
@@ -206,8 +206,8 @@ export function SiteHeader() {
                           alt="Logo" 
                         />
                         <div className="text-center">
-                            <h1 className="text-lg font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
-                            <p className="text-xs text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
+                            <h1 className="text-2xl font-bold text-primary font-display">Liên Đội Trần Quang Khải</h1>
+                            <p className="text-base text-muted-foreground font-slogan">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
                         </div>
                     </Link>
                     <div className="w-full mt-4">

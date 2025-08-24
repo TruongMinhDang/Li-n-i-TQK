@@ -18,7 +18,8 @@ export default {
     extend: {
       fontFamily: {
         body: ['Jost', 'sans-serif'],
-        headline: ['"Instrument Sans"', 'sans-serif'],
+        display: ['Pacifico', 'cursive'],
+        slogan: ['"Dancing Script"', 'cursive'],
         code: ['monospace'],
       },
       colors: {
