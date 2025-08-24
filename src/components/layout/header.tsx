@@ -3,8 +3,8 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Menu, Search, ChevronDown } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { Menu, Search } from "lucide-react"
 import React from "react"
 
 import { cn } from "@/lib/utils"
@@ -24,6 +24,30 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+
+function SearchInput() {
+  const router = useRouter();
+  const [query, setQuery] = React.useState("");
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSearch} className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <Input 
+        placeholder="Tìm Kiếm" 
+        className="pl-9"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+    </form>
+  )
+}
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -53,7 +77,6 @@ export function SiteHeader() {
             ? "nav-link-active" 
             : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
         isMobile ? "py-2 text-lg font-semibold w-full justify-start" : "",
-        {'border-b': isMobile && !link.subLinks}
     );
      const dropdownLinkClasses = cn(
         "transition-colors px-3 py-1.5 rounded-md flex items-center gap-2 text-sm font-medium",
@@ -86,11 +109,10 @@ export function SiteHeader() {
              <DropdownMenu key={link.href} open={openMenus[link.href]} onOpenChange={(isOpen) => setOpenMenus(prev => ({...prev, [link.href]: isOpen}))}>
                 <DropdownMenuTrigger asChild>
                     <div 
-                        className={cn("flex items-center group", active && "nav-link-active")}
                         onMouseEnter={() => handleMenuEnter(link.href)}
                         onMouseLeave={() => handleMenuLeave(link.href)}
                     >
-                        <Link href={link.href} className={cn(dropdownLinkClasses, active && "text-primary")}>
+                         <Link href={link.href} className={cn(dropdownLinkClasses, "hover:bg-secondary hover:text-secondary-foreground", active && "text-primary")}>
                             {link.icon}
                             {link.name}
                         </Link>
@@ -147,9 +169,8 @@ export function SiteHeader() {
             <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1 font-headline">
               {navLinks.map((link) => renderNavLink(link))}
             </nav>
-            <div className="relative ml-2">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Tìm Kiếm" className="pl-9" />
+            <div className="ml-2 w-48">
+              <SearchInput />
             </div>
           </div>
         </div>
@@ -170,7 +191,7 @@ export function SiteHeader() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="left" className="flex flex-col">
                 <div className="flex flex-col items-center mb-6">
                     <Link href="/" className="mb-4 flex flex-col items-center space-y-2">
                         <Image src="https://placehold.co/100x100.png" data-ai-hint="school logo" width={80} height={80} alt="Logo" />
@@ -179,14 +200,15 @@ export function SiteHeader() {
                             <p className="text-xs text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
                         </div>
                     </Link>
-                    <div className="relative w-full mt-4">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Tìm Kiếm" className="pl-9 w-full" />
+                    <div className="w-full mt-4">
+                        <SearchInput />
                     </div>
               </div>
-              <Accordion type="multiple" className="w-full">
-                {navLinks.map((link) => renderNavLink(link, true))}
-              </Accordion>
+              <div className="flex-1 overflow-y-auto">
+                <Accordion type="multiple" className="w-full">
+                  {navLinks.map((link) => renderNavLink(link, true))}
+                </Accordion>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
