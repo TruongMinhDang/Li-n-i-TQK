@@ -62,6 +62,12 @@ export function TestimonialsSection() {
       },
     },
   };
+  
+  if (testimonials.length === 0) {
+    return null;
+  }
+
+  const singleTestimonial = testimonials[0];
 
   return (
     <motion.section
@@ -80,59 +86,81 @@ export function TestimonialsSection() {
         </motion.h2>
         
         <motion.div variants={itemVariants} className="mt-12 max-w-3xl mx-auto">
-          <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
-            <CarouselContent>
-              {testimonials.map((item, index) => (
-                <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card className={cn(
-                      "bg-background shadow-lg rounded-lg overflow-hidden border-l-4",
-                      colorVariants[item.color] || "border-primary"
-                    )}>
-                      <CardContent className="p-8 text-left relative">
-                        <Quote className={cn(
-                           "absolute top-4 left-4 h-12 w-12",
-                           colorVariants[item.color]?.replace('border-', 'text-') || "text-primary/30"
-                           )} />
-                        <p className="relative z-10 text-muted-foreground text-base md:text-lg italic leading-relaxed ml-4 pl-12 border-l border-border/50">
-                          {item.quote}
-                        </p>
-                        <div className="text-right mt-6">
-                           <p className="font-semibold text-foreground font-headline text-lg">{item.author}</p>
-                           <p className="text-sm text-muted-foreground">{item.title}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
+           {testimonials.length === 1 ? (
+             <Card className={cn(
+                "bg-background shadow-lg rounded-lg overflow-hidden border-l-4",
+                colorVariants[singleTestimonial.color] || "border-primary"
+              )}>
+                <CardContent className="p-8 text-left relative">
+                  <Quote className={cn(
+                      "absolute top-4 left-4 h-12 w-12",
+                      colorVariants[singleTestimonial.color]?.replace('border-', 'text-') || "text-primary/30"
+                      )} />
+                  <p className="relative z-10 text-muted-foreground text-base md:text-lg italic leading-relaxed ml-4 pl-12 border-l border-border/50">
+                    {singleTestimonial.quote}
+                  </p>
+                  <div className="text-right mt-6">
+                      <p className="font-semibold text-foreground font-headline text-lg">{singleTestimonial.author}</p>
+                      <p className="text-sm text-muted-foreground">{singleTestimonial.title}</p>
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex items-center justify-center gap-4 mt-8">
-                <Button onClick={scrollPrev} variant="outline" size="icon" className="rounded-full h-10 w-10">
-                    <ChevronLeft className="h-5 w-5"/>
-                    <span className="sr-only">Trước</span>
-                </Button>
-                <div className="flex items-center gap-2">
-                    {testimonials.map((item, i) => (
-                        <button 
-                            key={i} 
-                            onClick={() => api?.scrollTo(i)}
-                            className={cn(
-                                "h-2 w-2 rounded-full transition-all",
-                                current - 1 === i ? "w-4 opacity-100" : "opacity-30",
-                                item.color === 'destructive' && 'bg-destructive',
-                                item.color === 'primary' && 'bg-primary',
-                                item.color === 'warning' && 'bg-warning',
-                            )}
-                        />
-                    ))}
-                </div>
-                <Button onClick={scrollNext} variant="outline" size="icon" className="rounded-full h-10 w-10">
-                    <ChevronRight className="h-5 w-5"/>
-                    <span className="sr-only">Sau</span>
-                </Button>
-            </div>
-          </Carousel>
+                </CardContent>
+              </Card>
+           ) : (
+            <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
+              <CarouselContent>
+                {testimonials.map((item, index) => (
+                  <CarouselItem key={index}>
+                    <div className="p-1">
+                      <Card className={cn(
+                        "bg-background shadow-lg rounded-lg overflow-hidden border-l-4",
+                        colorVariants[item.color] || "border-primary"
+                      )}>
+                        <CardContent className="p-8 text-left relative">
+                          <Quote className={cn(
+                            "absolute top-4 left-4 h-12 w-12",
+                            colorVariants[item.color]?.replace('border-', 'text-') || "text-primary/30"
+                            )} />
+                          <p className="relative z-10 text-muted-foreground text-base md:text-lg italic leading-relaxed ml-4 pl-12 border-l border-border/50">
+                            {item.quote}
+                          </p>
+                          <div className="text-right mt-6">
+                            <p className="font-semibold text-foreground font-headline text-lg">{item.author}</p>
+                            <p className="text-sm text-muted-foreground">{item.title}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex items-center justify-center gap-4 mt-8">
+                  <Button onClick={scrollPrev} variant="outline" size="icon" className="rounded-full h-10 w-10">
+                      <ChevronLeft className="h-5 w-5"/>
+                      <span className="sr-only">Trước</span>
+                  </Button>
+                  <div className="flex items-center gap-2">
+                      {testimonials.map((item, i) => (
+                          <button 
+                              key={i} 
+                              onClick={() => api?.scrollTo(i)}
+                              className={cn(
+                                  "h-2 w-2 rounded-full transition-all",
+                                  current - 1 === i ? "w-4 opacity-100" : "opacity-30",
+                                  !item.color && 'bg-primary',
+                                  item.color === 'destructive' && 'bg-destructive',
+                                  item.color === 'primary' && 'bg-primary',
+                                  item.color === 'warning' && 'bg-warning',
+                              )}
+                          />
+                      ))}
+                  </div>
+                  <Button onClick={scrollNext} variant="outline" size="icon" className="rounded-full h-10 w-10">
+                      <ChevronRight className="h-5 w-5"/>
+                      <span className="sr-only">Sau</span>
+                  </Button>
+              </div>
+            </Carousel>
+           )}
         </motion.div>
       </div>
     </motion.section>

@@ -102,14 +102,14 @@ export const testimonials = [
   },
   {
     quote: "Trang web của Liên đội thật sự là một nguồn thông tin hữu ích. Là một phụ huynh, tôi có thể dễ dàng theo dõi các hoạt động của con em mình tại trường, cũng như cập nhật các thông báo quan trọng một cách nhanh chóng. Giao diện thân thiện, dễ sử dụng!",
-    author: "Chị Nguyễn Thị Mai",
+    author: "Một Phụ Huynh",
     title: "Phụ huynh học sinh",
     color: "primary",
   },
   {
     quote: "Em rất thích chuyên mục 'Vườn Ươm' trên trang web. Đọc những câu chuyện đẹp và gương mặt tiêu biểu đã tiếp thêm cho em rất nhiều động lực để học tập và rèn luyện tốt hơn. Em cảm thấy tự hào khi là một thành viên của Liên đội Trần Quang Khải.",
-    author: "Em Lê Minh Khang",
-    title: "Đội viên Chi đội 8A2",
+    author: "Một Đội Viên",
+    title: "Đội viên",
     color: "warning",
   },
 ];
