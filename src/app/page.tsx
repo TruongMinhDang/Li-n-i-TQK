@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -95,53 +96,6 @@ export default function Home() {
             <Button variant="outline" asChild>
               <Link href="/lien-he">Liên hệ</Link>
             </Button>
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full pb-12 md:pb-24 lg:pb-32">
-        <div className="container px-4 md:px-6">
-          <div className="bg-card p-8 rounded-lg shadow-inner">
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature) => (
-                <Link key={feature.title} href={feature.href} className="block group">
-                  <Card className="flex flex-col h-full hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <CardHeader className="flex flex-row items-center gap-4 pb-4">
-                      {feature.icon}
-                      <CardTitle className="font-headline group-hover:text-primary transition-colors">{feature.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                      <p className="text-muted-foreground">{feature.description}</p>
-                    </CardContent>
-                    <div className="p-6 pt-0">
-                      <Button variant="outline" className="w-full">Xem chi tiết</Button>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <section className="w-full pb-12 md:pb-24 lg:pb-32 bg-white/50 dark:bg-black/10 rounded-lg">
-        <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
-          <div className="space-y-4">
-            <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">Điểm nhấn</div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline gradient-text">Một góc sân trường</h2>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Sân trường không chỉ là nơi học tập, mà còn là nơi diễn ra vô vàn hoạt động ngoại khóa, là không gian để chúng em vui chơi, kết bạn và tạo nên những kỷ niệm đẹp đẽ của tuổi học trò.
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <Image
-              src="https://placehold.co/600x400.png"
-              alt="Sân trường"
-              data-ai-hint="school playground"
-              width={600}
-              height={400}
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
-            />
           </div>
         </div>
       </section>

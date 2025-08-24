@@ -70,11 +70,11 @@ export function TestimonialsSection() {
           variants={itemVariants}
           className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl gradient-text"
         >
-          Lời Chứng Thực
+          Góc Sân Trường & Lưu Bút
         </motion.h2>
         
         <motion.div variants={itemVariants} className="mt-12 max-w-3xl mx-auto">
-          <Carousel setApi={setApi} className="w-full">
+          <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
             <CarouselContent>
               {testimonials.map((item, index) => (
                 <CarouselItem key={index}>
