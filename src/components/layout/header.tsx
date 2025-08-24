@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, Search, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { navLinks } from "@/lib/constants.tsx"
+import { navLinks } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
@@ -37,7 +37,7 @@ export function SiteHeader() {
   const renderNavLink = (link: any, isMobile = false) => {
     const active = isLinkActive(link.href, link.subLinks);
     const linkClasses = cn(
-        "flex items-center gap-2 transition-transform duration-300 ease-in-out hover:-translate-y-0.5",
+        "flex items-center gap-2 transition-colors duration-300",
         isMobile ? "py-2 text-lg font-semibold" : "px-3 py-2 text-sm font-medium rounded-md",
         active 
             ? "nav-link-active" 
