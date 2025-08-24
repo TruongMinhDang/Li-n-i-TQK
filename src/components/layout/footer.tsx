@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Facebook, Youtube, Mail, Globe, MapPin } from 'lucide-react';
 import PageViewCounter from './page-view-counter';
+import { SubscribeForm } from './subscribe-form';
 
 const footerLogoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/logo-nha-xanh.gif?alt=media&token=0a8db890-a563-4887-a333-6c61d14714eb";
 
@@ -60,12 +61,13 @@ export function SiteFooter() {
                     </Link>
                 ))}
             </div>
-             <div className="flex items-start gap-3 pt-2">
+             <div className="flex items-start gap-3 pt-2 mb-4">
                 <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
                 <p className="text-sm">
                    94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh
                 </p>
             </div>
+            <SubscribeForm />
           </div>
         </div>
       </div>
