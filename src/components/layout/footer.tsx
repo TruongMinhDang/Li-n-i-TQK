@@ -1,29 +1,95 @@
-import { School, Facebook, Youtube, Mail } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { Facebook, Youtube, Mail, School, MapPin, Globe, Eye } from 'lucide-react';
+import PageViewCounter from './page-view-counter';
+
+const footerLogoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/logo-nha-xanh.gif?alt=media&token=0a8db890-a563-4887-a333-6c61d14714eb";
+
+const usefulLinks = [
+  { name: 'Podcast', href: '#' },
+  { name: 'Điều Khoản Sử Dụng', href: '#' },
+  { name: 'Chính Sách Bảo Mật', href: '#' },
+  { name: 'Hỏi Đáp (FAQ)', href: '#' },
+];
+
+const socialLinks = [
+    { name: 'Facebook', href: '#', icon: <Facebook className="h-5 w-5" /> },
+    { name: 'YouTube', href: '#', icon: <Youtube className="h-5 w-5" /> },
+];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t">
-      <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <School className="h-6 w-6 text-primary" />
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Xây dựng và phát triển bởi Liên đội THCS Trần Quang Khải.
-          </p>
+    <footer className="bg-slate-800 text-slate-300">
+      <div className="container py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Column 1: About */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <Image src={footerLogoUrl} alt="Footer Logo" width={60} height={60} unoptimized />
+              <h3 className="text-xl font-bold text-white font-display">Liên Đội Trần Quang Khải</h3>
+            </div>
+            <p className="text-sm">
+              Là một tập thể Đoàn kết - Sáng tạo - Năng động, luôn đi đầu trong các hoạt động, phong trào của nhà trường và thành phố.
+            </p>
+             <div className="flex items-start gap-3 pt-2">
+                <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                <p className="text-sm">
+                    <span className="font-semibold text-white">Địa chỉ:</span> 94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì
+                </p>
+            </div>
+          </div>
+
+          {/* Column 2: Useful Links */}
+          <div className="md:mx-auto">
+            <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Liên Kết Hữu Ích</h3>
+            <ul className="space-y-2">
+              {usefulLinks.map(link => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-sm hover:text-primary transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Contact */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Kết Nối Với Chúng Tôi</h3>
+            <div className="flex space-x-4 mb-4">
+                {socialLinks.map(link => (
+                    <Link key={link.name} href={link.href} className="text-slate-300 hover:text-primary transition-colors">
+                        {link.icon}
+                        <span className="sr-only">{link.name}</span>
+                    </Link>
+                ))}
+            </div>
+            <ul className="space-y-3 text-sm">
+                <li className="flex items-start gap-3">
+                    <Mail className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                    <div>
+                        <span className="font-semibold text-white">Email:</span>
+                        <a href="mailto:contact@ldtqk.website" className="block hover:text-primary transition-colors">contact@ldtqk.website</a>
+                    </div>
+                </li>
+                 <li className="flex items-start gap-3">
+                    <Globe className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                     <div>
+                        <span className="font-semibold text-white">Website:</span>
+                        <a href="https://ldtqk.website" target="_blank" rel="noopener noreferrer" className="block hover:text-primary transition-colors">ldtqk.website</a>
+                    </div>
+                </li>
+            </ul>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Link href="#" target="_blank" rel="noreferrer">
-            <Facebook className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
-            <span className="sr-only">Facebook</span>
-          </Link>
-          <Link href="#" target="_blank" rel="noreferrer">
-            <Youtube className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
-            <span className="sr-only">YouTube</span>
-          </Link>
-          <Link href="mailto:contact@ldtqk.website">
-            <Mail className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
-            <span className="sr-only">Email</span>
-          </Link>
+      </div>
+      <div className="border-t border-slate-700">
+        <div className="container py-4 flex flex-col md:flex-row justify-between items-center text-center text-xs space-y-2 md:space-y-0">
+          <p>© {new Date().getFullYear()} Thuộc Về Liên Đội Trần Quang Khải. Phát Triển Bởi Chiêu Minh Hội Quán.</p>
+          <div className="flex flex-col md:items-end items-center">
+            <p>Thiết Kế Dựa Trên Nền Tảng Firebase</p>
+            <PageViewCounter />
+          </div>
         </div>
       </div>
     </footer>
