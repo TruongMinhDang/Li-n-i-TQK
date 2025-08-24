@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import Link from "next/link"
@@ -152,15 +153,15 @@ export function SiteHeader() {
       <div className="container flex h-24 items-center">
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between w-full">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
+          <Link href="/" className="mr-6 flex items-center space-x-3">
             <Image 
                 src={logoUrl}
-                width={50} 
-                height={50} 
+                width={56} 
+                height={56} 
                 alt="Logo" 
-                className="h-12 w-12"
+                className="h-14 w-14"
             />
-             <div className="flex flex-col">
+             <div className="flex flex-col justify-center">
               <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
               <p className="text-sm text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
              </div>
@@ -181,9 +182,10 @@ export function SiteHeader() {
           <Link href="/" className="flex items-center space-x-2">
             <Image 
               src={logoUrl} 
-              width={40} 
-              height={40} 
+              width={48} 
+              height={48} 
               alt="Logo" 
+              className="h-12 w-12"
             />
             <div className="flex flex-col">
               <span className="font-bold font-headline text-primary">Liên Đội TQK</span>
