@@ -78,7 +78,7 @@
 
 @layer utilities {
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-400;
   }
 
   .nav-link-active {
@@ -101,6 +101,11 @@
     100% { transform: translateX(100%); }
   }
 
+  .glint-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
   .glint-effect::after {
     content: '';
     position: absolute;
@@ -111,5 +116,26 @@
     background: linear-gradient(110deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 60%);
     animation: glint 3s infinite;
     opacity: 0.8;
+  }
+
+  @keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animated-gradient-border {
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      #3b82f6, /* blue-500 */
+      #10b981, /* green-500 */
+      #f59e0b, /* yellow-500 */
+      #ec4899, /* pink-500 */
+      #3b82f6
+    );
+    background-size: 200% 100%;
+    animation: gradient-animation 8s linear infinite;
   }
 }

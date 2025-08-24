@@ -69,9 +69,18 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-      <div className="border-t border-slate-700">
+      <div className="animated-gradient-border"></div>
+      <div className="border-t border-slate-700/0">
         <div className="container py-4 flex flex-col md:flex-row justify-between items-center text-center text-xs space-y-2 md:space-y-0">
-          <p>© Bản Quyền 2025 Thuộc Về Liên Đội Trần Quang Khải. Phát Triển Bởi Chiêu Minh Hội Quán.</p>
+          <p>
+            © Bản Quyền 2025 Thuộc Về Liên Đội Trần Quang Khải. Phát Triển Bởi{' '}
+            <Link href="/balo/chieu-minh-hoi-quan" className="font-semibold hover:underline">
+              <span className="gradient-text bg-gradient-to-r from-pink-500 to-violet-500">
+                Chiêu Minh Hội Quán
+              </span>
+            </Link>
+            .
+          </p>
           <div className="flex flex-col md:items-end items-center">
             <p>Thiết Kế Dựa Trên Nền Tảng Firebase</p>
             <PageViewCounter />
