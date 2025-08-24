@@ -55,13 +55,8 @@ export function SiteHeader() {
         isMobile ? "py-2 text-lg font-semibold w-full justify-start" : "",
         {'border-b': isMobile && !link.subLinks}
     );
-    const dropdownTriggerClasses = cn(
-        "transition-colors pl-1.5 pr-1.5 py-1.5 rounded-r-md flex items-center gap-1 text-sm font-medium",
-        "hover:bg-secondary hover:text-secondary-foreground",
-         active ? "text-primary" : "text-muted-foreground",
-    );
      const dropdownLinkClasses = cn(
-        "transition-colors pr-1.5 pl-3 py-1.5 rounded-l-md flex items-center gap-2 text-sm font-medium",
+        "transition-colors px-3 py-1.5 rounded-md flex items-center gap-2 text-sm font-medium",
         "hover:bg-secondary hover:text-secondary-foreground",
          active ? "" : "text-muted-foreground",
      )
@@ -89,25 +84,23 @@ export function SiteHeader() {
         }
         return (
              <DropdownMenu key={link.href} open={openMenus[link.href]} onOpenChange={(isOpen) => setOpenMenus(prev => ({...prev, [link.href]: isOpen}))}>
-                <div 
-                    className={cn("flex items-center group rounded-md", active && "nav-link-active")}
-                    onMouseEnter={() => handleMenuEnter(link.href)}
-                    onMouseLeave={() => handleMenuLeave(link.href)}
-                >
-                    <Link href={link.href} className={cn(dropdownLinkClasses, "rounded-r-none", active && "text-primary")}>
-                        {link.icon}
-                        {link.name}
-                    </Link>
-                    <DropdownMenuTrigger asChild>
-                        <div className={cn(dropdownTriggerClasses, "rounded-l-none", active && "text-primary")}>
-                            <ChevronDown className="h-4 w-4" />
-                        </div>
-                    </DropdownMenuTrigger>
-                </div>
+                <DropdownMenuTrigger asChild>
+                    <div 
+                        className={cn("flex items-center group", active && "nav-link-active")}
+                        onMouseEnter={() => handleMenuEnter(link.href)}
+                        onMouseLeave={() => handleMenuLeave(link.href)}
+                    >
+                        <Link href={link.href} className={cn(dropdownLinkClasses, active && "text-primary")}>
+                            {link.icon}
+                            {link.name}
+                        </Link>
+                    </div>
+                </DropdownMenuTrigger>
                 <DropdownMenuContent 
                     onMouseLeave={() => handleMenuLeave(link.href)} 
                     onMouseEnter={() => handleMenuEnter(link.href)}
                     align="start"
+                    className="mt-2"
                 >
                     {link.subLinks.map((subLink: any) => (
                         <DropdownMenuItem key={subLink.href} asChild>
