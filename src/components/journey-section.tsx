@@ -3,9 +3,10 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { navLinks } from "@/lib/constants";
+import { Button } from "./ui/button";
 
 const journeyLinks = navLinks.find(link => link.href === '/hanh-trinh')?.subLinks || [];
 
@@ -13,14 +14,17 @@ const journeyItems = [
   { 
     ...journeyLinks[0],
     image: { src: "https://placehold.co/600x400.png", hint: "ho chi minh with children" },
+    description: "Năm điều Bác dạy khắc ghi\nChăm ngoan học giỏi, việc gì cũng xong.\nYêu nhà, yêu nước, đồng lòng\nĐội viên nhỏ tuổi mà lòng sắt son."
   },
   { 
     ...journeyLinks[1], 
     image: { src: "https://placehold.co/600x400.png", hint: "students charity donation" },
+    description: "Nghi thức vững, chi đội bền\nSao vàng rực rỡ dưới nền khăn tươi.\nCùng nhau kết sức, chung lời\nTruyền thống Đội vững đời đời sáng danh."
   },
   { 
     ...journeyLinks[2], 
     image: { src: "https://placehold.co/600x400.png", hint: "students helping each other" },
+    description: "Rèn thân, luyện chí mỗi ngày\nXứng vai cháu Bác – dựng xây mai này.\nTự hào đứng giữa hàng bay\nCờ hồng Đoàn gọi – vút ngay đường trường."
   },
 ];
 
@@ -79,8 +83,8 @@ export function JourneySection() {
         >
           {journeyItems.map((item) => (
             <motion.div key={item.href} variants={itemVariants}>
-              <Link href={item.href || '#'} className="block group">
-                <Card className="overflow-hidden h-full hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+              <Link href={item.href || '#'} className="block group h-full">
+                <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                   <div className="overflow-hidden">
                     <Image
                       src={item.image.src}
@@ -96,6 +100,12 @@ export function JourneySection() {
                       {item.name}
                     </CardTitle>
                   </CardHeader>
+                   <CardContent className="flex-grow">
+                    <p className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed">{item.description}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className="w-full">Khám Phá</Button>
+                  </CardFooter>
                 </Card>
               </Link>
             </motion.div>
