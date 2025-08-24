@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, Search, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { navLinks } from "@/lib/constants.tsx"
+import { navLinks } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
@@ -45,8 +45,8 @@ export function SiteHeader() {
         {'border-b': isMobile && !link.subLinks}
     );
      const dropdownClasses = cn(
-        "transition-colors hover:text-primary px-3 py-1.5 rounded-md flex items-center gap-1 text-sm font-medium hover:bg-secondary hover:text-secondary-foreground",
-         active ? "nav-link-active text-primary" : "text-muted-foreground"
+        "transition-colors px-3 py-1.5 rounded-md flex items-center gap-1 text-sm font-medium",
+        active ? "nav-link-active text-primary" : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground"
     );
 
     if (link.subLinks) {
