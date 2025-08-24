@@ -162,6 +162,19 @@
     animation: gradient-animation 8s linear infinite;
   }
   
+  .animated-gradient-frame {
+    background: linear-gradient(
+      90deg,
+      #3b82f6, /* blue-500 */
+      #10b981, /* green-500 */
+      #f59e0b, /* yellow-500 */
+      #e5e7eb, /* slate-200 */
+      #3b82f6
+    );
+    background-size: 200% 200%;
+    animation: gradient-animation 8s linear infinite;
+  }
+
   @keyframes jump {
     0%, 100% {
       transform: translateY(0);

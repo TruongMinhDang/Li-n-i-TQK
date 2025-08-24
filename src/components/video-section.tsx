@@ -52,20 +52,21 @@ export function VideoSection() {
                 </Button>
                 </motion.div>
                 <motion.div
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={videoVariants}
-                className="overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  variants={videoVariants}
                 >
-                <div className="aspect-video">
-                    <iframe
-                    className="w-full h-full"
-                    src="https://drive.google.com/file/d/1hPt1wYMG7fmazyW4r926qE3EnwbTSrVl/preview"
-                    title="Giới thiệu Liên Đội Trần Quang Khải"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    ></iframe>
-                </div>
+                  <div className="animated-gradient-frame p-1 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <div className="aspect-video overflow-hidden rounded-lg">
+                      <iframe
+                        className="w-full h-full"
+                        src="https://drive.google.com/file/d/1hPt1wYMG7fmazyW4r926qE3EnwbTSrVl/preview"
+                        title="Giới thiệu Liên Đội Trần Quang Khải"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  </div>
                 </motion.div>
             </div>
       </div>
