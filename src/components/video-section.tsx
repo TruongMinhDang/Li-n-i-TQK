@@ -1,0 +1,72 @@
+
+"use client";
+
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import Link from "next/link";
+import { Button } from "./ui/button";
+
+export function VideoSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+
+  const textVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { duration: 0.8, ease: "easeOut" } 
+    },
+  };
+
+  const videoVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { duration: 0.8, ease: "easeOut" } 
+    },
+  };
+
+  return (
+    <section ref={ref} className="w-full py-12 md:py-24 lg:py-32">
+      <div className="container grid items-center gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={textVariants}
+          className="space-y-4"
+        >
+          <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl gradient-text">
+            Chúng Mình Là...
+          </h2>
+          <p className="text-muted-foreground md:text-lg">
+            Liên Đội THCS Trần Quang Khải là tổ chức Đội Thiếu Niên Tiền Phong Hồ Chí Minh tại trường THCS Trần Quang Khải, quận Tân Phú. Được thành lập vào ngày 05/12/2011, Liên Đội hoạt động theo nguyên tắc tự nguyện, tự quản, dưới sự hướng dẫn của Hội Đồng Đội quận Tân Phú. 
+            <Link href="/hanh-trinh" className="font-semibold text-primary hover:underline ml-1">
+                Khám phá các hoạt động và thành tích nổi bật của chúng tôi.
+            </Link>
+          </p>
+          <Button asChild size="lg">
+            <Link href="/chung-minh-la">Xem Thêm</Link>
+          </Button>
+        </motion.div>
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={videoVariants}
+          className="overflow-hidden rounded-xl shadow-2xl"
+        >
+          <div className="aspect-video">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Placeholder Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
