@@ -33,12 +33,6 @@ export function SiteFooter() {
             <p className="text-sm">
               Là một tập thể Đoàn kết - Sáng tạo - Năng động, luôn đi đầu trong các hoạt động, phong trào của nhà trường và thành phố.
             </p>
-             <div className="flex items-start gap-3 pt-2">
-                <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                <p className="text-sm">
-                   94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh
-                </p>
-            </div>
           </div>
 
           {/* Column 2: Useful Links */}
