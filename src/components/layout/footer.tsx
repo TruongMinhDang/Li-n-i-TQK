@@ -6,10 +6,10 @@ import PageViewCounter from './page-view-counter';
 const footerLogoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/logo-nha-xanh.gif?alt=media&token=0a8db890-a563-4887-a333-6c61d14714eb";
 
 const usefulLinks = [
-  { name: 'Podcast', href: '#' },
-  { name: 'Điều Khoản Sử Dụng', href: '#' },
-  { name: 'Chính Sách Bảo Mật', href: '#' },
-  { name: 'Hỏi Đáp (FAQ)', href: '#' },
+  { name: 'Podcast', href: '/podcast' },
+  { name: 'Điều Khoản Sử Dụng', href: '/dieu-khoan-su-dung' },
+  { name: 'Chính Sách Bảo Mật', href: '/chinh-sach-bao-mat' },
+  { name: 'Hỏi Đáp (FAQ)', href: '/hoi-dap' },
 ];
 
 const socialLinks = [
