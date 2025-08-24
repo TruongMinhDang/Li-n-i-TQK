@@ -7,6 +7,7 @@ import { VideoSection } from '@/components/video-section';
 import { JourneySection } from '@/components/journey-section';
 import { GardenSection } from '@/components/garden-section';
 import { BackpackSection } from '@/components/backpack-section';
+import { NewsSection } from '@/components/news-section';
 
 const features = [
   {
@@ -73,6 +74,8 @@ export default function Home() {
       <GardenSection />
 
       <BackpackSection />
+
+      <NewsSection />
 
       <section className="w-full py-12 md:py-16 lg:py-20 text-center">
         <div className="container px-4 md:px-6">
