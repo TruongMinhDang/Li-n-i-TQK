@@ -1,3 +1,4 @@
+
 export const navLinks = [
   { name: 'Nhà Xanh', href: '/' },
   { name: 'Chúng Mình Là', href: '/about' },
@@ -5,24 +6,28 @@ export const navLinks = [
     name: 'Hành Trình', 
     href: '/journey',
     subLinks: [
-      { name: 'Lịch sử', href: '/about' },
-      { name: 'Hoạt động', href: '/journey' },
-      { name: 'Sự kiện', href: '/events' },
+      { name: 'Làm theo lời Bác', href: '/journey/lam-theo-loi-bac' },
+      { name: 'Xây Dựng Đội Vững mạnh', href: '/journey/xay-dung-doi-vung-manh' },
+      { name: 'Cùng tiến bước lên đoàn', href: '/journey/cung-tien-buoc-len-doan' },
     ]
   },
   { 
     name: 'Vườn Ươm', 
     href: '/garden',
     subLinks: [
-       { name: 'Gương sáng đội viên', href: '/garden' },
-       { name: 'Gửi lời chúc', href: '/wishes' },
+       { name: 'Mỗi tuần một câu chuyện đẹp', href: '/garden/cau-chuyen-dep' },
+       { name: 'Măng non tiêu biểu', href: '/garden/mang-non-tieu-bieu' },
     ]
   },
   { 
     name: 'Balo', 
     href: '/backpack',
     subLinks: [
-      { name: 'Tài liệu', href: '/backpack' },
+      { name: 'Chiêu minh hội quán', href: '/backpack/chieu-minh-hoi-quan' },
+      { name: 'Kế hoạch', href: '/backpack/ke-hoach' },
+      { name: 'Tài liệu', href: '/backpack/tai-lieu' },
+      { name: 'Kỷ yếu', href: '/backpack/ky-yeu' },
+      { name: 'Infographic', href: '/backpack/infographic' },
     ]
   },
   { name: 'Liên hệ', href: '/contact' },
