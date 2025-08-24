@@ -159,7 +159,7 @@ export function SiteHeader() {
                 className="h-36 w-36"
             />
              <div className="flex flex-col justify-center">
-              <h1 className="text-xl font-bold text-primary font-display">Liên Đội Trần Quang Khải</h1>
+              <h1 className="text-xl font-bold font-display whitespace-nowrap gradient-text">Liên Đội Trần Quang Khải</h1>
               <p className="text-sm text-muted-foreground mt-1 italic">Phường Tân Sơn Nhì</p>
              </div>
           </Link>
@@ -185,7 +185,7 @@ export function SiteHeader() {
               className="h-20 w-20"
             />
             <div className="flex flex-col">
-              <span className="font-bold font-display text-primary text-base">Liên Đội TQK</span>
+              <span className="font-bold font-display gradient-text text-base whitespace-nowrap">Liên Đội TQK</span>
               <span className="text-xs text-muted-foreground italic">Phường Tân Sơn Nhì</span>
             </div>
           </Link>
@@ -206,7 +206,7 @@ export function SiteHeader() {
                           alt="Logo" 
                         />
                         <div className="text-center">
-                            <h1 className="text-xl font-bold text-primary font-display">Liên Đội Trần Quang Khải</h1>
+                            <h1 className="text-xl font-bold font-display whitespace-nowrap gradient-text">Liên Đội Trần Quang Khải</h1>
                             <p className="text-sm text-muted-foreground italic">Phường Tân Sơn Nhì</p>
                         </div>
                     </Link>
