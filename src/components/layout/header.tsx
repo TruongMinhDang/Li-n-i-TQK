@@ -3,16 +3,36 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, Search } from "lucide-react"
+import { Menu, Search, ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { navLinks } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export function SiteHeader() {
   const pathname = usePathname()
+
+  const isLinkActive = (href: string, subLinks?: any[]) => {
+    if (pathname === href) return true;
+    if (subLinks) {
+      return subLinks.some(sub => pathname === sub.href);
+    }
+    return false;
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,18 +51,42 @@ export function SiteHeader() {
           <div className="flex flex-col items-center flex-grow">
               <h1 className="text-2xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
               <p className="text-sm text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
-              <nav className="flex items-center space-x-2 text-sm font-medium mt-4 rounded-lg bg-secondary p-2">
+              <nav className="flex items-center space-x-1 text-sm font-medium mt-4 rounded-lg bg-secondary p-2">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "transition-colors hover:text-primary px-3 py-1 rounded-md",
-                      pathname === link.href ? "bg-background text-primary shadow-sm" : "text-muted-foreground"
-                    )}
-                  >
-                    {link.name}
-                  </Link>
+                  link.subLinks ? (
+                    <DropdownMenu key={link.href}>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className={cn(
+                            "transition-colors hover:text-primary px-3 py-1.5 rounded-md flex items-center gap-1",
+                            isLinkActive(link.href, link.subLinks) ? "bg-background text-primary shadow-sm" : "text-muted-foreground"
+                          )}
+                        >
+                          {link.name}
+                          <ChevronDown className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        {link.subLinks.map(subLink => (
+                           <DropdownMenuItem key={subLink.href} asChild>
+                            <Link href={subLink.href}>{subLink.name}</Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "transition-colors hover:text-primary px-3 py-2 rounded-md",
+                        pathname === link.href ? "bg-background text-primary shadow-sm" : "text-muted-foreground"
+                      )}
+                    >
+                      {link.name}
+                    </Link>
+                  )
                 ))}
               </nav>
           </div>
@@ -82,20 +126,45 @@ export function SiteHeader() {
                         <Input placeholder="Tìm Kiếm" className="pl-9 w-full" />
                     </div>
               </div>
-              <div className="grid gap-4 py-2">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "flex w-full items-center py-2 text-lg font-semibold",
-                       pathname === link.href ? "text-primary" : "text-muted-foreground"
-                    )}
-                  >
-                    {link.name}
-                  </Link>
+              <Accordion type="multiple" className="w-full">
+                {navLinks.map((link, index) => (
+                  link.subLinks ? (
+                    <AccordionItem value={`item-${index}`} key={link.href}>
+                      <AccordionTrigger className={cn(
+                        "flex w-full items-center py-2 text-lg font-semibold",
+                        isLinkActive(link.href, link.subLinks) ? "text-primary" : "text-muted-foreground"
+                      )}>
+                        {link.name}
+                      </AccordionTrigger>
+                      <AccordionContent className="pl-4">
+                        {link.subLinks.map(subLink => (
+                           <Link
+                            key={subLink.href}
+                            href={subLink.href}
+                            className={cn(
+                              "flex w-full items-center py-2 text-base font-medium",
+                              pathname === subLink.href ? "text-primary" : "text-muted-foreground"
+                            )}
+                          >
+                            {subLink.name}
+                          </Link>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "flex w-full items-center py-2 text-lg font-semibold border-b",
+                         pathname === link.href ? "text-primary" : "text-muted-foreground"
+                      )}
+                    >
+                      {link.name}
+                    </Link>
+                  )
                 ))}
-              </div>
+              </Accordion>
             </SheetContent>
           </Sheet>
         </div>

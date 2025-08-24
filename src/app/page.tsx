@@ -1,19 +1,19 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Calendar, Camera, Gift, Handshake, Heart, Rss, Star } from 'lucide-react';
+import { BookOpen, Calendar, Gift, Handshake, Rss, Star } from 'lucide-react';
 import Image from 'next/image';
 
 const features = [
   {
     icon: <Handshake className="h-8 w-8 text-primary" />,
-    title: "Giới thiệu",
+    title: "Chúng Mình Là",
     description: "Tìm hiểu về lịch sử, sứ mệnh và tầm nhìn của Liên đội THCS Trần Quang Khải.",
     href: "/about",
   },
   {
     icon: <Rss className="h-8 w-8 text-destructive" />,
-    title: "Hoạt động",
+    title: "Hành Trình",
     description: "Khám phá các hoạt động, sự kiện và phong trào sôi nổi của chúng tôi.",
     href: "/journey",
   },
@@ -25,7 +25,7 @@ const features = [
   },
   {
     icon: <BookOpen className="h-8 w-8 text-success" />,
-    title: "Tài liệu",
+    title: "Balo",
     description: "Kho tàng tài liệu, biểu mẫu và kiến thức dành cho đội viên.",
     href: "/backpack",
   },
