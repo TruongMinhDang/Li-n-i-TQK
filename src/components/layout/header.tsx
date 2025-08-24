@@ -78,11 +78,6 @@ export function SiteHeader() {
             : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
         isMobile ? "py-2 text-lg font-semibold w-full justify-start" : "",
     );
-     const dropdownLinkClasses = cn(
-        "transition-colors px-3 py-1.5 rounded-md flex items-center gap-2 text-sm font-medium",
-        "hover:bg-secondary hover:text-secondary-foreground",
-         active ? "" : "text-muted-foreground",
-     )
 
     if (link.subLinks) {
         if (isMobile) {
@@ -107,22 +102,26 @@ export function SiteHeader() {
         }
         return (
              <DropdownMenu key={link.href} open={openMenus[link.href]} onOpenChange={(isOpen) => setOpenMenus(prev => ({...prev, [link.href]: isOpen}))}>
-                <DropdownMenuTrigger asChild>
-                    <div 
-                        onMouseEnter={() => handleMenuEnter(link.href)}
-                        onMouseLeave={() => handleMenuLeave(link.href)}
-                    >
-                         <Link href={link.href} className={cn(dropdownLinkClasses, "hover:bg-secondary hover:text-secondary-foreground", active && "text-primary")}>
-                            {link.icon}
-                            {link.name}
-                        </Link>
-                    </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                    onMouseLeave={() => handleMenuLeave(link.href)} 
+                <div 
                     onMouseEnter={() => handleMenuEnter(link.href)}
+                    onMouseLeave={() => handleMenuLeave(link.href)}
+                    className="flex items-center"
+                >
+                    <Link href={link.href} className={cn(linkClasses, "hover:bg-transparent", active ? "" : "hover:text-primary")}>
+                       {link.icon}
+                       {link.name}
+                    </Link>
+                    <DropdownMenuTrigger asChild>
+                         <Button variant="ghost" size="icon" className="h-8 w-6 hover:bg-secondary">
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                </div>
+                <DropdownMenuContent 
                     align="start"
                     className="mt-2"
+                     onMouseLeave={() => handleMenuLeave(link.href)} 
+                     onMouseEnter={() => handleMenuEnter(link.href)}
                 >
                     {link.subLinks.map((subLink: any) => (
                         <DropdownMenuItem key={subLink.href} asChild>
@@ -152,8 +151,7 @@ export function SiteHeader() {
         <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Image 
-                src="https://placehold.co/80x80.png"
-                data-ai-hint="school logo"
+                src="/logo.png"
                 width={50} 
                 height={50} 
                 alt="Logo" 
@@ -167,7 +165,7 @@ export function SiteHeader() {
           
           <div className="flex items-center gap-2">
             <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1 font-headline">
-              {navLinks.map((link) => renderNavLink(link))}
+               {navLinks.map((link) => renderNavLink(link))}
             </nav>
             <div className="ml-2 w-48">
               <SearchInput />
@@ -178,7 +176,7 @@ export function SiteHeader() {
         {/* Mobile Header */}
         <div className="flex flex-1 items-center justify-between space-x-2 md:hidden">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="https://placehold.co/80x80.png" data-ai-hint="school logo" width={40} height={40} alt="Logo" />
+            <Image src="/logo.png" width={40} height={40} alt="Logo" />
             <div className="flex flex-col">
               <span className="font-bold font-headline text-primary">Liên Đội TQK</span>
               <span className="text-xs text-muted-foreground">Vững Bước Trường Thành</span>
@@ -194,7 +192,7 @@ export function SiteHeader() {
             <SheetContent side="left" className="flex flex-col">
                 <div className="flex flex-col items-center mb-6">
                     <Link href="/" className="mb-4 flex flex-col items-center space-y-2">
-                        <Image src="https://placehold.co/100x100.png" data-ai-hint="school logo" width={80} height={80} alt="Logo" />
+                        <Image src="/logo.png" width={80} height={80} alt="Logo" />
                         <div className="text-center">
                             <h1 className="text-lg font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
                             <p className="text-xs text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
