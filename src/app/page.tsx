@@ -9,37 +9,37 @@ const features = [
     icon: <Handshake className="h-8 w-8 text-primary" />,
     title: "Chúng Mình Là",
     description: "Tìm hiểu về lịch sử, sứ mệnh và tầm nhìn của Liên đội THCS Trần Quang Khải.",
-    href: "/about",
+    href: "/chung-minh-la",
   },
   {
     icon: <Rss className="h-8 w-8 text-destructive" />,
     title: "Hành Trình",
     description: "Khám phá các hoạt động, sự kiện và phong trào sôi nổi của chúng tôi.",
-    href: "/journey",
+    href: "/hanh-trinh",
   },
   {
     icon: <Star className="h-8 w-8 text-warning" />,
     title: "Vườn Ươm",
     description: "Vinh danh những tấm gương đội viên tiêu biểu và các việc làm ý nghĩa.",
-    href: "/garden",
+    href: "/vuon-uom",
   },
   {
     icon: <BookOpen className="h-8 w-8 text-success" />,
     title: "Balo",
     description: "Kho tàng tài liệu, biểu mẫu và kiến thức dành cho đội viên.",
-    href: "/backpack",
+    href: "/balo",
   },
   {
     icon: <Calendar className="h-8 w-8 text-warning" />,
     title: "Lịch sự kiện",
     description: "Đừng bỏ lỡ bất kỳ sự kiện quan trọng nào của Liên đội.",
-    href: "/events",
+    href: "/lich-su-kien",
   },
   {
     icon: <Gift className="h-8 w-8 text-accent" />,
     title: "Gửi lời chúc",
     description: "Gửi những lời chúc tốt đẹp và ý nghĩa đến bạn bè và thầy cô.",
-    href: "/wishes",
+    href: "/gui-loi-chuc",
   },
 ];
 
@@ -56,10 +56,10 @@ export default function Home() {
           </p>
           <div className="flex justify-center gap-4">
             <Button asChild>
-              <Link href="/journey">Khám phá hoạt động</Link>
+              <Link href="/hanh-trinh">Khám phá hoạt động</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/contact">Liên hệ</Link>
+              <Link href="/lien-he">Liên hệ</Link>
             </Button>
           </div>
         </div>

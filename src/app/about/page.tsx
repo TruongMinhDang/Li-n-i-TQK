@@ -1,76 +1,113 @@
-import Image from 'next/image';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Target, History, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { BookOpen, Calendar, Gift, Handshake, Rss, Star } from 'lucide-react';
+import Image from 'next/image';
 
-export default function AboutPage() {
+const features = [
+  {
+    icon: <Handshake className="h-8 w-8 text-primary" />,
+    title: "Chúng Mình Là",
+    description: "Tìm hiểu về lịch sử, sứ mệnh và tầm nhìn của Liên đội THCS Trần Quang Khải.",
+    href: "/chung-minh-la",
+  },
+  {
+    icon: <Rss className="h-8 w-8 text-destructive" />,
+    title: "Hành Trình",
+    description: "Khám phá các hoạt động, sự kiện và phong trào sôi nổi của chúng tôi.",
+    href: "/hanh-trinh",
+  },
+  {
+    icon: <Star className="h-8 w-8 text-warning" />,
+    title: "Vườn Ươm",
+    description: "Vinh danh những tấm gương đội viên tiêu biểu và các việc làm ý nghĩa.",
+    href: "/vuon-uom",
+  },
+  {
+    icon: <BookOpen className="h-8 w-8 text-success" />,
+    title: "Balo",
+    description: "Kho tàng tài liệu, biểu mẫu và kiến thức dành cho đội viên.",
+    href: "/balo",
+  },
+  {
+    icon: <Calendar className="h-8 w-8 text-warning" />,
+    title: "Lịch sự kiện",
+    description: "Đừng bỏ lỡ bất kỳ sự kiện quan trọng nào của Liên đội.",
+    href: "/lich-su-kien",
+  },
+  {
+    icon: <Gift className="h-8 w-8 text-accent" />,
+    title: "Gửi lời chúc",
+    description: "Gửi những lời chúc tốt đẹp và ý nghĩa đến bạn bè và thầy cô.",
+    href: "/gui-loi-chuc",
+  },
+];
+
+export default function Home() {
   return (
-    <div className="space-y-12">
-      <section className="text-center">
-        <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Về Chúng Tôi
-        </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-          Hành trình xây dựng và phát triển của Liên đội THCS Trần Quang Khải.
-        </p>
-      </section>
-
-      <section className="grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 className="text-3xl font-headline font-bold mb-4">Lịch sử hình thành</h2>
-          <p className="text-muted-foreground leading-relaxed">
-            Liên đội THCS Trần Quang Khải được thành lập với mục tiêu tạo ra một môi trường học tập và rèn luyện năng động, sáng tạo cho các đội viên. Trải qua nhiều năm, chúng tôi tự hào đã trở thành một trong những liên đội vững mạnh, đi đầu trong các phong trào của thành phố, góp phần đào tạo nên nhiều thế hệ học sinh ưu tú, có ích cho xã hội.
+    <div className="flex flex-col items-center">
+      <section className="w-full py-12 md:py-24 lg:py-32 text-center">
+        <div className="container px-4 md:px-6">
+          <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl gradient-text mb-4">
+            Liên đội THCS Trần Quang Khải
+          </h1>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mb-8">
+            Nơi chắp cánh ước mơ, rèn luyện đội viên ưu tú.
           </p>
+          <div className="flex justify-center gap-4">
+            <Button asChild>
+              <Link href="/hanh-trinh">Khám phá hoạt động</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/lien-he">Liên hệ</Link>
+            </Button>
+          </div>
         </div>
-        <Image
-          src="https://placehold.co/600x400.png"
-          alt="Lịch sử hình thành"
-          data-ai-hint="old school building"
-          width={600}
-          height={400}
-          className="rounded-lg shadow-md"
-        />
       </section>
 
-      <section className="grid md:grid-cols-3 gap-8 text-center">
-        <Card>
-          <CardHeader>
-            <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit">
-              <History className="h-8 w-8 text-primary" />
-            </div>
-            <CardTitle className="font-headline mt-4">Sứ mệnh</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Tạo dựng môi trường giáo dục toàn diện, giúp đội viên phát triển cả về tri thức, kỹ năng và nhân cách.
+      <section className="w-full pb-12 md:pb-24 lg:pb-32">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => (
+              <Card key={feature.title} className="flex flex-col hover:shadow-lg transition-shadow duration-300">
+                <CardHeader className="flex flex-row items-center gap-4 pb-4">
+                  {feature.icon}
+                  <CardTitle className="font-headline">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </CardContent>
+                <div className="p-6 pt-0">
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link href={feature.href}>Xem chi tiết</Link>
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      <section className="w-full pb-12 md:pb-24 lg:pb-32 bg-white/50 dark:bg-black/10 rounded-lg">
+        <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
+          <div className="space-y-4">
+            <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">Điểm nhấn</div>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline gradient-text">Một góc sân trường</h2>
+            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              Sân trường không chỉ là nơi học tập, mà còn là nơi diễn ra vô vàn hoạt động ngoại khóa, là không gian để chúng em vui chơi, kết bạn và tạo nên những kỷ niệm đẹp đẽ của tuổi học trò.
             </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit">
-              <Target className="h-8 w-8 text-primary" />
-            </div>
-            <CardTitle className="font-headline mt-4">Tầm nhìn</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Trở thành một liên đội kiểu mẫu, nơi mỗi đội viên đều được truyền cảm hứng để vươn tới ước mơ và hoài bão.
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit">
-              <Users className="h-8 w-8 text-primary" />
-            </div>
-            <CardTitle className="font-headline mt-4">Giá trị cốt lõi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Đoàn kết - Sáng tạo - Trách nhiệm - Yêu thương.
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="flex justify-center">
+            <Image
+              src="https://placehold.co/600x400.png"
+              alt="Sân trường"
+              data-ai-hint="school playground"
+              width={600}
+              height={400}
+              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
+            />
+          </div>
+        </div>
       </section>
     </div>
   );

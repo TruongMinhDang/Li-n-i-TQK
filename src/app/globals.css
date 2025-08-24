@@ -80,4 +80,19 @@
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-[#1791db] via-[#58c65e] to-[#e85d18];
   }
+
+  .nav-link-active {
+    position: relative;
+    color: hsl(var(--primary));
+  }
+
+  .nav-link-active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Adjust this value to change distance of underline from text */
+    left: 0;
+    right: 0;
+    height: 2px; /* Thickness of the underline */
+    background: linear-gradient(to right, #1791db, #58c65e, #e85d18);
+  }
 }

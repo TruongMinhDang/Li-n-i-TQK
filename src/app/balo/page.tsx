@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Download, FileText } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 const documents = [
   {

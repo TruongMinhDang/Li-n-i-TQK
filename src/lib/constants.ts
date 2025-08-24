@@ -1,34 +1,46 @@
+import { Home, Info, Leaf, Backpack, Handshake, Mail, BookOpen, Star, Route, FolderKanban, Library, FileText, BarChart2 } from 'lucide-react';
+import { ReactNode } from 'react';
 
-export const navLinks = [
-  { name: 'Nhà Xanh', href: '/' },
-  { name: 'Chúng Mình Là', href: '/about' },
-  { 
-    name: 'Hành Trình', 
-    href: '/journey',
+interface NavLink {
+    name: string;
+    href: string;
+    icon: ReactNode;
+    subLinks?: NavLink[];
+}
+
+export const navLinks: NavLink[] = [
+  { name: 'Nhà Xanh', href: '/', icon: <Home /> },
+  { name: 'Chúng Mình Là', href: '/chung-minh-la', icon: <Info /> },
+  {
+    name: 'Hành Trình',
+    href: '/hanh-trinh',
+    icon: <Route />,
     subLinks: [
-      { name: 'Làm theo lời Bác', href: '/journey/lam-theo-loi-bac' },
-      { name: 'Xây Dựng Đội Vững mạnh', href: '/journey/xay-dung-doi-vung-manh' },
-      { name: 'Cùng tiến bước lên đoàn', href: '/journey/cung-tien-buoc-len-doan' },
+      { name: 'Làm theo lời Bác', href: '/hanh-trinh/lam-theo-loi-bac', icon: <BookOpen /> },
+      { name: 'Xây Dựng Đội Vững mạnh', href: '/hanh-trinh/xay-dung-doi-vung-manh', icon: <Handshake /> },
+      { name: 'Cùng tiến bước lên đoàn', href: '/hanh-trinh/cung-tien-buoc-len-doan', icon: <Star /> },
     ]
   },
-  { 
-    name: 'Vườn Ươm', 
-    href: '/garden',
+  {
+    name: 'Vườn Ươm',
+    href: '/vuon-uom',
+    icon: <Leaf />,
     subLinks: [
-       { name: 'Mỗi tuần một câu chuyện đẹp', href: '/garden/cau-chuyen-dep' },
-       { name: 'Măng non tiêu biểu', href: '/garden/mang-non-tieu-bieu' },
+       { name: 'Mỗi tuần một câu chuyện đẹp', href: '/vuon-uom/cau-chuyen-dep', icon: <BookOpen /> },
+       { name: 'Măng non tiêu biểu', href: '/vuon-uom/mang-non-tieu-bieu', icon: <Star /> },
     ]
   },
-  { 
-    name: 'Balo', 
-    href: '/backpack',
+  {
+    name: 'Balo',
+    href: '/balo',
+    icon: <Backpack />,
     subLinks: [
-      { name: 'Chiêu minh hội quán', href: '/backpack/chieu-minh-hoi-quan' },
-      { name: 'Kế hoạch', href: '/backpack/ke-hoach' },
-      { name: 'Tài liệu', href: '/backpack/tai-lieu' },
-      { name: 'Kỷ yếu', href: '/backpack/ky-yeu' },
-      { name: 'Infographic', href: '/backpack/infographic' },
+      { name: 'Chiêu minh hội quán', href: '/balo/chieu-minh-hoi-quan', icon: <Library /> },
+      { name: 'Kế hoạch', href: '/balo/ke-hoach', icon: <FolderKanban /> },
+      { name: 'Tài liệu', href: '/balo/tai-lieu', icon: <FileText /> },
+      { name: 'Kỷ yếu', href: '/balo/ky-yeu', icon: <BookOpen /> },
+      { name: 'Infographic', href: '/balo/infographic', icon: <BarChart2 /> },
     ]
   },
-  { name: 'Liên hệ', href: '/contact' },
+  { name: 'Liên hệ', href: '/lien-he', icon: <Mail /> },
 ];

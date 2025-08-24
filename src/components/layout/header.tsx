@@ -34,6 +34,73 @@ export function SiteHeader() {
     return false;
   }
 
+  const renderNavLink = (link: any, isMobile = false) => {
+    const active = isLinkActive(link.href, link.subLinks);
+    const linkClasses = cn(
+        "flex items-center gap-2 transition-transform duration-300 ease-in-out hover:-translate-y-0.5",
+        isMobile ? "py-2 text-lg font-semibold" : "px-3 py-2 text-sm font-medium rounded-md",
+        active 
+            ? "nav-link-active" 
+            : "text-muted-foreground hover:text-primary",
+        {'border-b': isMobile && !link.subLinks}
+    );
+     const dropdownClasses = cn(
+        "transition-colors hover:text-primary px-3 py-1.5 rounded-md flex items-center gap-1",
+         active ? "nav-link-active" : "text-muted-foreground"
+    );
+
+    if (link.subLinks) {
+        if (isMobile) {
+            return (
+                 <AccordionItem value={link.name} key={link.href}>
+                    <AccordionTrigger className={cn("py-2 text-lg font-semibold", active ? "text-primary no-underline" : "text-muted-foreground")}>
+                        <div className="flex items-center gap-2">
+                            {link.icon}
+                            {link.name}
+                        </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pl-6">
+                        {link.subLinks.map((subLink: any) => (
+                             <Link key={subLink.href} href={subLink.href} className={cn("flex items-center gap-2 py-2 text-base font-medium", pathname === subLink.href ? "text-primary" : "text-muted-foreground")}>
+                                {subLink.icon}
+                                {subLink.name}
+                            </Link>
+                        ))}
+                    </AccordionContent>
+                </AccordionItem>
+            )
+        }
+        return (
+            <DropdownMenu key={link.href}>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className={dropdownClasses}>
+                        {link.icon}
+                        {link.name}
+                        <ChevronDown className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {link.subLinks.map((subLink: any) => (
+                        <DropdownMenuItem key={subLink.href} asChild>
+                            <Link href={subLink.href} className="flex items-center gap-2">
+                                {subLink.icon}
+                                {subLink.name}
+                            </Link>
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        )
+    }
+
+    return (
+        <Link key={link.href} href={link.href} className={linkClasses}>
+            {link.icon}
+            {link.name}
+        </Link>
+    )
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-28 items-center">
@@ -51,43 +118,8 @@ export function SiteHeader() {
           <div className="flex flex-col items-center flex-grow">
               <h1 className="text-2xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
               <p className="text-sm text-muted-foreground">Vững Bước Trường Thành – Tự Hào Đội Viên</p>
-              <nav className="flex items-center space-x-1 text-sm font-medium mt-4 rounded-lg bg-secondary p-2">
-                {navLinks.map((link) => (
-                  link.subLinks ? (
-                    <DropdownMenu key={link.href}>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className={cn(
-                            "transition-colors hover:text-primary px-3 py-1.5 rounded-md flex items-center gap-1",
-                            isLinkActive(link.href, link.subLinks) ? "bg-background text-primary shadow-sm" : "text-muted-foreground"
-                          )}
-                        >
-                          {link.name}
-                          <ChevronDown className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        {link.subLinks.map(subLink => (
-                           <DropdownMenuItem key={subLink.href} asChild>
-                            <Link href={subLink.href}>{subLink.name}</Link>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        "transition-colors hover:text-primary px-3 py-2 rounded-md",
-                        pathname === link.href ? "bg-background text-primary shadow-sm" : "text-muted-foreground"
-                      )}
-                    >
-                      {link.name}
-                    </Link>
-                  )
-                ))}
+              <nav className="flex items-center space-x-1 mt-4 rounded-lg bg-secondary/50 p-1 font-headline">
+                {navLinks.map((link) => renderNavLink(link))}
               </nav>
           </div>
           <div className="relative ml-auto">
@@ -127,43 +159,7 @@ export function SiteHeader() {
                     </div>
               </div>
               <Accordion type="multiple" className="w-full">
-                {navLinks.map((link, index) => (
-                  link.subLinks ? (
-                    <AccordionItem value={`item-${index}`} key={link.href}>
-                      <AccordionTrigger className={cn(
-                        "flex w-full items-center py-2 text-lg font-semibold",
-                        isLinkActive(link.href, link.subLinks) ? "text-primary" : "text-muted-foreground"
-                      )}>
-                        {link.name}
-                      </AccordionTrigger>
-                      <AccordionContent className="pl-4">
-                        {link.subLinks.map(subLink => (
-                           <Link
-                            key={subLink.href}
-                            href={subLink.href}
-                            className={cn(
-                              "flex w-full items-center py-2 text-base font-medium",
-                              pathname === subLink.href ? "text-primary" : "text-muted-foreground"
-                            )}
-                          >
-                            {subLink.name}
-                          </Link>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        "flex w-full items-center py-2 text-lg font-semibold border-b",
-                         pathname === link.href ? "text-primary" : "text-muted-foreground"
-                      )}
-                    >
-                      {link.name}
-                    </Link>
-                  )
-                ))}
+                {navLinks.map((link) => renderNavLink(link, true))}
               </Accordion>
             </SheetContent>
           </Sheet>
