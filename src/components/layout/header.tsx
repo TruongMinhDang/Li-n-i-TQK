@@ -1,5 +1,3 @@
-
-
 "use client"
 
 import Link from "next/link"
@@ -149,16 +147,16 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-[144px] items-center">
+      <div className="container flex h-[160px] items-center">
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-3">
             <Image 
                 src={logoUrl}
-                width={128} 
-                height={128} 
+                width={144} 
+                height={144} 
                 alt="Logo" 
-                className="h-32 w-32"
+                className="h-36 w-36"
             />
              <div className="flex flex-col justify-center">
               <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
