@@ -50,7 +50,7 @@ function SearchInput() {
   )
 }
 
-const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9f937877-6455-41c5-b814-8d0fd806c613";
+const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9F937877-6455-41C5-B814-8D0FD806C613";
 
 
 export function SiteHeader() {
@@ -150,16 +150,16 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-28 items-center">
+      <div className="container flex h-36 items-center">
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between w-full">
           <Link href="/" className="mr-6 flex items-center space-x-3">
             <Image 
                 src={logoUrl}
-                width={80} 
-                height={80} 
+                width={120} 
+                height={120} 
                 alt="Logo" 
-                className="h-20 w-20"
+                className="h-32 w-32"
             />
              <div className="flex flex-col justify-center">
               <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
@@ -182,10 +182,10 @@ export function SiteHeader() {
           <Link href="/" className="flex items-center space-x-2">
             <Image 
               src={logoUrl} 
-              width={64} 
-              height={64} 
+              width={80} 
+              height={80} 
               alt="Logo" 
-              className="h-16 w-16"
+              className="h-20 w-20"
             />
             <div className="flex flex-col">
               <span className="font-bold font-headline text-primary">Liên Đội TQK</span>
