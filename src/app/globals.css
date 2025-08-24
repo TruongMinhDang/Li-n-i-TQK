@@ -123,6 +123,29 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
+  
+  @keyframes hero-gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animated-hero-text {
+      @apply bg-clip-text text-transparent;
+      background-image: linear-gradient(
+        to right,
+        #6d28d9, /* purple-700 */
+        #be185d, /* pink-700 */
+        #dc2626, /* red-600 */
+        #f59e0b, /* amber-500 */
+        #eab308, /* yellow-500 */
+        #dc2626,
+        #be185d,
+        #6d28d9
+      );
+      background-size: 200% auto;
+      animation: hero-gradient-animation 8s linear infinite;
+  }
 
   .animated-gradient-border {
     height: 3px;

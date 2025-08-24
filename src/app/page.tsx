@@ -46,7 +46,20 @@ const features = [
 export default function Home() {
   return (
     <div className="flex flex-col items-center">
-      <section className="w-full py-12 md:py-24 lg:py-32 text-center">
+        <section className="w-full pt-8 pb-12 text-center">
+            <div className="container px-4 md:px-6">
+                <div className="mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-amber-500" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.92,2.1a.5.5,0,0,0-.54-.1L4.54,6.4A.5.5,0,0,0,4,6.88V16.4a2.47,2.47,0,0,0-1.4.5,2.6,2.6,0,1,0,2.6,2.6,2.47,2.47,0,0,0-.5-1.4V9.83l14.84-4.2,0,10.17a2.47,2.47,0,0,0-1.4.5,2.6,2.6,0,1,0,2.6,2.6,2.47,2.47,0,0,0-.5-1.4V2.5A.5.5,0,0,0,20.92,2.1Z"/>
+                    </svg>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold font-display tracking-wide leading-relaxed animated-hero-text">
+                  “Đi Ta Đi Lên Nối Tiếp Bao Anh Hùng – Tiếng Kèn Vang Vang Giục Giã Thiếu Niên Nhi Đồng Tiến Theo Lá Cờ Đội Hồ Chí Minh Quang Vinh....”
+                </h2>
+            </div>
+        </section>
+
+      <section className="w-full py-12 md:py-16 lg:py-20 text-center">
         <div className="container px-4 md:px-6">
           <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl gradient-text mb-4">
             Liên đội THCS Trần Quang Khải
