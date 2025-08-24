@@ -159,7 +159,6 @@ export function SiteHeader() {
                 height={50} 
                 alt="Logo" 
                 className="h-12 w-12"
-                unoptimized
             />
              <div className="flex flex-col">
               <h1 className="text-xl font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
@@ -185,7 +184,6 @@ export function SiteHeader() {
               width={40} 
               height={40} 
               alt="Logo" 
-              unoptimized 
             />
             <div className="flex flex-col">
               <span className="font-bold font-headline text-primary">Liên Đội TQK</span>
@@ -207,7 +205,6 @@ export function SiteHeader() {
                           width={80} 
                           height={80} 
                           alt="Logo" 
-                          unoptimized 
                         />
                         <div className="text-center">
                             <h1 className="text-lg font-bold text-primary font-headline">Liên Đội Trần Quang Khải</h1>
