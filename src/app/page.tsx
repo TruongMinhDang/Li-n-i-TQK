@@ -49,9 +49,7 @@ export default function Home() {
         <section className="w-full pt-8 pb-12 text-center">
             <div className="container px-4 md:px-6">
                 <div className="mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-amber-500 animate-jump" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20.92,2.1a.5.5,0,0,0-.54-.1L4.54,6.4A.5.5,0,0,0,4,6.88V16.4a2.47,2.47,0,0,0-1.4.5,2.6,2.6,0,1,0,2.6,2.6,2.47,2.47,0,0,0-.5-1.4V9.83l14.84-4.2,0,10.17a2.47,2.47,0,0,0-1.4.5,2.6,2.6,0,1,0,2.6,2.6,2.47,2.47,0,0,0-.5-1.4V2.5A.5.5,0,0,0,20.92,2.1Z"/>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-amber-500 animate-jump" viewBox="0 0 24 24" fill="currentColor"><path d="M19.98 5.91A1 1 0 0 0 19 5h-1.35a7.42 7.42 0 0 0-1.34-3.13 1 1 0 1 0-1.62 1.15A5.5 5.5 0 0 1 15.65 5H9.37A5.5 5.5 0 0 1 10.3 3a1 1 0 1 0-1.62-1.19A7.41 7.41 0 0 0 7.35 5H6a1 1 0 0 0 0 2h1v1a1 1 0 0 0 2 0V7h5a1 1 0 0 0 .7-1.71 3.53 3.53 0 0 0-2.58-1.28L12 16H8a1 1 0 0 0 0 2h5a1 1 0 0 0 .89-.55l.29-.68.12-.29a1 1 0 0 0-.17-1.12L13.29 14H16a5 5 0 0 0 5-5V7h1a1 1 0 0 0 .98-1.09z"/></svg>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold tracking-wide leading-relaxed animated-hero-text">
                   “Đi Ta Đi Lên Nối Tiếp Bao Anh Hùng – Tiếng Kèn Vang Vang Giục Giã Thiếu Niên Nhi Đồng Tiến Theo Lá Cờ Đội Hồ Chí Minh Quang Vinh....”
