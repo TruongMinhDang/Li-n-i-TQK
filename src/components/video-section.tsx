@@ -30,42 +30,44 @@ export function VideoSection() {
 
   return (
     <section ref={ref} className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container grid items-center gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={textVariants}
-          className="space-y-4"
-        >
-          <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl gradient-text">
-            Chúng Mình Là...
-          </h2>
-          <p className="text-muted-foreground md:text-lg">
-            Liên Đội THCS Trần Quang Khải là tổ chức Đội Thiếu Niên Tiền Phong Hồ Chí Minh tại trường THCS Trần Quang Khải, quận Tân Phú. Được thành lập vào ngày 05/12/2011, Liên Đội hoạt động theo nguyên tắc tự nguyện, tự quản, dưới sự hướng dẫn của Hội Đồng Đội quận Tân Phú. 
-            <Link href="/hanh-trinh" className="font-semibold text-primary hover:underline ml-1">
-                Khám phá các hoạt động và thành tích nổi bật của chúng tôi.
-            </Link>
-          </p>
-          <Button asChild size="lg">
-            <Link href="/chung-minh-la">Xem Thêm</Link>
-          </Button>
-        </motion.div>
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={videoVariants}
-          className="overflow-hidden rounded-xl shadow-2xl"
-        >
-          <div className="aspect-video">
-            <iframe
-              className="w-full h-full"
-              src="https://drive.google.com/file/d/1hPt1wYMG7fmazyW4r926qE3EnwbTSrVl/preview"
-              title="Giới thiệu Liên Đội Trần Quang Khải"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </motion.div>
+        <div className="bg-white/50 dark:bg-black/10 rounded-lg p-8">
+            <div className="container grid items-center gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+                <motion.div
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                variants={textVariants}
+                className="space-y-4"
+                >
+                <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-4xl md:text-5xl gradient-text">
+                    Chúng Mình Là...
+                </h2>
+                <p className="text-muted-foreground md:text-lg">
+                    Liên Đội THCS Trần Quang Khải là tổ chức Đội Thiếu Niên Tiền Phong Hồ Chí Minh tại trường THCS Trần Quang Khải, quận Tân Phú. Được thành lập vào ngày 05/12/2011, Liên Đội hoạt động theo nguyên tắc tự nguyện, tự quản, dưới sự hướng dẫn của Hội Đồng Đội quận Tân Phú. 
+                    <Link href="/hanh-trinh" className="font-semibold text-primary hover:underline ml-1">
+                        Khám phá các hoạt động và thành tích nổi bật của chúng tôi.
+                    </Link>
+                </p>
+                <Button asChild size="lg" className="hover:scale-105 transition-transform duration-300">
+                    <Link href="/chung-minh-la">Xem Thêm</Link>
+                </Button>
+                </motion.div>
+                <motion.div
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                variants={videoVariants}
+                className="overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                >
+                <div className="aspect-video">
+                    <iframe
+                    className="w-full h-full"
+                    src="https://drive.google.com/file/d/1hPt1wYMG7fmazyW4r926qE3EnwbTSrVl/preview"
+                    title="Giới thiệu Liên Đội Trần Quang Khải"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    ></iframe>
+                </div>
+                </motion.div>
+            </div>
       </div>
     </section>
   );
