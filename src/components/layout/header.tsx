@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, Search, ChevronDown } from "lucide-react"
+import React from "react"
 
 import { cn } from "@/lib/utils"
 import { navLinks } from "@/lib/constants"
@@ -26,6 +27,15 @@ import {
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const [openMenus, setOpenMenus] = React.useState<Record<string, boolean>>({})
+
+  const handleMenuEnter = (href: string) => {
+    setOpenMenus(prev => ({ ...prev, [href]: true }))
+  }
+
+  const handleMenuLeave = (href: string) => {
+    setOpenMenus(prev => ({ ...prev, [href]: false }))
+  }
 
   const isLinkActive = (href: string, subLinks?: any[]) => {
     if (href === '/') return pathname === '/';
@@ -46,14 +56,14 @@ export function SiteHeader() {
         {'border-b': isMobile && !link.subLinks}
     );
     const dropdownTriggerClasses = cn(
-        "transition-colors pl-2 pr-1.5 py-1.5 rounded-r-md flex items-center gap-1 text-sm font-medium",
-        active ? "" : "text-muted-foreground",
-        "hover:bg-secondary hover:text-secondary-foreground"
+        "transition-colors pl-1.5 pr-1.5 py-1.5 rounded-r-md flex items-center gap-1 text-sm font-medium",
+        "hover:bg-secondary hover:text-secondary-foreground",
+         active ? "text-primary" : "text-muted-foreground",
     );
      const dropdownLinkClasses = cn(
-        "transition-colors pr-2 pl-3 py-1.5 rounded-l-md flex items-center gap-2 text-sm font-medium",
-        active ? "nav-link-active" : "text-muted-foreground",
-        "hover:bg-secondary hover:text-secondary-foreground"
+        "transition-colors pr-1.5 pl-3 py-1.5 rounded-l-md flex items-center gap-2 text-sm font-medium",
+        "hover:bg-secondary hover:text-secondary-foreground",
+         active ? "" : "text-muted-foreground",
      )
 
     if (link.subLinks) {
@@ -78,29 +88,37 @@ export function SiteHeader() {
             )
         }
         return (
-            <div className="flex items-center" key={link.href}>
-                <Link href={link.href} className={dropdownLinkClasses}>
-                    {link.icon}
-                    {link.name}
-                </Link>
-                <DropdownMenu>
+             <DropdownMenu key={link.href} open={openMenus[link.href]} onOpenChange={(isOpen) => setOpenMenus(prev => ({...prev, [link.href]: isOpen}))}>
+                <div 
+                    className={cn("flex items-center group rounded-md", active && "nav-link-active")}
+                    onMouseEnter={() => handleMenuEnter(link.href)}
+                    onMouseLeave={() => handleMenuLeave(link.href)}
+                >
+                    <Link href={link.href} className={cn(dropdownLinkClasses, "rounded-r-none", active && "text-primary")}>
+                        {link.icon}
+                        {link.name}
+                    </Link>
                     <DropdownMenuTrigger asChild>
-                         <Button variant="ghost" className={dropdownTriggerClasses}>
+                        <div className={cn(dropdownTriggerClasses, "rounded-l-none", active && "text-primary")}>
                             <ChevronDown className="h-4 w-4" />
-                        </Button>
+                        </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        {link.subLinks.map((subLink: any) => (
-                            <DropdownMenuItem key={subLink.href} asChild>
-                                <Link href={subLink.href} className="flex items-center gap-2">
-                                    {subLink.icon}
-                                    {subLink.name}
-                                </Link>
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+                </div>
+                <DropdownMenuContent 
+                    onMouseLeave={() => handleMenuLeave(link.href)} 
+                    onMouseEnter={() => handleMenuEnter(link.href)}
+                    align="start"
+                >
+                    {link.subLinks.map((subLink: any) => (
+                        <DropdownMenuItem key={subLink.href} asChild>
+                            <Link href={subLink.href} className="flex items-center gap-2">
+                                {subLink.icon}
+                                {subLink.name}
+                            </Link>
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
         )
     }
 
