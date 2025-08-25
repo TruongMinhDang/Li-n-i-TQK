@@ -224,4 +224,17 @@
   .chat-bubble-bot {
       @apply bg-muted text-muted-foreground rounded-lg p-2 max-w-xs self-start;
   }
+
+  @keyframes scroll-left {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-scroll-left {
+    animation: scroll-left 30s linear infinite;
+  }
 }

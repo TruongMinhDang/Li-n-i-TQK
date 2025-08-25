@@ -48,6 +48,12 @@ export const navLinks: NavLink[] = [
 ];
 
 
+export const announcements = [
+    { text: "Chào mừng kỷ niệm 84 năm ngày thành lập Đội TNTP Hồ Chí Minh (15/5/1941 – 15/5/2025)!", href: "/lich-su-kien" },
+    { text: "Đại hội Liên đội nhiệm kỳ 2024-2025 đã diễn ra thành công tốt đẹp.", href: "/hanh-trinh/xay-dung-doi-vung-manh" },
+    { text: "Theo dõi kênh Podcast 'Nhà Xanh Radio' để cập nhật những câu chuyện thú vị nhé!", href: "/podcast" },
+];
+
 export const newsArticles = [
   {
     title: "Lễ Khai Giảng Năm Học Mới",

@@ -8,6 +8,7 @@ import FirebaseProvider from '@/components/layout/firebase-provider'
 import { BackToTopButton } from '@/components/layout/back-to-top-button'
 import { ChatBubble } from '@/components/layout/chat-bubble'
 import { ThemeProvider } from '@/components/layout/theme-provider'
+import { AnnouncementTicker } from '@/components/layout/announcement-ticker'
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -36,6 +37,7 @@ export default function RootLayout({
           <FirebaseProvider>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
+              <AnnouncementTicker />
               <main className="flex-1 container py-8">
                 {children}
               </main>
