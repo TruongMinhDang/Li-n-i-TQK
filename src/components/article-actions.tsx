@@ -2,15 +2,13 @@
 
 import { useEffect } from 'react';
 import { Button } from './ui/button';
-import { Facebook, Twitter, Link as LinkIcon, MessageCircle, Send } from 'lucide-react';
+import { Facebook, Twitter, Link as LinkIcon, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
 
-const ZaloIcon = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-        <path d="M21 21H3a1 1 0 01-1-1V4a1 1 0 011-1h18a1 1 0 011 1v16a1 1 0 01-1 1z" />
-        <path d="M12 11.5a4.5 4.5 0 00-4.5 4.5h9a4.5 4.5 0 00-4.5-4.5zM8 8a1 1 0 100-2 1 1 0 000 2z" />
-        <path d="M14.5 16H17" />
+const ZaloIcon = () => (
+    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current">
+        <title>Zalo</title>
+        <path d="M16.63,13.621a2.374,2.374,0,0,1-2.372,2.372H8.163a.151.151,0,0,0-.151.151v.173a.9.9,0,0,0,.9.9h7.456a.45.45,0,0,1,.45.45v2.85a.45.45,0,0,1-.45.45H8.889a3.75,3.75,0,0,1-3.75-3.75V8.885a3.75,3.75,0,0,1,3.75-3.75h6.669a3.75,3.75,0,0,1,3.75,3.75v4.286a2.37,2.37,0,0,1-.9,1.81Zm-2.372-4.5a1.472,1.472,0,1,0-1.472-1.472A1.472,1.472,0,0,0,14.258,9.121Z"/>
     </svg>
 );
 
@@ -51,9 +49,7 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(articleUrl)}`;
 
   return (
-    <div className="space-y-4">
-      {/* Share Section */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <h3 className="text-lg font-semibold">Chia sẻ bài viết:</h3>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" asChild className="group">
@@ -68,7 +64,9 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
           </Button>
            <Button variant="outline" size="icon" asChild className="group">
             <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
-              <ZaloIcon className="h-5 w-5 text-muted-foreground group-hover:text-[#0068FF] transition-colors" />
+              <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
+                <ZaloIcon />
+              </div>
             </a>
           </Button>
            <Button variant="outline" size="icon" asChild className="group">
@@ -81,7 +79,6 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
           </Button>
         </div>
       </div>
-    </div>
   );
 }
 

@@ -112,9 +112,9 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <p className="lead text-xl italic text-muted-foreground border-l-4 border-primary/50 pl-4">{article.description}</p>
           {parsedContent}
       </div>
-
-      <Separator className="my-8" />
       
+      <Separator className="my-8" />
+
       <ArticleActions articleUrl={fullUrl} />
 
       {/* Related Articles */}
@@ -177,9 +177,11 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       )}
 
       {/* Comments Section */}
-      <div>
+      <div className="mt-12">
         <h3 className="text-2xl font-headline font-bold mb-4 text-center">Bình luận</h3>
-        <div className="fb-comments" data-href={fullUrl} data-width="100%" data-numposts="5"></div>
+        <Card className="p-2">
+            <div className="fb-comments" data-href={fullUrl} data-width="100%" data-numposts="5"></div>
+        </Card>
       </div>
     </article>
   );
