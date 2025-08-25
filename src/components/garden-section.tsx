@@ -81,14 +81,14 @@ export function GardenSection() {
             <motion.div key={item.href} variants={itemVariants}>
               <Link href={item.href || '#'} className="block group h-full">
                 <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                  <div className="overflow-hidden h-56 bg-gray-100 dark:bg-gray-800">
+                  <div className="overflow-hidden h-56 bg-gray-100 dark:bg-gray-800 border-b p-2 shadow-inner">
                     <Image
                       src={item.image.src}
                       alt={item.name}
                       data-ai-hint={item.image.hint}
                       width={600}
                       height={400}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 rounded-sm"
                     />
                   </div>
                   <CardHeader>
