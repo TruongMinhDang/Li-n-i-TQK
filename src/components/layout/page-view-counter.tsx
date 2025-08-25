@@ -11,31 +11,23 @@ export default function PageViewCounter() {
     useEffect(() => {
         const incrementViews = async () => {
             try {
-                // We don't want to block rendering for this, so we'll do it async
                 const newViews = await getAndIncrementViews();
                 setViews(newViews);
             } catch (error) {
                 console.error("Failed to increment page views:", error);
+                // In case of error, we can just show 0 or a placeholder
+                setViews(0);
             }
         };
-
-        // We only want to run this on the client after the page is visible
         incrementViews();
     }, []);
-
-    if (views === 0) {
-        return (
-            <div className="flex items-center gap-1.5 text-primary/80">
-                <Eye className="h-3 w-3" />
-                <span>Lượt xem trang: ...</span>
-            </div>
-        )
-    }
 
     return (
         <div className="flex items-center gap-1.5 text-primary/80">
             <Eye className="h-3 w-3" />
-            <span>Lượt xem trang: {views.toLocaleString()}</span>
+            <span>
+                Lượt xem trang: {views > 0 ? views.toLocaleString() : "..."}
+            </span>
         </div>
     )
 }
