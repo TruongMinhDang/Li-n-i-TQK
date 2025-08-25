@@ -114,7 +114,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       </div>
       
       <div className="my-8">
-        <ArticleActions articleUrl={fullUrl} />
+        <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />
       </div>
 
       {/* Article Navigation */}

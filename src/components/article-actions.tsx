@@ -11,9 +11,10 @@ import {
     Star 
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { cn } from '@/lib/utils';
 import { Badge } from './ui/badge';
+import { getAndIncrementArticleViews, toggleArticleLike } from '@/actions/article-interactions';
+import { Skeleton } from './ui/skeleton';
 
 const ZaloIcon = () => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current">
@@ -25,24 +26,43 @@ const ZaloIcon = () => (
 
 interface ArticleActionsProps {
   articleUrl: string;
+  articleSlug: string;
 }
 
-export function ArticleActions({ articleUrl }: ArticleActionsProps) {
+export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps) {
   const { toast } = useToast();
-  const [views, setViews] = useState(0);
-  const [likes, setLikes] = useState(0);
+  const [stats, setStats] = useState({ views: 0, likes: 0 });
   const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Load initial stats and liked state
   useEffect(() => {
-    // Simulate fetching initial data
-    setViews(Math.floor(Math.random() * 1000) + 50);
-    setLikes(Math.floor(Math.random() * 100) + 5);
+    const fetchStats = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedStats = await getAndIncrementArticleViews(articleSlug);
+        setStats(fetchedStats);
 
-    // This is to ensure the Facebook plugin re-parses the page when the URL changes on client-side navigation
+        const likedArticles = JSON.parse(localStorage.getItem('liked_articles') || '{}');
+        if (likedArticles[articleSlug]) {
+          setIsLiked(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch article stats:", error);
+        // Set to 0 or some default on error
+        setStats({ views: 1, likes: 0 });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchStats();
+    
+    // Re-parse Facebook comments plugin
     if (window.FB) {
       window.FB.XFBML.parse();
     }
-  }, [articleUrl]);
+  }, [articleSlug]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(articleUrl).then(() => {
@@ -60,9 +80,34 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
     });
   };
 
-  const handleLike = () => {
-      setIsLiked(!isLiked);
-      setLikes(prev => isLiked ? prev -1 : prev + 1);
+  const handleLike = async () => {
+      const newLikedState = !isLiked;
+      setIsLiked(newLikedState);
+      setStats(prev => ({ ...prev, likes: newLikedState ? prev.likes + 1 : prev.likes - 1 }));
+
+      try {
+        // Update localStorage
+        const likedArticles = JSON.parse(localStorage.getItem('liked_articles') || '{}');
+        if (newLikedState) {
+            likedArticles[articleSlug] = true;
+        } else {
+            delete likedArticles[articleSlug];
+        }
+        localStorage.setItem('liked_articles', JSON.stringify(likedArticles));
+
+        // Update Firestore
+        await toggleArticleLike(articleSlug, newLikedState);
+      } catch (error) {
+         console.error("Failed to toggle like:", error);
+         // Revert UI on error
+         setIsLiked(!newLikedState);
+         setStats(prev => ({ ...prev, likes: !newLikedState ? prev.likes + 1 : prev.likes - 1 }));
+         toast({
+            title: "Lỗi",
+            description: "Không thể lưu lượt thích của bạn. Vui lòng thử lại.",
+            variant: "destructive",
+         });
+      }
   };
 
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`;
@@ -73,16 +118,25 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 rounded-lg border bg-secondary/30">
         <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="py-2 px-3">
-                <Eye className="h-4 w-4 mr-2" />
-                <span className="font-semibold">{views.toLocaleString()}</span>
-                <span className="ml-1 hidden sm:inline">lượt xem</span>
-            </Badge>
+            {isLoading ? (
+                <>
+                    <Skeleton className="h-8 w-24" />
+                    <Skeleton className="h-8 w-16" />
+                </>
+            ) : (
+                <>
+                    <Badge variant="secondary" className="py-2 px-3">
+                        <Eye className="h-4 w-4 mr-2" />
+                        <span className="font-semibold">{stats.views.toLocaleString()}</span>
+                        <span className="ml-1 hidden sm:inline">lượt xem</span>
+                    </Badge>
 
-             <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm" className="h-full">
-                <Star className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-yellow-400")} />
-                {likes}
-            </Button>
+                    <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm" className="h-full">
+                        <Star className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-yellow-400")} />
+                        {stats.likes}
+                    </Button>
+                </>
+            )}
         </div>
         
         {/* Share Section */}
