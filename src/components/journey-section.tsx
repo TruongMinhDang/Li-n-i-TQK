@@ -14,7 +14,7 @@ const journeyLinks = navLinks.find(link => link.href === '/hanh-trinh')?.subLink
 const journeyItems = [
   { 
     ...journeyLinks[0],
-    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/lam-theo-loi-bac.png?alt=media&token=9c64b6e5-4f36-4740-9a25-6b653b65288e", hint: "ho chi minh with children" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/ChatGPT-Image-16_51_02-10-thg-5-2025.png?alt=media&token=95a695f2-17f5-4f52-a77b-6f6b405db004", hint: "ho chi minh with children" },
     description: "Năm điều Bác dạy khắc ghi\nChăm ngoan học giỏi, việc gì cũng xong.\nYêu nhà, yêu nước, đồng lòng\nĐội viên nhỏ tuổi mà lòng sắt son."
   },
   { 
