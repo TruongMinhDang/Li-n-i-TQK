@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { ArticleActions } from '@/components/article-actions';
 import { Separator } from '@/components/ui/separator';
+import { AuthorBio } from '@/components/author-bio';
 
 export async function generateStaticParams() {
   return newsArticles.map((article) => ({
@@ -112,6 +113,10 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <p className="lead text-xl italic text-muted-foreground border-l-4 border-primary/50 pl-4">{article.description}</p>
           {parsedContent}
       </div>
+
+      <Separator className="my-8" />
+      
+      <AuthorBio authorName={article.author} />
       
       <div className="my-8">
         <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />

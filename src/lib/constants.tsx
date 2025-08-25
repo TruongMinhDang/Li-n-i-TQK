@@ -247,3 +247,50 @@ export const events: Event[] = [
     color: "yellow",
   },
 ];
+
+
+export interface Author {
+    name: string;
+    title: string;
+    avatar: string;
+    bio: string;
+}
+
+export const authors: { [key: string]: Author } = {
+    'Ban Truyền Thông': {
+        name: 'Ban Truyền Thông',
+        title: 'Phụ trách tin tức và sự kiện',
+        avatar: 'https://placehold.co/100x100.png',
+        bio: 'Ban Truyền Thông là cầu nối thông tin giữa Liên đội và các bạn đội viên, phụ huynh. Chúng tôi luôn nỗ lực để mang đến những tin tức nhanh chóng, chính xác và hấp dẫn nhất về mọi hoạt động của Nhà Xanh.',
+    },
+    'Ban Biên Tập': {
+        name: 'Ban Biên Tập',
+        title: 'Phụ trách nội dung',
+        avatar: 'https://placehold.co/100x100.png',
+        bio: 'Ban Biên Tập chịu trách nhiệm sáng tạo và biên soạn các nội dung sâu sắc, có giá trị giáo dục, góp phần làm phong phú thêm đời sống tinh thần của mỗi đội viên.',
+    },
+    'CLB Tình Nguyện': {
+        name: 'CLB Tình Nguyện',
+        title: 'Lan tỏa yêu thương',
+        avatar: 'https://placehold.co/100x100.png',
+        bio: 'Với trái tim nhiệt huyết, Câu lạc bộ Tình nguyện tổ chức các hoạt động vì cộng đồng, gieo mầm lòng nhân ái và tinh thần sẻ chia trong mỗi đội viên.',
+    },
+    'Ban Chỉ Huy Liên Đội': {
+        name: 'Ban Chỉ Huy Liên Đội',
+        title: 'Đại diện cho đội viên',
+        avatar: 'https://placehold.co/100x100.png',
+        bio: 'Là những đội viên ưu tú, được tín nhiệm bầu ra để dẫn dắt, tổ chức và thực hiện các phong trào, hoạt động của Liên đội, góp phần xây dựng một tập thể vững mạnh.',
+    },
+    'Nguyễn Văn An': {
+        name: 'Nguyễn Văn An',
+        title: 'Đội viên Chi đội 8A1',
+        avatar: 'https://placehold.co/100x100.png',
+        bio: 'Là một đội viên chăm ngoan, học giỏi và luôn tích cực tham gia các hoạt động của Liên đội. An là một tấm gương sáng về lòng thật thà và tinh thần trách nhiệm.',
+    },
+    'Ban Thi Đua': {
+        name: 'Ban Thi Đua',
+        title: 'Ghi nhận và khen thưởng',
+        avatar: 'https://placehold.co/100x100.png',
+        bio: 'Ban Thi Đua theo dõi, đánh giá và vinh danh các cá nhân, tập thể có thành tích xuất sắc, tạo động lực thi đua sôi nổi trong toàn Liên đội.',
+    },
+};
