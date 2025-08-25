@@ -113,11 +113,13 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           {parsedContent}
       </div>
 
-      <Separator className="my-12" />
+      <Separator className="my-8" />
+      
+      <ArticleActions articleUrl={fullUrl} />
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
-        <div className="mb-12">
+        <div className="my-12">
             <h2 className="text-2xl font-headline font-bold mb-6 text-center">Bài Viết Liên Quan</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedArticles.map((related) => (
@@ -148,7 +150,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
       {/* Article Navigation */}
       {(prevArticle || nextArticle) && (
-        <div className="flex flex-col sm:flex-row justify-between gap-8 mb-12">
+        <div className="flex flex-col sm:flex-row justify-between gap-8 my-12">
           {prevArticle ? (
             <Link href={`/tin-tuc/${prevArticle.slug}`} className="group flex-1">
               <Card className="p-4 h-full hover:border-primary transition-colors">
@@ -174,8 +176,11 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         </div>
       )}
 
-
-      <ArticleActions articleUrl={fullUrl} />
+      {/* Comments Section */}
+      <div>
+        <h3 className="text-2xl font-headline font-bold mb-4 text-center">Bình luận</h3>
+        <div className="fb-comments" data-href={fullUrl} data-width="100%" data-numposts="5"></div>
+      </div>
     </article>
   );
 }
