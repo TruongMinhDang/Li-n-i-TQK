@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster"
 import FirebaseProvider from '@/components/layout/firebase-provider'
 import { BackToTopButton } from '@/components/layout/back-to-top-button'
 import { ChatBubble } from '@/components/layout/chat-bubble'
+import { ThemeProvider } from '@/components/layout/theme-provider'
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -26,18 +27,25 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet" />
       </head>
       <body className={cn("min-h-screen bg-background font-body antialiased")}>
-        <FirebaseProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <SiteHeader />
-            <main className="flex-1 container py-8">
-              {children}
-            </main>
-            <SiteFooter />
-            <BackToTopButton />
-            <ChatBubble />
-          </div>
-          <Toaster />
-        </FirebaseProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <FirebaseProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <SiteHeader />
+              <main className="flex-1 container py-8">
+                {children}
+              </main>
+              <SiteFooter />
+              <BackToTopButton />
+              <ChatBubble />
+            </div>
+            <Toaster />
+          </FirebaseProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
