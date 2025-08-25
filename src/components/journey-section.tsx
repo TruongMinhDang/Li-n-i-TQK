@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef } from "react";
@@ -13,17 +14,17 @@ const journeyLinks = navLinks.find(link => link.href === '/hanh-trinh')?.subLink
 const journeyItems = [
   { 
     ...journeyLinks[0],
-    image: { src: "https://placehold.co/600x400.png", hint: "ho chi minh with children" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/5-dieu-Bac-Ho-day-1024x1019.png?alt=media&token=18f73fee-fd4b-4aca-9b99-717201209b1d", hint: "ho chi minh with children" },
     description: "Năm điều Bác dạy khắc ghi\nChăm ngoan học giỏi, việc gì cũng xong.\nYêu nhà, yêu nước, đồng lòng\nĐội viên nhỏ tuổi mà lòng sắt son."
   },
   { 
     ...journeyLinks[1], 
-    image: { src: "https://placehold.co/600x400.png", hint: "students charity donation" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/xay-dung-doi.png?alt=media&token=cf3a128f-ad16-417b-99f5-1c5b8b982ae3", hint: "students charity donation" },
     description: "Nghi thức vững, chi đội bền\nSao vàng rực rỡ dưới nền khăn tươi.\nCùng nhau kết sức, chung lời\nTruyền thống Đội vững đời đời sáng danh."
   },
   { 
     ...journeyLinks[2], 
-    image: { src: "https://placehold.co/600x400.png", hint: "students helping each other" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/ket-nap-doan.png?alt=media&token=0b6754a6-e3d6-4448-932f-a95e7c37b775", hint: "students helping each other" },
     description: "Rèn thân, luyện chí mỗi ngày\nXứng vai cháu Bác – dựng xây mai này.\nTự hào đứng giữa hàng bay\nCờ hồng Đoàn gọi – vút ngay đường trường."
   },
 ];
