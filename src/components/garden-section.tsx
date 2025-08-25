@@ -13,7 +13,7 @@ const gardenLinks = navLinks.find(link => link.href === '/vuon-uom')?.subLinks |
 const gardenItems = [
   { 
     ...gardenLinks[0],
-    image: { src: "https://placehold.co/600x400.png", hint: "students doing charity" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/6-1024x1024.png?alt=media&token=74118beb-f33a-4401-9fa9-0178365ccf48", hint: "students helping elderly" },
     description: "Gieo từng việc nhỏ mỗi ngày,\nThành cây trái ngọt phủ đầy yêu thương.\nMột lời chào, ánh mắt thương,\nCũng như hoa nở bên đường dặm xa.\nGhi vào nhật ký chúng ta,\nLòng tốt kết lại như là sao rơi.\nVườn Đội lặng lẽ sáng ngời,\nTừ bao nghĩa cử giữa đời nhỏ xinh."
   },
   { 
