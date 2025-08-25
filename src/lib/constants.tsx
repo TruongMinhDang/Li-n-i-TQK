@@ -69,6 +69,26 @@ const createNewsDate = (year: number, month: number, day: number) => new Date(ye
 
 export const newsArticles: NewsArticle[] = [
   {
+    slug: "hoi-nghi-tong-ket-cuoi-cung-quan-tan-phu",
+    category: "xay-dung-doi-vung-manh",
+    date: createNewsDate(2025, 6, 13),
+    author: "Ban Truyền Thông",
+    title: "Liên Đội THCS Trần Quang Khải Vinh Dự Nhận Danh Hiệu Trong Hội Nghị Cuối Cùng Của Hội Đồng Đội Quận Tân Phú",
+    description: "Vào chiều ngày 13 tháng 6 năm 2025, Hội đồng Đội Quận Tân Phú đã long trọng tổ chức Hội nghị Tổng kết công tác Đội và phong trào thiếu nhi năm học 2024–2025, khép lại một hành trình đầy dấu ấn.",
+    image: { src: "https://placehold.co/600x400.png", hint: "award ceremony conference" },
+    content: `Vào chiều ngày 13 tháng 6 năm 2025, Hội đồng Đội Quận Tân Phú đã long trọng tổ chức Hội nghị Tổng kết công tác Đội và phong trào thiếu nhi năm học 2024–2025.
+
+Đặc biệt, hội nghị lần này mang ý nghĩa đặc biệt khi cũng là hội nghị cuối cùng của Hội đồng Đội Quận Tân Phú, trước khi quận chính thức sáp nhập và chuyển giao tổ chức Đội sang đơn vị hành chính mới. Đây là thời khắc khép lại một hành trình nhiều dấu ấn và yêu thương, đồng thời mở ra một chương mới cho tổ chức Đội trên địa bàn.
+
+<blockquote>Trong khuôn khổ hội nghị, Liên đội Trường THCS Trần Quang Khải đã vinh dự nhận:\n- Danh hiệu “Liên đội mạnh” năm học 2024–2025\n- Giấy khen từ Ban Chấp hành Quận Đoàn Tân Phú với thành tích “Hoàn thành xuất sắc công tác Đội và phong trào thiếu nhi”.</blockquote>
+
+Những thành tích đáng tự hào này là kết quả của cả một năm học đầy cố gắng, sáng tạo và đoàn kết từ tập thể Đội viên, giáo viên Tổng phụ trách và sự ủng hộ tích cực từ quý phụ huynh.
+
+Liên đội Trần Quang Khải xin được gửi lời tri ân sâu sắc đến Hội đồng Đội Quận Tân Phú – tổ chức đã luôn đồng hành, dẫn dắt và truyền cảm hứng cho bao thế hệ thiếu nhi. Dù một nhiệm kỳ đã khép lại, những bài học và giá trị mà Hội đồng Đội để lại sẽ mãi là hành trang quý giá trên chặng đường phía trước.
+
+Xin chúc cho tổ chức Đội trong mô hình hành chính mới sẽ tiếp tục phát triển, vững mạnh và không ngừng đổi mới.`
+  },
+  {
     slug: "lien-doi-manh-cap-quan-2024",
     category: "xay-dung-doi-vung-manh",
     date: createNewsDate(2024, 5, 28),
