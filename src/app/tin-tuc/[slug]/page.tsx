@@ -1,12 +1,14 @@
 import { notFound } from 'next/navigation';
 import { newsArticles } from '@/lib/constants';
 import Image from 'next/image';
-import { Calendar, User, Tag, Clock } from 'lucide-react';
+import { Calendar, User, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { ArticleActions } from '@/components/article-actions';
+import { Separator } from '@/components/ui/separator';
 
 export async function generateStaticParams() {
   return newsArticles.map((article) => ({
@@ -55,6 +57,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   const categoryInfo = categoryMap[article.category] || { name: article.category, href: '#' };
   const readingTime = calculateReadingTime(article.content);
   const parsedContent = parseContent(article.content);
+  const fullUrl = `https://ldtqk.website/tin-tuc/${article.slug}`;
 
   return (
     <article className="max-w-4xl mx-auto py-8">
@@ -99,6 +102,10 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <p className="lead text-xl italic text-muted-foreground border-l-4 border-primary/50 pl-4">{article.description}</p>
           {parsedContent}
       </div>
+
+      <Separator className="my-12" />
+
+      <ArticleActions articleUrl={fullUrl} />
     </article>
   );
 }

@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
+        <meta property="fb:app_id" content="YOUR_FACEBOOK_APP_ID" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet" />
@@ -35,6 +36,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <FirebaseProvider>
+            <div id="fb-root"></div>
+            <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=YOUR_FACEBOOK_APP_ID&autoLogAppEvents=1" nonce="aBcDeFg"></script>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
               <AnnouncementTicker />
