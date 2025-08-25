@@ -9,10 +9,14 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { newsArticles } from "@/lib/constants";
+import { format } from "date-fns";
+import { vi } from 'date-fns/locale';
 
 export function NewsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+  const sortedArticles = [...newsArticles].sort((a, b) => b.date.getTime() - a.date.getTime());
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,10 +72,10 @@ export function NewsSection() {
             className="w-full"
           >
             <CarouselContent>
-              {newsArticles.map((article, index) => (
+              {sortedArticles.map((article, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <Link href={article.href} className="block group h-full">
+                  <div className="p-1 h-full">
+                    <Link href={`/tin-tuc/${article.slug}`} className="block group h-full">
                        <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 hover:scale-105 transition-all duration-300">
                         <CardHeader className="p-0">
                             <div className="overflow-hidden">
@@ -86,7 +90,8 @@ export function NewsSection() {
                             </div>
                         </CardHeader>
                         <CardContent className="p-4 flex-grow text-left">
-                            <CardTitle className="font-headline text-lg group-hover:text-primary transition-colors">{article.title}</CardTitle>
+                            <p className="text-xs text-primary font-semibold mb-2">{format(article.date, "dd 'tháng' M, yyyy", { locale: vi })}</p>
+                            <CardTitle className="font-headline text-lg group-hover:text-primary transition-colors line-clamp-2">{article.title}</CardTitle>
                             <CardDescription className="mt-2 text-sm line-clamp-3">{article.description}</CardDescription>
                         </CardContent>
                       </Card>

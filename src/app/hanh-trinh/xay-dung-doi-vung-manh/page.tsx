@@ -1,7 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { newsArticles } from "@/lib/constants";
 import Image from "next/image";
+import Link from "next/link";
+import { FileText } from "lucide-react";
 
 export default function BuildingStrongTeamPage() {
+  const categoryArticles = newsArticles.filter(
+    (article) => article.category === "xay-dung-doi-vung-manh"
+  );
+
   return (
     <div className="space-y-12">
       <section className="text-center">
@@ -35,6 +42,27 @@ export default function BuildingStrongTeamPage() {
           </CardContent>
         </Card>
       </section>
+
+        {categoryArticles.length > 0 && (
+            <section className="max-w-4xl mx-auto">
+                <h2 className="text-2xl font-headline font-bold text-center mb-8">Bài viết liên quan</h2>
+                <div className="grid gap-6">
+                    {categoryArticles.map((article) => (
+                        <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
+                            <Card className="flex flex-col md:flex-row items-center hover:bg-secondary/50 transition-colors">
+                                <div className="p-4">
+                                  <FileText className="h-8 w-8 text-primary"/>
+                                </div>
+                                <div className="flex-1 p-4">
+                                    <CardTitle className="text-lg font-semibold group-hover:text-primary transition-colors">{article.title}</CardTitle>
+                                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{article.description}</p>
+                                </div>
+                            </Card>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+        )}
     </div>
   );
 }

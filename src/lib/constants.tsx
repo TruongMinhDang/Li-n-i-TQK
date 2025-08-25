@@ -50,53 +50,74 @@ export const navLinks: NavLink[] = [
 
 export const announcements = [
     { text: "Chào mừng kỷ niệm 84 năm ngày thành lập Đội TNTP Hồ Chí Minh (15/5/1941 – 15/5/2025)!", href: "/lich-su-kien" },
-    { text: "Đại hội Liên đội nhiệm kỳ 2024-2025 đã diễn ra thành công tốt đẹp.", href: "/hanh-trinh/xay-dung-doi-vung-manh" },
+    { text: "Đại hội Liên đội nhiệm kỳ 2024-2025 đã diễn ra thành công tốt đẹp.", href: "/tin-tuc/dai-hoi-lien-doi-thanh-cong-tot-dep" },
     { text: "Theo dõi kênh Podcast 'Nhà Xanh Radio' để cập nhật những câu chuyện thú vị nhé!", href: "/podcast" },
 ];
 
-export const newsArticles = [
+export interface NewsArticle {
+  slug: string;
+  category: string;
+  date: Date;
+  author: string;
+  title: string;
+  description: string;
+  image: { src: string; hint: string };
+  content: ReactNode;
+}
+
+const createNewsDate = (year: number, month: number, day: number) => new Date(year, month - 1, day);
+
+export const newsArticles: NewsArticle[] = [
   {
+    slug: "lien-doi-manh-cap-quan-2024",
+    category: "xay-dung-doi-vung-manh",
+    date: createNewsDate(2024, 5, 28),
+    author: "Ban Truyền Thông",
+    title: "LIÊN ĐỘI THCS TRẦN QUANG KHẢI VINH DỰ NHẬN DANH HIỆU “LIÊN ĐỘI MẠNH” CẤP QUẬN",
+    description: "Trong Hội nghị Tổng kết công tác Đội và phong trào thiếu nhi năm học 2023-2024, Liên đội THCS Trần Quang Khải đã xuất sắc được trao tặng danh hiệu 'Liên đội mạnh' cấp Quận.",
+    image: { src: "https://placehold.co/600x400.png", hint: "student award ceremony" },
+    content: (
+        <div className="space-y-4">
+            <p>Sáng ngày 28/5/2024, tại Hội nghị Tổng kết công tác Đội và phong trào thiếu nhi năm học 2023-2024 do Hội đồng Đội quận Tân Phú tổ chức, Liên đội THCS Trần Quang Khải đã vinh dự được công nhận và trao tặng danh hiệu “Liên đội mạnh” cấp Quận.</p>
+            <p>Đây là thành quả xứng đáng cho những nỗ lực không ngừng nghỉ của tập thể đội viên, các anh chị phụ trách Chi đội và Ban chỉ huy Liên đội trong suốt một năm học vừa qua. Dưới sự chỉ đạo sát sao của Ban Giám hiệu nhà trường và Hội đồng Đội các cấp, Liên đội đã tổ chức thành công nhiều hoạt động, phong trào thi đua sôi nổi, ý nghĩa, thu hút đông đảo đội viên tham gia.</p>
+            <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground">
+                "Thành tích này không chỉ là niềm tự hào của toàn Liên đội, mà còn là động lực to lớn để chúng tôi tiếp tục phấn đấu, rèn luyện, giữ vững và phát huy hơn nữa những thành quả đã đạt được trong những năm học tiếp theo." - Thầy Trương Minh Đăng, Tổng phụ trách Đội chia sẻ.
+            </blockquote>
+            <p>Các hoạt động nổi bật trong năm học bao gồm phong trào “Nghìn việc tốt”, “Kế hoạch nhỏ”, các hoạt động đền ơn đáp nghĩa, chương trình “Thắp sáng ước mơ thiếu nhi Việt Nam”, các hội thi Nghi thức Đội, văn nghệ, thể thao… đã góp phần giáo dục toàn diện cho đội viên về đạo đức, trí tuệ, thể chất và kỹ năng sống.</p>
+            <p>Danh hiệu “Liên đội mạnh” cấp Quận một lần nữa khẳng định vị thế và chất lượng công tác Đội của trường THCS Trần Quang Khải, là nguồn cổ vũ to lớn để Liên đội tiếp tục là một trong những lá cờ đầu trong công tác Đội và phong trào thiếu nhi của quận Tân Phú.</p>
+        </div>
+    ),
+  },
+  {
+    slug: "le-khai-giang-nam-hoc-moi",
+    category: "su-kien-noi-bat",
+    date: createNewsDate(2024, 9, 5),
+    author: "Ban Biên Tập",
     title: "Lễ Khai Giảng Năm Học Mới",
     description: "Hòa chung không khí rộn ràng của cả nước, trường THCS Trần Quang Khải long trọng tổ chức Lễ Khai giảng năm học 2024-2025.",
     image: { src: "https://placehold.co/600x400.png", hint: "school opening ceremony" },
-    href: "/lich-su-kien"
+    content: <p>Nội dung chi tiết về Lễ Khai Giảng.</p>
   },
   {
+    slug: "hoi-trang-ram-yeu-thuong",
+    category: "su-kien-noi-bat",
+    date: createNewsDate(2024, 9, 15),
+    author: "CLB Tình Nguyện",
     title: "Hội Trăng Rằm Yêu Thương",
     description: "Chương trình Trung thu với nhiều hoạt động ý nghĩa đã mang đến cho các em đội viên một đêm hội đáng nhớ.",
     image: { src: "https://placehold.co/600x400.png", hint: "mid-autumn festival children" },
-    href: "/lich-su-kien"
+    content: <p>Nội dung chi tiết về Hội Trăng Rằm.</p>
   },
   {
+    slug: "dai-hoi-lien-doi-thanh-cong-tot-dep",
+    category: "xay-dung-doi-vung-manh",
+    date: createNewsDate(2024, 10, 10),
+    author: "Ban Chỉ Huy Liên Đội",
     title: "Đại Hội Liên Đội Nhiệm Kỳ Mới",
     description: "Đại hội đã diễn ra thành công tốt đẹp, bầu ra Ban chỉ huy Liên đội mới đầy nhiệt huyết và sáng tạo.",
     image: { src: "https://placehold.co/600x400.png", hint: "student council meeting" },
-    href: "/hanh-trinh/xay-dung-doi-vung-manh"
+    content: <p>Nội dung chi tiết về Đại Hội Liên Đội.</p>
   },
-  {
-    title: "Tấm Lòng Vàng 'Kế Hoạch Nhỏ'",
-    description: "Phong trào thu gom giấy vụn đã nhận được sự hưởng ứng nhiệt tình, gây quỹ giúp đỡ nhiều bạn học sinh khó khăn.",
-    image: { src: "https://placehold.co/600x400.png", hint: "recycling program kids" },
-    href: "/hanh-trinh/lam-theo-loi-bac"
-  },
-  {
-    title: "Ra Mắt Kênh Podcast 'Nhà Xanh Radio'",
-    description: "Kênh phát thanh của Liên đội đã chính thức lên sóng, hứa hẹn mang đến nhiều nội dung hấp dẫn.",
-    image: { src: "https://placehold.co/600x400.png", hint: "podcast microphone studio" },
-    href: "/podcast"
-  },
-  {
-    title: "Tuyên Dương 'Măng Non Tiêu Biểu'",
-    description: "Vinh danh những tấm gương đội viên xuất sắc trong học tập và rèn luyện, tạo động lực phấn đấu cho toàn Liên đội.",
-    image: { src: "https://placehold.co/600x400.png", hint: "student award ceremony" },
-    href: "/vuon-uom/mang-non-tieu-bieu"
-  },
-  {
-    title: "Hoạt Động Đền Ơn Đáp Nghĩa",
-    description: "Liên đội đã tổ chức thăm và tặng quà các gia đình chính sách, thể hiện đạo lý 'Uống nước nhớ nguồn'.",
-    image: { src: "https://placehold.co/600x400.png", hint: "students visiting veterans" },
-    href: "/vuon-uom/cau-chuyen-dep"
-  }
 ];
 
 
