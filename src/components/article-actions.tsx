@@ -1,9 +1,18 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Facebook, Twitter, Link as LinkIcon, Send } from 'lucide-react';
+import { 
+    Facebook, 
+    Twitter, 
+    Link as LinkIcon, 
+    Send, 
+    BarChart2, 
+    Star 
+} from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { cn } from '@/lib/utils';
 
 const ZaloIcon = () => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current">
@@ -19,8 +28,15 @@ interface ArticleActionsProps {
 
 export function ArticleActions({ articleUrl }: ArticleActionsProps) {
   const { toast } = useToast();
+  const [views, setViews] = useState(0);
+  const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
+    // Simulate fetching initial data
+    setViews(Math.floor(Math.random() * 1000) + 50);
+    setLikes(Math.floor(Math.random() * 100) + 5);
+
     // This is to ensure the Facebook plugin re-parses the page when the URL changes on client-side navigation
     if (window.FB) {
       window.FB.XFBML.parse();
@@ -43,40 +59,78 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
     });
   };
 
+  const handleLike = () => {
+      setIsLiked(!isLiked);
+      setLikes(prev => isLiked ? prev -1 : prev + 1);
+  };
+
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`;
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}`;
   const zaloShareUrl = `https://sp.zalo.me/share_inline?url=${encodeURIComponent(articleUrl)}&is_show_widget=1`;
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(articleUrl)}`;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <h3 className="text-base font-semibold">Chia sẻ bài viết:</h3>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
-            <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
-              <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
-            <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
-              <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
-            </a>
-          </Button>
-           <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
-            <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
-              <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
-                <ZaloIcon />
-              </div>
-            </a>
-          </Button>
-           <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
-            <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
-              <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent">
-            <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-          </Button>
+    <div className="space-y-4">
+        {/* Post Views */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <BarChart2 className="h-4 w-4" />
+            <span>Lượt xem: {views.toLocaleString()}</span>
+        </div>
+
+        {/* Share Section */}
+        <div className="flex items-center gap-4">
+            <h3 className="text-sm font-semibold">Chia sẻ:</h3>
+            <div className="flex items-center gap-1">
+                <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
+                    <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
+                    <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
+                    </a>
+                </Button>
+                <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
+                    <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
+                    <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
+                    </a>
+                </Button>
+                <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
+                    <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
+                    <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
+                        <ZaloIcon />
+                    </div>
+                    </a>
+                </Button>
+                <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
+                    <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
+                    <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
+                    </a>
+                </Button>
+                <Button variant="ghost" size="icon" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent">
+                    <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </Button>
+            </div>
+        </div>
+        
+        {/* Like Section */}
+        <div className="space-y-2">
+             <h3 className="text-sm font-semibold">Thích điều này:</h3>
+             <div className="flex items-center gap-4">
+                 <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm">
+                    <Star className={cn("h-4 w-4 mr-2", isLiked && "fill-current text-yellow-400")} />
+                    {isLiked ? "Đã thích" : "Thích"}
+                </Button>
+                {likes > 0 && (
+                    <div className="flex items-center -space-x-2">
+                        {isLiked && (
+                             <Avatar className="h-6 w-6 border-2 border-background">
+                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                <AvatarFallback>B</AvatarFallback>
+                            </Avatar>
+                        )}
+                        <span className="pl-4 text-sm text-muted-foreground">
+                            {isLiked ? `Bạn và ${likes -1} người khác` : `${likes} người`} thích bài này.
+                        </span>
+                    </div>
+                )}
+             </div>
         </div>
       </div>
   );
