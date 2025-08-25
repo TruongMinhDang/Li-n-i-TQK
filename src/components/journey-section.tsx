@@ -85,28 +85,25 @@ export function JourneySection() {
           {journeyItems.map((item) => (
             <motion.div key={item.href} variants={itemVariants}>
               <Link href={item.href || '#'} className="block group h-full">
-                <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                  <div className="overflow-hidden h-56 bg-gray-100 dark:bg-gray-800 border-b p-2 shadow-inner">
-                    <Image
-                      src={item.image.src}
-                      alt={item.name}
-                      data-ai-hint={item.image.hint}
-                      width={600}
-                      height={400}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 rounded-sm"
-                    />
-                  </div>
-                  <CardHeader>
+                <Card className="h-full flex flex-col hover:shadow-xl transition-all duration-300 bg-secondary/30">
+                  <CardHeader className="h-64 flex items-center justify-center">
+                     <div className="bg-background p-2 pb-4 shadow-md rounded-md transform -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-transform duration-300">
+                        <Image
+                            src={item.image.src}
+                            alt={item.name}
+                            data-ai-hint={item.image.hint}
+                            width={300}
+                            height={200}
+                            className="w-full h-48 object-contain rounded-sm"
+                        />
+                     </div>
+                  </CardHeader>
+                  <CardContent className="flex-grow bg-card rounded-b-lg p-6 text-center">
                     <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">
                       {item.name}
                     </CardTitle>
-                  </CardHeader>
-                   <CardContent className="flex-grow">
-                    <p className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed">{item.description}</p>
+                    <p className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed mt-4">{item.description}</p>
                   </CardContent>
-                  <CardFooter>
-                    <Button className="w-full">Khám Phá</Button>
-                  </CardFooter>
                 </Card>
               </Link>
             </motion.div>
