@@ -50,31 +50,31 @@ export function ArticleActions({ articleUrl }: ArticleActionsProps) {
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <h3 className="text-lg font-semibold">Chia sẻ bài viết:</h3>
+        <h3 className="text-base font-semibold">Chia sẻ bài viết:</h3>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" asChild className="group">
+          <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
             <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
               <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
             </a>
           </Button>
-          <Button variant="outline" size="icon" asChild className="group">
+          <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
             <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
               <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
             </a>
           </Button>
-           <Button variant="outline" size="icon" asChild className="group">
+           <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
             <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
               <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
                 <ZaloIcon />
               </div>
             </a>
           </Button>
-           <Button variant="outline" size="icon" asChild className="group">
+           <Button variant="ghost" size="icon" asChild className="group hover:bg-transparent">
             <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
               <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
             </a>
           </Button>
-          <Button variant="outline" size="icon" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group">
+          <Button variant="ghost" size="icon" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent">
             <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
           </Button>
         </div>

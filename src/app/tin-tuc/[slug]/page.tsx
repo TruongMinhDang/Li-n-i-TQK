@@ -113,9 +113,11 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           {parsedContent}
       </div>
       
-      <Separator className="my-8" />
+      <div className="my-8">
+        <ArticleActions articleUrl={fullUrl} />
+      </div>
 
-      <ArticleActions articleUrl={fullUrl} />
+      <Separator className="my-8" />
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
