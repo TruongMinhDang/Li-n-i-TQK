@@ -14,12 +14,12 @@ const journeyLinks = navLinks.find(link => link.href === '/hanh-trinh')?.subLink
 const journeyItems = [
   { 
     ...journeyLinks[0],
-    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/5-dieu-Bac-Ho-day-1024x1019.png?alt=media&token=18f73fee-fd4b-4aca-9b99-717201209b1d", hint: "ho chi minh with children" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/lam-theo-loi-bac.png?alt=media&token=9c64b6e5-4f36-4740-9a25-6b653b65288e", hint: "ho chi minh with children" },
     description: "Năm điều Bác dạy khắc ghi\nChăm ngoan học giỏi, việc gì cũng xong.\nYêu nhà, yêu nước, đồng lòng\nĐội viên nhỏ tuổi mà lòng sắt son."
   },
   { 
     ...journeyLinks[1], 
-    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/xay-dung-doi.png?alt=media&token=cf3a128f-ad16-417b-99f5-1c5b8b982ae3", hint: "students charity donation" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/5-dieu-Bac-Ho-day-1024x1019.png?alt=media&token=18f73fee-fd4b-4aca-9b99-717201209b1d", hint: "students charity donation" },
     description: "Nghi thức vững, chi đội bền\nSao vàng rực rỡ dưới nền khăn tươi.\nCùng nhau kết sức, chung lời\nTruyền thống Đội vững đời đời sáng danh."
   },
   { 
