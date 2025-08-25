@@ -1,3 +1,4 @@
+
 import { notFound } from 'next/navigation';
 import { newsArticles } from '@/lib/constants';
 import Image from 'next/image';
@@ -114,13 +115,15 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           {parsedContent}
       </div>
 
-      <Separator className="my-8" />
-      
-      <AuthorBio authorName={article.author} />
-      
+      {/* Article Actions */}
       <div className="my-8">
         <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />
       </div>
+
+      <Separator className="my-8" />
+      
+      {/* Author Bio */}
+      <AuthorBio authorName={article.author} />
 
       {/* Article Navigation */}
       {(prevArticle || nextArticle) && (
@@ -150,36 +153,37 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         </div>
       )}
 
-      <Separator className="my-8" />
-      
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
-        <div className="my-12">
-            <h2 className="text-2xl font-headline font-bold mb-6 text-center">Bài Viết Liên Quan</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {relatedArticles.map((related) => (
-                    <Link key={related.slug} href={`/tin-tuc/${related.slug}`} className="block group">
-                        <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
-                            <CardHeader className="p-0">
-                                <Image 
-                                    src={related.image.src}
-                                    alt={related.title}
-                                    data-ai-hint={related.image.hint}
-                                    width={400}
-                                    height={250}
-                                    className="w-full h-32 object-cover"
-                                />
-                            </CardHeader>
-                            <CardContent className="p-4">
-                                <h3 className="font-semibold text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors">
-                                    {related.title}
-                                </h3>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
-        </div>
+        <>
+          <Separator className="my-8" />
+          <div className="my-12">
+              <h2 className="text-2xl font-headline font-bold mb-6 text-center">Bài Viết Liên Quan</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {relatedArticles.map((related) => (
+                      <Link key={related.slug} href={`/tin-tuc/${related.slug}`} className="block group">
+                          <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
+                              <CardHeader className="p-0">
+                                  <Image 
+                                      src={related.image.src}
+                                      alt={related.title}
+                                      data-ai-hint={related.image.hint}
+                                      width={400}
+                                      height={250}
+                                      className="w-full h-32 object-cover"
+                                  />
+                              </CardHeader>
+                              <CardContent className="p-4">
+                                  <h3 className="font-semibold text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                                      {related.title}
+                                  </h3>
+                              </CardContent>
+                          </Card>
+                      </Link>
+                  ))}
+              </div>
+          </div>
+        </>
       )}
 
       {/* Comments Section */}
