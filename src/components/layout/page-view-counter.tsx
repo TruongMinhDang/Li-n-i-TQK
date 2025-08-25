@@ -11,16 +11,15 @@ export default function PageViewCounter() {
     useEffect(() => {
         const incrementViews = async () => {
             try {
+                // We don't want to block rendering for this, so we'll do it async
                 const newViews = await getAndIncrementViews();
                 setViews(newViews);
             } catch (error) {
                 console.error("Failed to increment page views:", error);
-                // Optionally, fetch the current views without incrementing on failure
-                // const currentViews = await getViews(); 
-                // setViews(currentViews);
             }
         };
 
+        // We only want to run this on the client after the page is visible
         incrementViews();
     }, []);
 
@@ -36,7 +35,7 @@ export default function PageViewCounter() {
     return (
         <div className="flex items-center gap-1.5 text-slate-400">
             <Eye className="h-3 w-3" />
-            <span>Lượt xem trang: {views}</span>
+            <span>Lượt xem trang: {views.toLocaleString()}</span>
         </div>
     )
 }
