@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { newsArticles } from '@/lib/constants';
 import Image from 'next/image';
-import { Calendar, User, Clock } from 'lucide-react';
+import { Calendar, User, Clock, ArrowLeft, ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Card } from '@/components/ui/card';
@@ -48,11 +48,16 @@ function parseContent(content: string) {
 
 
 export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = newsArticles.find((article) => article.slug === params.slug);
+  const sortedArticles = newsArticles.sort((a, b) => b.date.getTime() - a.date.getTime());
+  const articleIndex = sortedArticles.findIndex((p) => p.slug === params.slug);
 
-  if (!article) {
+  if (articleIndex === -1) {
     notFound();
   }
+
+  const article = sortedArticles[articleIndex];
+  const prevArticle = articleIndex > 0 ? sortedArticles[articleIndex - 1] : null;
+  const nextArticle = articleIndex < sortedArticles.length - 1 ? sortedArticles[articleIndex + 1] : null;
   
   const categoryInfo = categoryMap[article.category] || { name: article.category, href: '#' };
   const readingTime = calculateReadingTime(article.content);
@@ -104,6 +109,35 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       </div>
 
       <Separator className="my-12" />
+
+      {/* Article Navigation */}
+      {(prevArticle || nextArticle) && (
+        <div className="flex flex-col sm:flex-row justify-between gap-8 mb-12">
+          {nextArticle ? (
+            <Link href={`/tin-tuc/${nextArticle.slug}`} className="group flex-1">
+              <Card className="p-4 h-full hover:border-primary transition-colors">
+                <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>Bài viết trước đó</span>
+                </div>
+                <p className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">{nextArticle.title}</p>
+              </Card>
+            </Link>
+          ) : <div className="flex-1"></div>}
+          {prevArticle ? (
+            <Link href={`/tin-tuc/${prevArticle.slug}`} className="group flex-1">
+               <Card className="p-4 h-full hover:border-primary transition-colors">
+                <div className="flex items-center justify-end gap-2 text-muted-foreground mb-2">
+                  <span>Bài viết kế tiếp</span>
+                  <ArrowRight className="h-4 w-4" />
+                </div>
+                <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-right line-clamp-2">{prevArticle.title}</p>
+              </Card>
+            </Link>
+          ) : <div className="flex-1"></div>}
+        </div>
+      )}
+
 
       <ArticleActions articleUrl={fullUrl} />
     </article>
