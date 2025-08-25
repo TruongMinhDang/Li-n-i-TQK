@@ -24,7 +24,7 @@ const journeyItems = [
   },
   { 
     ...journeyLinks[2], 
-    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/ket-nap-doan.png?alt=media&token=0b6754a6-e3d6-4448-932f-a95e7c37b775", hint: "students helping each other" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/ket-nap-doan.png?alt=media&token=0b6754a6-e3d6-4448-932f-a95e7c37b775", hint: "youth union ceremony" },
     description: "Rèn thân, luyện chí mỗi ngày\nXứng vai cháu Bác – dựng xây mai này.\nTự hào đứng giữa hàng bay\nCờ hồng Đoàn gọi – vút ngay đường trường."
   },
 ];
