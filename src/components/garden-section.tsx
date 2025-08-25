@@ -80,25 +80,23 @@ export function GardenSection() {
           {gardenItems.map((item) => (
             <motion.div key={item.href} variants={itemVariants}>
               <Link href={item.href || '#'} className="block group h-full">
-                 <Card className="h-full flex flex-col hover:shadow-xl transition-all duration-300 bg-secondary/30">
-                  <CardHeader className="h-64 flex items-center justify-center">
-                     <div className="bg-background p-2 pb-4 shadow-md rounded-md transform -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-transform duration-300">
+                 <Card className="h-full flex flex-col hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <CardHeader className="p-0">
                         <Image
                             src={item.image.src}
                             alt={item.name}
                             data-ai-hint={item.image.hint}
-                            width={300}
-                            height={200}
-                            className="w-full h-48 object-contain rounded-sm"
+                            width={600}
+                            height={400}
+                            className="w-full h-auto object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
                         />
-                     </div>
-                  </CardHeader>
-                  <CardContent className="flex-grow bg-card rounded-b-lg p-6 text-center">
-                    <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">
-                      {item.name}
-                    </CardTitle>
-                    <p className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed mt-4">{item.description}</p>
-                  </CardContent>
+                    </CardHeader>
+                    <CardContent className="flex-grow p-6 text-center">
+                        <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">
+                        {item.name}
+                        </CardTitle>
+                        <p className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed mt-4">{item.description}</p>
+                    </CardContent>
                 </Card>
               </Link>
             </motion.div>
