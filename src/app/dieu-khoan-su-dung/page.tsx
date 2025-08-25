@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck } from "lucide-react";
+import Link from "next/link";
 
 export default function TermsOfUsePage() {
   return (
@@ -26,7 +27,7 @@ export default function TermsOfUsePage() {
             <div className="space-y-2">
               <h3 className="font-semibold text-lg text-foreground">1. Phạm vi áp dụng và chấp nhận điều khoản</h3>
               <p><strong>1.1.</strong> Các Điều khoản này điều chỉnh việc truy cập và sử dụng website/dịch vụ trực tuyến của Liên đội THCS Trần Quang Khải (sau đây gọi là “Trang web” hoặc “Dịch vụ”).</p>
-              <p><strong>1.2.</strong> Khi truy cập hoặc sử dụng Trang web, bạn (sau đây gọi là “Người dùng”) xác nhận đã đọc, hiểu và đồng ý bị ràng buộc bởi các Điều khoản này và Chính sách bảo mật của chúng tôi. Nếu không đồng ý, vui lòng ngừng sử dụng Trang web.</p>
+              <p><strong>1.2.</strong> Khi truy cập hoặc sử dụng Trang web, bạn (sau đây gọi là “Người dùng”) xác nhận đã đọc, hiểu và đồng ý bị ràng buộc bởi các Điều khoản này và <Link href="/chinh-sach-bao-mat" className="text-primary hover:underline">Chính sách bảo mật</Link> của chúng tôi. Nếu không đồng ý, vui lòng ngừng sử dụng Trang web.</p>
             </div>
             <div className="space-y-2">
               <h3 className="font-semibold text-lg text-foreground">2. Đối tượng sử dụng</h3>
@@ -57,8 +58,8 @@ export default function TermsOfUsePage() {
             </div>
             <div className="space-y-2">
               <h3 className="font-semibold text-lg text-foreground">6. Bảo vệ dữ liệu cá nhân và quyền riêng tư</h3>
-              <p><strong>6.1.</strong> Việc thu thập, sử dụng, lưu trữ và chia sẻ dữ liệu cá nhân (nếu có) được thực hiện theo Chính sách bảo mật công bố trên Trang web.</p>
-              <p><strong>6.2.</strong> Hình ảnh, video, thông tin nhận diện học sinh chỉ được đăng tải khi đáp ứng điều kiện pháp luật và hướng dẫn của nhà trường; phụ huynh/người giám hộ có quyền đề nghị chỉnh sửa hoặc gỡ bỏ nội dung liên quan đến con em mình theo quy trình liên hệ tại Mục 14.</p>
+              <p><strong>6.1.</strong> Việc thu thập, sử dụng, lưu trữ và chia sẻ dữ liệu cá nhân (nếu có) được thực hiện theo <Link href="/chinh-sach-bao-mat" className="text-primary hover:underline">Chính sách bảo mật</Link> công bố trên Trang web.</p>
+              <p><strong>6.2.</strong> Hình ảnh, video, thông tin nhận diện học sinh chỉ được đăng tải khi đáp ứng điều kiện pháp luật và hướng dẫn của nhà trường; phụ huynh/người giám hộ có quyền đề nghị chỉnh sửa hoặc gỡ bỏ nội dung liên quan đến con em mình theo quy trình liên hệ tại Mục 15.</p>
               <p><strong>6.3.</strong> Chúng tôi có thể sử dụng cookie/technologies tương tự để cải thiện trải nghiệm; Người dùng có thể điều chỉnh trong phần cài đặt trình duyệt.</p>
             </div>
             <div className="space-y-2">
@@ -100,9 +101,9 @@ export default function TermsOfUsePage() {
               <p>Mọi thắc mắc, yêu cầu về quyền riêng tư, dữ liệu cá nhân hoặc đề nghị gỡ/chỉnh sửa nội dung, vui lòng liên hệ:</p>
               <ul className="list-none space-y-1 pl-2">
                 <li><strong>Đơn vị phụ trách:</strong> Liên đội THCS Trần Quang Khải</li>
-                <li><strong>Địa chỉ:</strong> [Địa chỉ nhà trường]</li>
-                <li><strong>Email:</strong> [Email liên hệ chính thức]</li>
-                <li><strong>Điện thoại:</strong> [Số điện thoại]</li>
+                <li><strong>Địa chỉ:</strong> 94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh</li>
+                <li><strong>Email:</strong> contact@ldtqk.website</li>
+                <li><strong>Điện thoại:</strong> (+84) 123 456 789</li>
               </ul>
             </div>
           </CardContent>
