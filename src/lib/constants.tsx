@@ -114,3 +114,69 @@ export const testimonials = [
     color: "primary",
   },
 ];
+
+export interface Event {
+  date: Date;
+  title: string;
+  description: string;
+  icon: 'birthday' | 'celebration' | 'meeting' | 'summary' | 'graduation' | 'default';
+  color: 'red' | 'yellow' | 'blue' | 'green' | 'purple';
+}
+
+// Helper to create date objects in GMT+7 timezone
+function createDate(year: number, month: number, day: number): Date {
+    // Month is 0-indexed in JavaScript Date
+    return new Date(Date.UTC(year, month - 1, day, 0, 0, 0) - 7 * 60 * 60 * 1000);
+}
+
+export const events: Event[] = [
+  {
+    date: createDate(2025, 5, 15),
+    title: "Kỷ Niệm 84 Năm Ngày Thành Lập Đội TNTP Hồ Chí Minh (15/5/1941 – 15/5/2025)",
+    description: "Chào mừng ngày truyền thống vẻ vang của Đội!",
+    icon: "birthday",
+    color: "red",
+  },
+  {
+    date: createDate(2025, 5, 19),
+    title: "Kỷ Niệm 135 Năm Sinh Chủ Tịch Hồ Chí Minh – Hội Thu Heo Đất",
+    description: "18g00: Chung Kết Kể Chuyện Bác Hồ",
+    icon: "celebration",
+    color: "yellow",
+  },
+  {
+    date: createDate(2025, 5, 25),
+    title: "Họp PHHS Khối 6, 7, 8",
+    description: "",
+    icon: "meeting",
+    color: "blue",
+  },
+  {
+    date: createDate(2025, 5, 26),
+    title: "Tổng Kết Lớp",
+    description: "",
+    icon: "summary",
+    color: "green",
+  },
+  {
+    date: createDate(2025, 5, 27),
+    title: "Bế Giảng & Lễ Tri Ân Trưởng Thành Khối 9",
+    description: "",
+    icon: "graduation",
+    color: "purple",
+  },
+   {
+    date: createDate(2025, 6, 1),
+    title: "Vui Tết Thiếu Nhi",
+    description: "Tổ chức các hoạt động vui chơi và tặng quà cho các em đội viên.",
+    icon: "birthday",
+    color: "red",
+  },
+  {
+    date: createDate(2025, 9, 5),
+    title: "Lễ Khai Giảng Năm Học Mới 2025-2026",
+    description: "Chào đón năm học mới với khí thế mới!",
+    icon: "celebration",
+    color: "yellow",
+  },
+];

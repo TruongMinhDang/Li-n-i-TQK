@@ -2,48 +2,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Cake, Star, Users, ListChecks, GraduationCap } from "lucide-react";
+import { Cake, Star, Users, ListChecks, GraduationCap, Calendar as CalendarIcon, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { events as allEvents, type Event } from "@/lib/constants";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
-const events = [
-  {
-    date: "15/05/2025",
-    title: "Kỷ Niệm 84 Năm Ngày Thành Lập Đội TNTP Hồ Chí Minh (15/5/1941 – 15/5/2025)",
-    description: "Chào mừng ngày truyền thống vẻ vang của Đội!",
-    icon: Cake,
-    color: "red",
-  },
-  {
-    date: "19/05/2025",
-    title: "Kỷ Niệm 135 Năm Sinh Chủ Tịch Hồ Chí Minh – Hội Thu Heo Đất",
-    description: "18g00: Chung Kết Kể Chuyện Bác Hồ",
-    icon: Star,
-    color: "yellow",
-  },
-  {
-    date: "25/05/2025",
-    title: "Họp PHHS Khối 6, 7, 8",
-    description: "",
-    icon: Users,
-    color: "blue",
-  },
-  {
-    date: "26/05/2025",
-    title: "Tổng Kết Lớp",
-    description: "",
-    icon: ListChecks,
-    color: "green",
-  },
-  {
-    date: "27/05/2025",
-    title: "Bế Giảng & Lễ Tri Ân Trưởng Thành Khối 9",
-    description: "",
-    icon: GraduationCap,
-    color: "purple",
-  },
-];
+const iconMap: { [key: string]: React.ElementType } = {
+  default: CalendarIcon,
+  birthday: Cake,
+  celebration: Star,
+  meeting: Users,
+  summary: ListChecks,
+  graduation: GraduationCap,
+};
 
-const colorClasses = {
+const colorClasses: { [key: string]: any } = {
   red: {
     border: "border-l-red-400",
     bg: "bg-gradient-to-r from-red-50 to-white dark:from-red-950/20 dark:to-transparent",
@@ -82,12 +56,20 @@ const colorClasses = {
 };
 
 export default function EventsPage() {
+    // GMT+7
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+    now.setHours(0, 0, 0, 0); // Start of the day
+
+    const upcomingEvents = allEvents
+        .filter(event => event.date >= now)
+        .sort((a, b) => a.date.getTime() - b.date.getTime());
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.15,
+            staggerChildren: 0.1,
             delayChildren: 0.2,
         },
         },
@@ -117,6 +99,14 @@ export default function EventsPage() {
         >
           Lịch Sự Kiện
         </motion.h1>
+         <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4"
+        >
+            Cập nhật những hoạt động và sự kiện mới nhất. Các sự kiện đã qua sẽ được tự động ẩn đi.
+        </motion.p>
       </section>
 
       <motion.section 
@@ -125,28 +115,43 @@ export default function EventsPage() {
         initial="hidden"
         animate="visible"
       >
-        {events.map((event, index) => {
-          const classes = colorClasses[event.color as keyof typeof colorClasses] || colorClasses.blue;
-          const Icon = event.icon;
-          return (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)" }}
-              transition={{ duration: 0.2 }}
-              className={cn("p-4 rounded-lg flex items-center gap-6 border-l-4", classes.border, classes.bg)}
-            >
-              <div className={cn("p-3 rounded-lg", classes.iconBg)}>
-                <Icon className={cn("h-8 w-8", classes.iconText)} />
-              </div>
-              <div className="flex-grow">
-                <p className={cn("font-bold", classes.dateText)}>{event.date}</p>
-                <h3 className="font-semibold text-foreground mt-1">{event.title}</h3>
-                {event.description && <p className="text-sm text-muted-foreground mt-1">{event.description}</p>}
-              </div>
-            </motion.div>
-          );
-        })}
+        {upcomingEvents.length > 0 ? (
+            upcomingEvents.map((event, index) => {
+                const classes = colorClasses[event.color] || colorClasses.blue;
+                const Icon = iconMap[event.icon] || iconMap.default;
+                const formattedDate = format(event.date, "dd/MM/yyyy", { locale: vi });
+
+                return (
+                    <motion.div
+                    key={index}
+                    variants={itemVariants}
+                    whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)" }}
+                    transition={{ duration: 0.2 }}
+                    className={cn("p-4 rounded-lg flex items-center gap-6 border-l-4", classes.border, classes.bg)}
+                    >
+                    <div className={cn("p-3 rounded-lg", classes.iconBg)}>
+                        <Icon className={cn("h-8 w-8", classes.iconText)} />
+                    </div>
+                    <div className="flex-grow">
+                        <p className={cn("font-bold", classes.dateText)}>{formattedDate}</p>
+                        <h3 className="font-semibold text-foreground mt-1">{event.title}</h3>
+                        {event.description && <p className="text-sm text-muted-foreground mt-1">{event.description}</p>}
+                    </div>
+                    </motion.div>
+                );
+            })
+        ) : (
+             <motion.div
+                variants={itemVariants}
+                className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed rounded-lg"
+             >
+                <AlertTriangle className="h-12 w-12 text-muted-foreground mb-4"/>
+                <h3 className="text-xl font-semibold text-foreground">Chưa có sự kiện mới</h3>
+                <p className="text-muted-foreground mt-2">
+                    Lịch sự kiện cho thời gian tới đang được cập nhật. Vui lòng quay lại sau!
+                </p>
+             </motion.div>
+        )}
       </motion.section>
     </div>
   );

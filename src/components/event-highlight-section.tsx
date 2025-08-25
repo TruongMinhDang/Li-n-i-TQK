@@ -5,26 +5,23 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Calendar, ChevronRight } from "lucide-react";
-
-const upcomingEvents = [
-  {
-    date: "19/05",
-    title: "Kỷ Niệm 135 Năm Sinh Chủ Tịch Hồ Chí Minh",
-  },
-  {
-    date: "27/05",
-    title: "Lễ Bế Giảng & Tri Ân Trưởng Thành Khối 9",
-  },
-  {
-    date: "01/06",
-    title: "Vui Tết Thiếu Nhi - Sinh Hoạt Hè",
-  },
-];
+import { ChevronRight } from "lucide-react";
+import { events as allEvents } from "@/lib/constants";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 export function EventHighlightSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+  now.setHours(0, 0, 0, 0);
+
+  const upcomingEvents = allEvents
+      .filter(event => event.date >= now)
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
+      .slice(0, 3);
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -102,8 +99,8 @@ export function EventHighlightSection() {
                   className="flex items-center gap-4 p-4 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
                 >
                   <div className="flex flex-col items-center justify-center bg-primary text-primary-foreground rounded-md p-2 w-16 h-16">
-                    <span className="text-2xl font-bold leading-none">{event.date.split('/')[0]}</span>
-                    <span className="text-xs font-semibold">Th {event.date.split('/')[1]}</span>
+                    <span className="text-2xl font-bold leading-none">{format(event.date, "dd")}</span>
+                    <span className="text-xs font-semibold">Th {format(event.date, "M")}</span>
                   </div>
                   <h3 className="font-semibold text-foreground">{event.title}</h3>
                 </motion.div>
