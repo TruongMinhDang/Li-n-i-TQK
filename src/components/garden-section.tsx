@@ -18,7 +18,7 @@ const gardenItems = [
   },
   { 
     ...gardenLinks[1], 
-    image: { src: "https://placehold.co/600x400.png", hint: "student receiving award" },
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/ChatGPT-Image-17_14_46-14-thg-5-2025.png?alt=media&token=5e96983b-c5b4-4e86-8c93-b9b757aeb492", hint: "student receiving award" },
     description: "Yêu quê, yêu nước sắt son,\nThương người như thể cội nguồn tổ tông.\nHọc chăm – rèn luyện thật lòng,\nChữ hay – nết thảo, chí hồng thẳng ngay.\nGiữ cho sạch sẽ mỗi ngày,\nSân trường rợp nắng, bàn tay dịu dàng.\nThật thà, dũng cảm vững vàng,\nKhiêm cung đứng giữa muôn vàn gió sương.\nÁo trắng khăn đỏ tinh hương,\nXứng danh cháu Bác, soi đường Đội ta."
   },
 ];
