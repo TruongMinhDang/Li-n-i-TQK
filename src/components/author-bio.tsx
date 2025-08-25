@@ -13,7 +13,7 @@ export function AuthorBio({ authorName }: AuthorBioProps) {
     const author = authors[authorName];
 
     if (!author) {
-        return null;
+        return <></>;
     }
 
     return (
