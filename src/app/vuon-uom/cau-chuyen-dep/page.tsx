@@ -1,40 +1,77 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { newsArticles } from "@/lib/constants";
 import Image from "next/image";
+import Link from "next/link";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Calendar, User } from "lucide-react";
 
 export default function BeautifulStoryPage() {
+  const category = "cau-chuyen-dep";
+  const categoryArticles = newsArticles
+    .filter((article) => article.category === category)
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
+
+  const categoryMap: {[key: string]: string} = {
+    'cau-chuyen-dep': 'Mỗi Tuần Một Câu Chuyện Đẹp'
+  };
+  const categoryName = categoryMap[category] || category;
+
   return (
     <div className="space-y-12">
       <section className="text-center">
         <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Mỗi Tuần Một Câu Chuyện Đẹp
+          {categoryName}
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
           Lan tỏa những hành động đẹp, những câu chuyện ý nghĩa và những tấm gương người tốt việc tốt.
         </p>
       </section>
-      <section className="flex justify-center">
-         <Card className="w-full max-w-4xl">
-          <CardHeader>
-            <Image
-              src="https://placehold.co/800x400.png"
-              alt="Câu chuyện đẹp"
-              data-ai-hint="helping others"
-              width={800}
-              height={400}
-              className="rounded-t-lg object-cover"
-            />
-            <CardTitle className="pt-4 font-headline text-2xl">Nhặt được của rơi, trả người đánh mất</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-muted-foreground">
-            <p>
-              Trên đường đi học về, em Nguyễn Văn An, học sinh lớp 8A1 đã nhặt được một chiếc ví chứa nhiều giấy tờ quan trọng và một số tiền lớn.
-            </p>
-            <p>
-              Không một chút do dự, An đã nhanh chóng mang chiếc ví đến đồn công an gần nhất để trình báo và nhờ các chú công an tìm người trả lại. Hành động của An là một tấm gương sáng về đức tính thật thà, trung thực, xứng đáng để các bạn đội viên khác noi theo.
-            </p>
-          </CardContent>
-        </Card>
-      </section>
+      
+      {categoryArticles.length > 0 ? (
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categoryArticles.map((article) => (
+            <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
+              <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <CardHeader className="p-0">
+                  <Image
+                    src={article.image.src}
+                    alt={article.title}
+                    data-ai-hint={article.image.hint}
+                    width={600}
+                    height={400}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </CardHeader>
+                <CardContent className="p-4 flex flex-col flex-grow">
+                  <CardTitle className="font-headline text-lg group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                    {article.title}
+                  </CardTitle>
+                  <CardDescription className="mt-2 text-sm line-clamp-3 flex-grow">
+                    {article.description}
+                  </CardDescription>
+                  <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground pt-4 border-t border-border">
+                    <div className="flex items-center gap-1.5">
+                      <User className="h-3.5 w-3.5" />
+                      <span>{article.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="h-3.5 w-3.5" />
+                      <time dateTime={article.date.toISOString()}>
+                        {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                      </time>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </section>
+      ) : (
+        <section className="text-center py-16">
+            <p className="text-muted-foreground">Chưa có bài viết nào trong chuyên mục này.</p>
+        </section>
+      )}
     </div>
   );
 }

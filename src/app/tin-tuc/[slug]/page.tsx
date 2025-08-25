@@ -13,6 +13,16 @@ export async function generateStaticParams() {
   }));
 }
 
+const categoryMap: {[key: string]: {name: string, href: string}} = {
+  'xay-dung-doi-vung-manh': { name: 'Xây Dựng Đội Vững Mạnh', href: '/hanh-trinh/xay-dung-doi-vung-manh' },
+  'lam-theo-loi-bac': { name: 'Làm theo lời Bác', href: '/hanh-trinh/lam-theo-loi-bac' },
+  'cung-tien-buoc-len-doan': { name: 'Cùng Tiến Bước Lên Đoàn', href: '/hanh-trinh/cung-tien-buoc-len-doan' },
+  'cau-chuyen-dep': { name: 'Mỗi Tuần Một Câu Chuyện Đẹp', href: '/vuon-uom/cau-chuyen-dep' },
+  'mang-non-tieu-bieu': { name: 'Măng Non Tiêu Biểu', href: '/vuon-uom/mang-non-tieu-bieu' },
+  'su-kien-noi-bat': { name: 'Sự Kiện Nổi Bật', href: '/lich-su-kien' }, // Example, adjust if needed
+};
+
+
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const article = newsArticles.find((article) => article.slug === params.slug);
 
@@ -20,12 +30,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     notFound();
   }
   
-  const categoryMap: {[key: string]: string} = {
-    'xay-dung-doi-vung-manh': 'Xây Dựng Đội Vững Mạnh'
-  };
+  const categoryInfo = categoryMap[article.category] || { name: article.category, href: '#' };
 
-  const categoryName = categoryMap[article.category] || article.category;
-  const categoryHref = `/hanh-trinh/${article.category}`;
 
   return (
     <article className="max-w-4xl mx-auto py-8">
@@ -46,8 +52,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           </div>
           <div className="flex items-center gap-2">
              <Tag className="h-4 w-4" />
-            <Link href={categoryHref} className="hover:text-primary transition-colors">
-                {categoryName}
+            <Link href={categoryInfo.href} className="hover:text-primary transition-colors">
+                {categoryInfo.name}
             </Link>
           </div>
         </div>

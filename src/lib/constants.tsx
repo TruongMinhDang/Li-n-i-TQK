@@ -118,6 +118,33 @@ export const newsArticles: NewsArticle[] = [
     image: { src: "https://placehold.co/600x400.png", hint: "student council meeting" },
     content: <p>Nội dung chi tiết về Đại Hội Liên Đội.</p>
   },
+  {
+    slug: "nhat-duoc-cua-roi",
+    category: "cau-chuyen-dep",
+    date: createNewsDate(2024, 10, 12),
+    author: "Nguyễn Văn An",
+    title: "Nhặt được của rơi, trả người đánh mất",
+    description: "Hành động đẹp của em Nguyễn Văn An, học sinh lớp 8A1, xứng đáng là tấm gương sáng cho các bạn đội viên noi theo.",
+    image: { src: "https://placehold.co/600x400.png", hint: "student returning lost wallet" },
+    content: <div className="space-y-4">
+            <p>
+              Trên đường đi học về, em Nguyễn Văn An, học sinh lớp 8A1 đã nhặt được một chiếc ví chứa nhiều giấy tờ quan trọng và một số tiền lớn.
+            </p>
+            <p>
+              Không một chút do dự, An đã nhanh chóng mang chiếc ví đến đồn công an gần nhất để trình báo và nhờ các chú công an tìm người trả lại. Hành động của An là một tấm gương sáng về đức tính thật thà, trung thực, xứng đáng để các bạn đội viên khác noi theo.
+            </p>
+          </div>
+  },
+   {
+    slug: "khen-thuong-mang-non-tieu-bieu",
+    category: "mang-non-tieu-bieu",
+    date: createNewsDate(2024, 10, 20),
+    author: "Ban Thi Đua",
+    title: "Khen thưởng các tấm gương 'Măng non tiêu biểu'",
+    description: "Liên đội tuyên dương các đội viên có thành tích xuất sắc trong học tập và rèn luyện trong học kỳ vừa qua.",
+    image: { src: "https://placehold.co/600x400.png", hint: "students receiving certificates" },
+    content: <p>Nội dung chi tiết về lễ khen thưởng.</p>
+  },
 ];
 
 

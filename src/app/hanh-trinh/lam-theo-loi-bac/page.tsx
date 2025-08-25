@@ -1,40 +1,77 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { newsArticles } from "@/lib/constants";
 import Image from "next/image";
+import Link from "next/link";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Calendar, User } from "lucide-react";
 
 export default function FollowingUnclesWordsPage() {
+  const category = "lam-theo-loi-bac";
+  const categoryArticles = newsArticles
+    .filter((article) => article.category === category)
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
+  
+  const categoryMap: {[key: string]: string} = {
+    'lam-theo-loi-bac': 'Làm theo lời Bác'
+  };
+  const categoryName = categoryMap[category] || category;
+
   return (
     <div className="space-y-12">
       <section className="text-center">
         <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Làm theo lời Bác
+          {categoryName}
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
           Những câu chuyện và hoạt động học tập, làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh.
         </p>
       </section>
-      <section className="flex justify-center">
-        <Card className="w-full max-w-4xl">
-          <CardHeader>
-            <Image
-              src="https://placehold.co/800x400.png"
-              alt="Học tập và làm theo lời Bác"
-              data-ai-hint="students studying history"
-              width={800}
-              height={400}
-              className="rounded-t-lg object-cover"
-            />
-            <CardTitle className="pt-4 font-headline text-2xl">Phong trào "Kế hoạch nhỏ"</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-muted-foreground">
-            <p>
-              Thực hiện lời dạy của Bác “Tuổi nhỏ làm việc nhỏ, tùy theo sức của mình”, phong trào “Kế hoạch nhỏ” đã trở thành một hoạt động quen thuộc, mang đậm dấu ấn của tổ chức Đội.
-            </p>
-            <p>
-              Liên đội THCS Trần Quang Khải đã tổ chức nhiều đợt thu gom giấy vụn, phế liệu, vừa góp phần bảo vệ môi trường, vừa gây quỹ để giúp đỡ các bạn đội viên có hoàn cảnh khó khăn, vươn lên trong học tập.
-            </p>
-          </CardContent>
-        </Card>
-      </section>
+      
+      {categoryArticles.length > 0 ? (
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categoryArticles.map((article) => (
+            <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
+              <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <CardHeader className="p-0">
+                  <Image
+                    src={article.image.src}
+                    alt={article.title}
+                    data-ai-hint={article.image.hint}
+                    width={600}
+                    height={400}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </CardHeader>
+                <CardContent className="p-4 flex flex-col flex-grow">
+                  <CardTitle className="font-headline text-lg group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                    {article.title}
+                  </CardTitle>
+                  <CardDescription className="mt-2 text-sm line-clamp-3 flex-grow">
+                    {article.description}
+                  </CardDescription>
+                  <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground pt-4 border-t border-border">
+                    <div className="flex items-center gap-1.5">
+                      <User className="h-3.5 w-3.5" />
+                      <span>{article.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="h-3.5 w-3.5" />
+                      <time dateTime={article.date.toISOString()}>
+                        {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                      </time>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </section>
+      ) : (
+        <section className="text-center py-16">
+            <p className="text-muted-foreground">Chưa có bài viết nào trong chuyên mục này.</p>
+        </section>
+      )}
     </div>
   );
 }
