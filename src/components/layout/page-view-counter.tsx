@@ -25,7 +25,7 @@ export default function PageViewCounter() {
 
     if (views === 0) {
         return (
-            <div className="flex items-center gap-1.5 text-slate-400">
+            <div className="flex items-center gap-1.5 text-primary/80">
                 <Eye className="h-3 w-3" />
                 <span>Lượt xem trang: ...</span>
             </div>
@@ -33,7 +33,7 @@ export default function PageViewCounter() {
     }
 
     return (
-        <div className="flex items-center gap-1.5 text-slate-400">
+        <div className="flex items-center gap-1.5 text-primary/80">
             <Eye className="h-3 w-3" />
             <span>Lượt xem trang: {views.toLocaleString()}</span>
         </div>
