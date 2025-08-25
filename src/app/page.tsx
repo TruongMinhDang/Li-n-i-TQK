@@ -11,45 +11,7 @@ import { BackpackSection } from '@/components/backpack-section';
 import { NewsSection } from '@/components/news-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { StatsSection } from '@/components/stats-section';
-
-const features = [
-  {
-    icon: <Handshake className="h-8 w-8 text-primary" />,
-    title: "Chúng Mình Là",
-    description: "Tìm hiểu về lịch sử, sứ mệnh và tầm nhìn của Liên đội THCS Trần Quang Khải.",
-    href: "/chung-minh-la",
-  },
-  {
-    icon: <Rss className="h-8 w-8 text-destructive" />,
-    title: "Hành Trình",
-    description: "Khám phá các hoạt động, sự kiện và phong trào sôi nổi của chúng tôi.",
-    href: "/hanh-trinh",
-  },
-  {
-    icon: <Star className="h-8 w-8 text-warning" />,
-    title: "Vườn Ươm",
-    description: "Vinh danh những tấm gương đội viên tiêu biểu và các việc làm ý nghĩa.",
-    href: "/vuon-uom",
-  },
-  {
-    icon: <BookOpen className="h-8 w-8 text-success" />,
-    title: "Balo",
-    description: "Kho tàng tài liệu, biểu mẫu và kiến thức dành cho đội viên.",
-    href: "/balo",
-  },
-  {
-    icon: <Calendar className="h-8 w-8 text-warning" />,
-    title: "Lịch sự kiện",
-    description: "Đừng bỏ lỡ bất kỳ sự kiện quan trọng nào của Liên đội.",
-    href: "/lich-su-kien",
-  },
-  {
-    icon: <Gift className="h-8 w-8 text-accent" />,
-    title: "Gửi lời chúc",
-    description: "Gửi những lời chúc tốt đẹp và ý nghĩa đến bạn bè và thầy cô.",
-    href: "/gui-loi-chuc",
-  },
-];
+import { EventHighlightSection } from '@/components/event-highlight-section';
 
 export default function Home() {
   return (
@@ -84,24 +46,7 @@ export default function Home() {
 
       <StatsSection />
 
-      <section className="w-full py-12 md:py-16 lg:py-20 text-center">
-        <div className="container px-4 md:px-6">
-          <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl gradient-text mb-4">
-            Liên đội THCS Trần Quang Khải
-          </h1>
-          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mb-8">
-            Nơi chắp cánh ước mơ, rèn luyện đội viên ưu tú.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Button asChild>
-              <Link href="/hanh-trinh">Khám phá hoạt động</Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="/lien-he">Liên hệ</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <EventHighlightSection />
     </div>
   );
 }

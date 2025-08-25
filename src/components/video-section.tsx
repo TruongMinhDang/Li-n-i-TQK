@@ -30,7 +30,7 @@ export function VideoSection() {
 
   return (
     <section ref={ref} className="w-full py-12 md:py-24 lg:py-32">
-        <div className="bg-white/50 dark:bg-black/10 rounded-lg p-8">
+        <div className="bg-secondary/30 rounded-lg p-8">
             <div className="container grid items-center gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
                 <motion.div
                 initial="hidden"
