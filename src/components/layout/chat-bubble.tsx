@@ -100,7 +100,7 @@ export function ChatBubble() {
              transition={{ duration: 0.3, ease: "easeOut" }}
              className="fixed bottom-5 right-5 z-[60] w-full max-w-sm"
           >
-             <div className="p-1 animated-gradient-frame rounded-2xl shadow-2xl">
+             <div className="p-1 chat-gradient-frame rounded-2xl shadow-2xl">
                 <Card className="h-[600px] flex flex-col rounded-xl">
                   <CardHeader className="flex flex-row items-center justify-between bg-secondary">
                     <CardTitle className="text-lg font-bold">Chiêu Minh</CardTitle>

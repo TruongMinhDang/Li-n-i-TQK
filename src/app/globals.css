@@ -162,17 +162,15 @@
     animation: gradient-animation 8s linear infinite;
   }
   
-  .animated-gradient-frame {
+  .chat-gradient-frame {
     background: linear-gradient(
-      90deg,
-      #3b82f6, /* blue-500 */
-      #10b981, /* green-500 */
-      #f59e0b, /* yellow-500 */
-      #e5e7eb, /* slate-200 */
-      #3b82f6
+      120deg,
+      hsl(var(--primary)),
+      hsl(var(--success)),
+      hsl(var(--primary))
     );
     background-size: 200% 200%;
-    animation: gradient-animation 8s linear infinite;
+    animation: gradient-animation 6s linear infinite;
   }
 
   @keyframes jump {
