@@ -4,6 +4,7 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X, Send, User, Bot, Loader2, Link as LinkIcon } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
@@ -95,10 +96,16 @@ export function ChatBubble() {
           <Button
             onClick={toggleChat}
             size="icon"
-            className="rounded-full h-14 w-14 bg-blue-600 hover:bg-blue-700 shadow-lg"
+            className="rounded-full h-16 w-16 bg-blue-600 hover:bg-blue-700 shadow-lg p-0 overflow-hidden"
             aria-label="Mở Chatbot"
           >
-            <MessageCircle className="h-7 w-7 text-white" />
+            <Image 
+                src="https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/chi%C3%AAu%20minh%202%20mascot.png?alt=media&token=f830ea79-998d-40fb-91bb-4b7b5ed885c1"
+                alt="Chatbot Mascot"
+                width={64}
+                height={64}
+                className="object-cover"
+            />
           </Button>
         </motion.div>
       </div>
