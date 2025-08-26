@@ -25,14 +25,24 @@ export default function Home() {
         <section className="w-full pt-8 pb-12 text-center">
             <div className="container px-4 md:px-6">
                 <div className="mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M19.98 5.91A1 1 0 0 0 19 5h-1.35a7.42 7.42 0 0 0-1.34-3.13 1 1 0 1 0-1.62 1.15A5.5 5.5 0 0 1 15.65 5H9.37A5.5 5.5 0 0 1 10.3 3a1 1 0 1 0-1.62-1.19A7.41 7.41 0 0 0 7.35 5H6a1 1 0 0 0 0 2h1v1a1 1 0 0 0 2 0V7h5a1 1 0 0 0 .7-1.71 3.53 3.53 0 0 0-2.58-1.28L12 16H8a1 1 0 0 0 0 2h5a1 1 0 0 0 .89-.55l.29-.68.12-.29a1 1 0 0 0-.17-1.12L13.29 14H16a5 5 0 0 0 5-5V7h1a1 1 0 0 0 .98-1.09z"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-12 w-12 mx-auto text-destructive animate-pop-in"
+                      viewBox="0 0 100 125"
+                      fill="currentColor"
+                      style={{ animationDelay: '0s' }}
+                    >
+                      <path d="M50 6.2c-12.9 0-23.4 10.5-23.4 23.4s10.5 23.4 23.4 23.4 23.4-10.5 23.4-23.4S62.9 6.2 50 6.2zm0 41.8c-10.2 0-18.4-8.2-18.4-18.4S39.8 11.2 50 11.2s18.4 8.2 18.4 18.4-8.2 18.4-18.4 18.4z" />
+                      <path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm25.9 83.4l-4.2-2.4c-1-3-2.4-5.8-4.3-8.4l-1.9 3.9c-2.1 4.3-4.9 8.2-8.4 11.4l-3.3 3.1-3.3-3.1c-3.4-3.2-6.2-7.1-8.4-11.4l-1.9-3.9c-1.9 2.6-3.3 5.4-4.3 8.4l-4.2 2.4c-2.4-5.3-3.7-11.1-3.7-17.1V29.6h3.7v36.8c0 9.2 3.1 17.8 8.4 24.3l.8-1.7c.9-1.9 1.9-3.7 3.1-5.4h11.9c1.2 1.7 2.2 3.5 3.1 5.4l.8 1.7c5.3-6.5 8.4-15.1 8.4-24.3V29.6h3.7v36.8c0 6-1.3 11.8-3.7 17z" />
+                      <path d="M50 21.2c-4.6 0-8.4 3.8-8.4 8.4s3.8 8.4 8.4 8.4 8.4-3.8 8.4-8.4-3.8-8.4-8.4-8.4z" />
+                    </svg>
                 </div>
                 <h2 className="text-xl md:text-2xl font-bold tracking-wide leading-relaxed text-foreground font-headline space-x-2">
                   {heroText.map((word, index) => (
                     <span
                       key={index}
                       className="inline-block animate-pop-in"
-                      style={{ animationDelay: `${index * 0.15}s` }}
+                      style={{ animationDelay: `${(index + 1) * 0.15}s` }}
                     >
                       {word}
                     </span>
