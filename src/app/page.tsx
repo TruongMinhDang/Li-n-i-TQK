@@ -14,13 +14,24 @@ import { StatsSection } from '@/components/stats-section';
 import { EventHighlightSection } from '@/components/event-highlight-section';
 
 const BouncingWord = ({ children, delay }: { children: React.ReactNode, delay: string }) => (
-  <span className={`inline-block animate-jump ${delay}`}>{children}</span>
+  <span className={`inline-block animate-jump opacity-0 ${delay}`}>{children}</span>
 );
 
 export default function Home() {
   const line1 = "Đi Ta Đi Lên Nối Tiếp Bao Anh Hùng".split(" ");
   const line2 = "Tiếng Kèn Vang Vang Giục Giã Thiếu Niên Nhi Đồng".split(" ");
   const line3 = "Tiến Theo Lá Cờ Đội Hồ Chí Minh Quang Vinh....".split(" ");
+
+  let cumulativeDelay = 0;
+
+  const renderLine = (line: string[], initialDelay: number) => {
+    const elements = line.map((word, i) => {
+      const delay = `animation-delay-${initialDelay * 100 + i * 100}`;
+      return <BouncingWord key={i} delay={delay}>{word}&nbsp;</BouncingWord>;
+    });
+    cumulativeDelay += line.length;
+    return elements;
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -31,16 +42,16 @@ export default function Home() {
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold tracking-wide leading-relaxed text-foreground">
                   <div>
-                    {line1.map((word, i) => <BouncingWord key={i} delay={`animation-delay-${i*100}`}>{word}&nbsp;</BouncingWord>)}
-                    <Music className="inline-block h-6 w-6 text-pink-500 animate-note-jump animation-delay-100" />
+                    {renderLine(line1, 0)}
+                    <Music className="inline-block h-6 w-6 text-pink-500 animate-note-jump" style={{animationDelay: `${line1.length * 100}ms`}} />
                   </div>
                   <div>
-                    {line2.map((word, i) => <BouncingWord key={i} delay={`animation-delay-${(i+line1.length)*100}`}>{word}&nbsp;</BouncingWord>)}
-                     <Music className="inline-block h-6 w-6 text-purple-500 animate-note-jump animation-delay-300" />
+                    {renderLine(line2, line1.length)}
+                     <Music className="inline-block h-6 w-6 text-purple-500 animate-note-jump" style={{animationDelay: `${(line1.length + line2.length) * 100}ms`}} />
                   </div>
                    <div>
-                    {line3.map((word, i) => <BouncingWord key={i} delay={`animation-delay-${(i+line1.length+line2.length)*100}`}>{word}&nbsp;</BouncingWord>)}
-                     <Music className="inline-block h-6 w-6 text-red-500 animate-note-jump animation-delay-500" />
+                    {renderLine(line3, line1.length + line2.length)}
+                     <Music className="inline-block h-6 w-6 text-red-500 animate-note-jump" style={{animationDelay: `${(line1.length + line2.length + line3.length) * 100}ms`}}/>
                   </div>
                 </h2>
             </div>
