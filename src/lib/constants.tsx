@@ -294,3 +294,33 @@ export const authors: { [key: string]: Author } = {
         bio: 'Ban Thi Đua theo dõi, đánh giá và vinh danh các cá nhân, tập thể có thành tích xuất sắc, tạo động lực thi đua sôi nổi trong toàn Liên đội.',
     },
 };
+
+export const podcasts = [
+  {
+    episodeNumber: 1,
+    title: "Tập 1: Lời chào từ Nhà Xanh",
+    releaseDate: "15/08/2024",
+    description: "Tập đầu tiên ra mắt, giới thiệu về kênh podcast và những câu chuyện sắp tới.",
+    image: { src: "https://placehold.co/600x400.png", hint: "microphone podcast" },
+    duration: "15:30",
+    audioSrc: "https://file-examples.com/storage/fe92e8a5776269400262145/2017/11/file_example_MP3_700KB.mp3",
+  },
+  {
+    episodeNumber: 2,
+    title: "Tập 2: Kể chuyện tấm gương đạo đức Bác Hồ",
+    releaseDate: "22/08/2024",
+    description: "Cùng lắng nghe những câu chuyện cảm động và ý nghĩa về Bác.",
+    image: { src: "https://placehold.co/600x400.png", hint: "history book" },
+    duration: "22:10",
+    audioSrc: "https://file-examples.com/storage/fe92e8a5776269400262145/2017/11/file_example_MP3_700KB.mp3",
+  },
+  {
+    episodeNumber: 3,
+    title: "Tập 3: Kỹ năng mềm cho đội viên",
+    releaseDate: "29/08/2024",
+    description: "Khám phá những kỹ năng cần thiết cho đội viên trong thời đại mới.",
+    image: { src: "https://placehold.co/600x400.png", hint: "students teamwork" },
+    duration: "18:45",
+    audioSrc: "https://file-examples.com/storage/fe92e8a5776269400262145/2017/11/file_example_MP3_700KB.mp3",
+  },
+];
