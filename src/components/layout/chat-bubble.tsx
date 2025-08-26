@@ -100,63 +100,65 @@ export function ChatBubble() {
              transition={{ duration: 0.3, ease: "easeOut" }}
              className="fixed bottom-5 right-5 z-[60] w-full max-w-sm"
           >
-            <Card className="h-[600px] flex flex-col shadow-2xl">
-              <CardHeader className="flex flex-row items-center justify-between bg-secondary">
-                <CardTitle className="text-lg font-bold">Chiêu Minh</CardTitle>
-                <Button variant="ghost" size="icon" onClick={toggleChat}>
-                  <X className="h-4 w-4" />
-                </Button>
-              </CardHeader>
-              <CardContent className="flex-1 p-0 overflow-y-auto">
-                 <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
-                    <div className="flex flex-col gap-4">
-                        {messages.map((msg, index) => (
-                            <div key={index} className={`flex items-start gap-2.5 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
-                               {msg.sender === 'bot' && <div className="p-2 rounded-full bg-primary text-primary-foreground"><Bot className="h-5 w-5"/></div>}
-                                <div className={`flex flex-col gap-1 w-full max-w-[320px] ${msg.sender === 'user' ? 'items-end' : ''}`}>
-                                    <div className={`flex flex-col leading-1.5 p-3 border-gray-200 ${msg.sender === 'user' ? 'rounded-e-xl rounded-es-xl bg-primary text-primary-foreground' : 'rounded-s-xl rounded-ee-xl bg-muted'}`}>
-                                        <p className="text-sm font-normal">{msg.text}</p>
-                                    </div>
-                                    {msg.sources && msg.sources.length > 0 && (
-                                        <div className="flex flex-wrap gap-1.5 mt-1">
-                                            <p className="text-xs text-muted-foreground">Nguồn:</p>
-                                            {msg.sources.map((source, i) => (
-                                                <Badge key={i} variant="secondary" className="hover:bg-secondary/80">
-                                                    <Link href={source.url} target="_blank" className="flex items-center gap-1">
-                                                        <LinkIcon className="h-3 w-3"/>
-                                                        {source.title}
-                                                    </Link>
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                                {msg.sender === 'user' && <div className="p-2 rounded-full bg-secondary text-secondary-foreground"><User className="h-5 w-5"/></div>}
-                            </div>
-                        ))}
-                         {isLoading && (
-                            <div className="flex items-center justify-center p-4">
-                               <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                            </div>
-                        )}
-                    </div>
-                 </ScrollArea>
-              </CardContent>
-              <CardFooter className="p-4 border-t">
-                <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
-                    <Input 
-                        placeholder="Hỏi Chiêu Minh điều gì đó..." 
-                        className="flex-1"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        disabled={isLoading}
-                    />
-                    <Button type="submit" size="icon" disabled={isLoading || !inputValue.trim()}>
-                        <Send className="h-4 w-4" />
+             <div className="p-1 animated-gradient-frame rounded-2xl shadow-2xl">
+                <Card className="h-[600px] flex flex-col rounded-xl">
+                  <CardHeader className="flex flex-row items-center justify-between bg-secondary">
+                    <CardTitle className="text-lg font-bold">Chiêu Minh</CardTitle>
+                    <Button variant="ghost" size="icon" onClick={toggleChat}>
+                      <X className="h-4 w-4" />
                     </Button>
-                </form>
-              </CardFooter>
-            </Card>
+                  </CardHeader>
+                  <CardContent className="flex-1 p-0 overflow-y-auto">
+                    <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
+                        <div className="flex flex-col gap-4">
+                            {messages.map((msg, index) => (
+                                <div key={index} className={`flex items-start gap-2.5 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
+                                  {msg.sender === 'bot' && <div className="p-2 rounded-full bg-primary text-primary-foreground"><Bot className="h-5 w-5"/></div>}
+                                    <div className={`flex flex-col gap-1 w-full max-w-[320px] ${msg.sender === 'user' ? 'items-end' : ''}`}>
+                                        <div className={`flex flex-col leading-1.5 p-3 border-gray-200 ${msg.sender === 'user' ? 'rounded-e-xl rounded-es-xl bg-primary text-primary-foreground' : 'rounded-s-xl rounded-ee-xl bg-muted'}`}>
+                                            <p className="text-sm font-normal">{msg.text}</p>
+                                        </div>
+                                        {msg.sources && msg.sources.length > 0 && (
+                                            <div className="flex flex-wrap gap-1.5 mt-1">
+                                                <p className="text-xs text-muted-foreground">Nguồn:</p>
+                                                {msg.sources.map((source, i) => (
+                                                    <Badge key={i} variant="secondary" className="hover:bg-secondary/80">
+                                                        <Link href={source.url} target="_blank" className="flex items-center gap-1">
+                                                            <LinkIcon className="h-3 w-3"/>
+                                                            {source.title}
+                                                        </Link>
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                    {msg.sender === 'user' && <div className="p-2 rounded-full bg-secondary text-secondary-foreground"><User className="h-5 w-5"/></div>}
+                                </div>
+                            ))}
+                            {isLoading && (
+                                <div className="flex items-center justify-center p-4">
+                                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                </div>
+                            )}
+                        </div>
+                    </ScrollArea>
+                  </CardContent>
+                  <CardFooter className="p-4 border-t">
+                    <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
+                        <Input 
+                            placeholder="Hỏi Chiêu Minh điều gì đó..." 
+                            className="flex-1"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            disabled={isLoading}
+                        />
+                        <Button type="submit" size="icon" disabled={isLoading || !inputValue.trim()}>
+                            <Send className="h-4 w-4" />
+                        </Button>
+                    </form>
+                  </CardFooter>
+                </Card>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

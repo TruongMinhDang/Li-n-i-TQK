@@ -28,7 +28,7 @@ type ContentIndex = z.infer<typeof contentIndexSchema>;
 const knowledgeBase: ContentIndex[] = [
   // Main pages
   { title: 'Nhà Xanh', description: 'Trang chủ của Liên đội THCS Trần Quang Khải.', url: '/', keywords: 'trang chủ nhà xanh' },
-  { title: 'Chúng Mình Là', description: 'Tìm hiểu về lịch sử, sứ mệnh và tầm nhìn của Liên đội.', url: '/chung-minh-la', keywords: 'giới thiệu về chúng tôi lịch sử' },
+  { title: 'Chúng Mình Là', description: 'Tìm hiểu về lịch sử, sứ mệnh và tầm nhìn của Liên đội.', url: '/chung-minh-la', keywords: 'giới thiệu về chúng tôi lịch sử trường' },
   { title: 'Liên hệ', description: 'Thông tin liên hệ của Liên đội.', url: '/lien-he', keywords: 'địa chỉ email điện thoại' },
   { title: 'Gửi lời chúc', description: 'Gửi những lời chúc tốt đẹp đến bạn bè và thầy cô.', url: '/gui-loi-chuc', keywords: 'lời chúc' },
   { title: 'Lịch sự kiện', description: 'Theo dõi các hoạt động sắp tới của Liên đội.', url: '/lich-su-kien', keywords: 'sự kiện lịch' },
@@ -48,7 +48,7 @@ const knowledgeBase: ContentIndex[] = [
 
   // Balo
   { title: 'Balo', description: 'Hành trang số với đầy đủ tài liệu, kế hoạch và kiến thức.', url: '/balo', keywords: 'tài liệu' },
-  { title: 'Chiêu Minh Hội Quán', description: 'Nơi giao lưu, học hỏi và chia sẻ kinh nghiệm của các thế hệ chỉ huy Đội.', url: '/balo/chieu-minh-hoi-quan', keywords: 'chỉ huy đội giao lưu' },
+  { title: 'Chiêu Minh Hội Quán', description: 'Nơi giao lưu, học hỏi và chia sẻ kinh nghiệm của các thế hệ chỉ huy Đội. Chiêu Minh có nghĩa là người lãnh đạo sáng suốt, kế thừa và phát huy những giá trị tốt đẹp.', url: '/balo/chieu-minh-hoi-quan', keywords: 'chỉ huy đội giao lưu chiêu minh nghĩa là gì' },
   { title: 'Kế Hoạch', description: 'Tổng hợp các kế hoạch, chương trình hành động của Liên đội.', url: '/balo/ke-hoach', keywords: 'kế hoạch năm học' },
   { title: 'Tài Liệu', description: 'Kho tài liệu, văn bản và biểu mẫu cần thiết cho hoạt động Đội.', url: '/balo/tai-lieu', keywords: 'điều lệ đội biểu mẫu' },
   { title: 'Kỷ Yếu', description: 'Lưu giữ những khoảnh khắc, những kỷ niệm đẹp.', url: '/balo/ky-yeu', keywords: 'kỷ yếu trại hè' },
@@ -73,16 +73,38 @@ const knowledgeBase: ContentIndex[] = [
   }))
 ];
 
-// Simple search function to retrieve relevant documents
+// Enhanced search function with basic keyword tokenization
 const retrieveContext = (query: string): ContentIndex[] => {
-    const lowerCaseQuery = query.toLowerCase();
-    // A simple keyword-matching retrieval strategy
-    return knowledgeBase.filter(item => 
-        item.title.toLowerCase().includes(lowerCaseQuery) ||
-        item.description.toLowerCase().includes(lowerCaseQuery) ||
-        item.keywords.toLowerCase().includes(lowerCaseQuery) ||
-        (item.content && item.content.toLowerCase().includes(lowerCaseQuery))
-    ).slice(0, 5); // Return top 5 relevant documents
+    const queryTokens = query.toLowerCase().split(/\s+/).filter(token => token.length > 1); // Split query into words
+    
+    const scoredItems = knowledgeBase.map(item => {
+        const contentTokens = new Set([
+            ...item.title.toLowerCase().split(/\s+/),
+            ...item.description.toLowerCase().split(/\s+/),
+            ...item.keywords.toLowerCase().split(/\s+/),
+            ...(item.content ? item.content.toLowerCase().split(/\s+/) : [])
+        ]);
+
+        let score = 0;
+        for (const token of queryTokens) {
+            if (contentTokens.has(token)) {
+                score++;
+            }
+        }
+
+        // Boost score for title matches
+        if (queryTokens.some(token => item.title.toLowerCase().includes(token))) {
+            score += 2;
+        }
+
+        return { item, score };
+    });
+
+    return scoredItems
+        .filter(x => x.score > 0) // Only return items with a match
+        .sort((a, b) => b.score - a.score) // Sort by score
+        .slice(0, 5) // Return top 5
+        .map(x => x.item);
 };
 
 
