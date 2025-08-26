@@ -169,7 +169,7 @@ export function SiteHeader() {
           </Link>
           
           <div className="flex items-center gap-2">
-            <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1 font-body">
+            <nav className="flex items-center space-x-1 rounded-lg bg-secondary/50 p-1">
                {navLinks.map((link) => renderNavLink(link))}
             </nav>
             <div className="ml-2 w-48">

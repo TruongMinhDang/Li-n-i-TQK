@@ -1,4 +1,5 @@
 import type {Config} from 'tailwindcss';
+import {fontFamily} from 'tailwindcss/defaultTheme';
 
 export default {
   darkMode: ['class'],
@@ -35,7 +36,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Roboto', 'sans-serif'],
+        sans: ['Roboto', ...fontFamily.sans],
         headline: ['Montserrat', 'sans-serif'],
         display: ['Pacifico', 'cursive'],
         slogan: ['"Dancing Script"', 'cursive'],
