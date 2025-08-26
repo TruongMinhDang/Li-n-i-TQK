@@ -147,118 +147,26 @@
     padding: 1px;
   }
 
-  @keyframes jump {
-    0% {
-      transform: translateY(0);
-      opacity: 0;
-    }
-    25% {
-      transform: translateY(-15px);
-      opacity: 1;
-    }
-    75% {
-      transform: translateY(-15px);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
   }
 
-  .animate-jump {
-    animation: jump 0.8s ease-in-out forwards;
-  }
-  
-  @keyframes note-jump {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: hsl(var(--primary)); }
   }
 
-  .animate-note-jump {
-    animation: note-jump 1.5s ease-in-out infinite;
+  .typewriter {
+    overflow: hidden;
+    border-right: 0.15em solid hsl(var(--primary));
+    white-space: nowrap;
+    margin: 0 auto;
+    animation:
+      typing 2s steps(40, end),
+      blink-caret .75s step-end infinite;
+    animation-fill-mode: forwards;
   }
-
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-  .animation-delay-500 {
-    animation-delay: 500ms;
-  }
-  .animation-delay-600 {
-    animation-delay: 600ms;
-  }
-  .animation-delay-700 {
-    animation-delay: 700ms;
-  }
-  .animation-delay-800 {
-    animation-delay: 800ms;
-  }
-  .animation-delay-900 {
-    animation-delay: 900ms;
-  }
-  .animation-delay-1000 {
-    animation-delay: 1000ms;
-  }
-  .animation-delay-1100 {
-    animation-delay: 1100ms;
-  }
-  .animation-delay-1200 {
-    animation-delay: 1200ms;
-  }
-  .animation-delay-1300 {
-    animation-delay: 1300ms;
-  }
-  .animation-delay-1400 {
-    animation-delay: 1400ms;
-  }
-  .animation-delay-1500 {
-    animation-delay: 1500ms;
-  }
-  .animation-delay-1600 {
-    animation-delay: 1600ms;
-  }
-  .animation-delay-1700 {
-    animation-delay: 1700ms;
-  }
-  .animation-delay-1800 {
-    animation-delay: 1800ms;
-  }
-  .animation-delay-1900 {
-    animation-delay: 1900ms;
-  }
-  .animation-delay-2000 {
-    animation-delay: 2000ms;
-  }
-  .animation-delay-2100 {
-    animation-delay: 2100ms;
-  }
-  .animation-delay-2200 {
-    animation-delay: 2200ms;
-  }
-  .animation-delay-2300 {
-    animation-delay: 2300ms;
-  }
-  .animation-delay-2400 {
-    animation-delay: 2400ms;
-  }
-  .animation-delay-2500 {
-    animation-delay: 2500ms;
-  }
-
 
   .chat-bubble-user {
     @apply bg-primary text-primary-foreground rounded-lg p-2 max-w-xs self-end;
