@@ -25,7 +25,9 @@ const EpisodeCard = ({ episode }: { episode: (typeof podcasts)[0] }) => {
         <audio controls className="w-full h-10" src={episode.audioSrc}>
             Your browser does not support the audio element.
         </audio>
-        <Button variant="link" size="sm" className="px-0">Xem chi tiết</Button>
+        <Button variant="link" size="sm" asChild className="px-0">
+            <Link href={`/podcast/${episode.slug}`}>Xem chi tiết</Link>
+        </Button>
       </div>
     </div>
   );

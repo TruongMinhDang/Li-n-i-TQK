@@ -295,30 +295,44 @@ export const authors: { [key: string]: Author } = {
     },
 };
 
-export const podcasts = [
+export interface Podcast {
+  slug: string;
+  episodeNumber: number;
+  title: string;
+  releaseDate: string;
+  description: string;
+  image: { src: string; hint: string };
+  duration: string;
+  audioSrc: string;
+}
+
+export const podcasts: Podcast[] = [
   {
+    slug: "tap-1-loi-chao-tu-nha-xanh",
     episodeNumber: 1,
     title: "Tập 1: Lời chào từ Nhà Xanh",
     releaseDate: "15/08/2024",
-    description: "Tập đầu tiên ra mắt, giới thiệu về kênh podcast và những câu chuyện sắp tới.",
+    description: "Tập đầu tiên ra mắt, giới thiệu về kênh podcast và những câu chuyện sắp tới. Cùng khám phá những điều thú vị đang chờ đón bạn trong các số tiếp theo của Nhà Xanh Radio!",
     image: { src: "https://placehold.co/600x400.png", hint: "microphone podcast" },
     duration: "15:30",
     audioSrc: "https://file-examples.com/storage/fe92e8a5776269400262145/2017/11/file_example_MP3_700KB.mp3",
   },
   {
+    slug: "tap-2-ke-chuyen-tam-guong-bac-ho",
     episodeNumber: 2,
     title: "Tập 2: Kể chuyện tấm gương đạo đức Bác Hồ",
     releaseDate: "22/08/2024",
-    description: "Cùng lắng nghe những câu chuyện cảm động và ý nghĩa về Bác.",
+    description: "Cùng lắng nghe những câu chuyện cảm động và ý nghĩa về Bác. Mỗi câu chuyện là một bài học quý giá về đạo đức, lối sống giản dị và tình yêu thương bao la của Người.",
     image: { src: "https://placehold.co/600x400.png", hint: "history book" },
     duration: "22:10",
     audioSrc: "https://file-examples.com/storage/fe92e8a5776269400262145/2017/11/file_example_MP3_700KB.mp3",
   },
   {
+    slug: "tap-3-ky-nang-mem-cho-doi-vien",
     episodeNumber: 3,
     title: "Tập 3: Kỹ năng mềm cho đội viên",
     releaseDate: "29/08/2024",
-    description: "Khám phá những kỹ năng cần thiết cho đội viên trong thời đại mới.",
+    description: "Khám phá những kỹ năng cần thiết cho đội viên trong thời đại mới. Từ kỹ năng giao tiếp, làm việc nhóm đến giải quyết vấn đề, chúng ta sẽ cùng nhau trang bị hành trang vững chắc cho tương lai.",
     image: { src: "https://placehold.co/600x400.png", hint: "students teamwork" },
     duration: "18:45",
     audioSrc: "https://file-examples.com/storage/fe92e8a5776269400262145/2017/11/file_example_MP3_700KB.mp3",
