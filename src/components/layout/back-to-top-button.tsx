@@ -40,7 +40,7 @@ export function BackToTopButton() {
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }}
           whileHover={{ rotate: 360, scale: 1.1 }}
-          className="fixed bottom-5 right-5 z-50"
+          className="fixed bottom-8 right-5 z-50"
         >
           <Button
             onClick={scrollToTop}

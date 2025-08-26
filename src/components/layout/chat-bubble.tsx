@@ -82,7 +82,7 @@ export function ChatBubble() {
 
   return (
     <>
-      <div className="fixed bottom-20 right-5 z-50">
+      <div className="fixed bottom-24 right-5 z-50">
           <Button
             onClick={toggleChat}
             size="icon"
@@ -107,7 +107,7 @@ export function ChatBubble() {
              animate={{ opacity: 1, y: 0, scale: 1 }}
              exit={{ opacity: 0, y: 50, scale: 0.9 }}
              transition={{ duration: 0.3, ease: "easeOut" }}
-             className="fixed bottom-5 right-5 z-[60] w-full max-w-sm"
+             className="fixed bottom-8 right-5 z-[60] w-full max-w-sm"
           >
              <div className="p-0.5 chat-gradient-frame rounded-2xl shadow-2xl">
                 <Card className="h-[600px] flex flex-col rounded-[15px]">
