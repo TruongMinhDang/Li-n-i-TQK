@@ -18,6 +18,18 @@ interface Message {
     sources?: ChatOutput['sources'];
 }
 
+// Helper function to parse simple Markdown (bold)
+const renderMessage = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        return part;
+    });
+};
+
+
 export function ChatBubble() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -116,7 +128,7 @@ export function ChatBubble() {
                                   {msg.sender === 'bot' && <div className="p-2 rounded-full bg-primary text-primary-foreground"><Bot className="h-5 w-5"/></div>}
                                     <div className={`flex flex-col gap-1 w-full max-w-[320px] ${msg.sender === 'user' ? 'items-end' : ''}`}>
                                         <div className={`flex flex-col leading-1.5 p-3 border-gray-200 ${msg.sender === 'user' ? 'rounded-e-xl rounded-es-xl bg-primary text-primary-foreground' : 'rounded-s-xl rounded-ee-xl bg-muted'}`}>
-                                            <p className="text-sm font-normal">{msg.text}</p>
+                                            <p className="text-sm font-normal">{renderMessage(msg.text)}</p>
                                         </div>
                                         {msg.sources && msg.sources.length > 0 && (
                                             <div className="flex flex-wrap gap-1.5 mt-1">
