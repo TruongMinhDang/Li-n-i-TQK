@@ -30,7 +30,7 @@ export function ChatBubble() {
     if (!isChatOpen && messages.length === 0) {
         // Add initial bot message when chat opens for the first time
         setMessages([
-            { sender: 'bot', text: 'Xin chào! Tôi là trợ lý AI của Liên đội. Bạn cần tìm hiểu thông tin gì?' }
+            { sender: 'bot', text: 'Chào bồ, tớ là Chiêu Minh đây! Bồ cần tớ giúp gì không nè?' }
         ]);
     }
   };
@@ -102,7 +102,7 @@ export function ChatBubble() {
           >
             <Card className="h-[600px] flex flex-col shadow-2xl">
               <CardHeader className="flex flex-row items-center justify-between bg-secondary">
-                <CardTitle className="text-lg font-bold">Chatbot Nhà Xanh</CardTitle>
+                <CardTitle className="text-lg font-bold">Chiêu Minh</CardTitle>
                 <Button variant="ghost" size="icon" onClick={toggleChat}>
                   <X className="h-4 w-4" />
                 </Button>
@@ -145,7 +145,7 @@ export function ChatBubble() {
               <CardFooter className="p-4 border-t">
                 <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
                     <Input 
-                        placeholder="Nhập câu hỏi..." 
+                        placeholder="Hỏi Chiêu Minh điều gì đó..." 
                         className="flex-1"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
