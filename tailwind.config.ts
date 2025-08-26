@@ -35,11 +35,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Jost', 'sans-serif'],
+        body: ['Roboto', 'sans-serif'],
+        headline: ['Montserrat', 'sans-serif'],
         display: ['Pacifico', 'cursive'],
         slogan: ['"Dancing Script"', 'cursive'],
         code: ['monospace'],
-        headline: ['"Instrument Sans"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
