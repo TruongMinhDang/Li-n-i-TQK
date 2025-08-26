@@ -18,6 +18,7 @@ const socialLinks = [
     { name: 'Facebook', href: '#', icon: <Facebook className="h-5 w-5" /> },
     { name: 'YouTube', href: '#', icon: <Youtube className="h-5 w-5" /> },
     { name: 'Email', href: 'mailto:contact@ldtqk.website', icon: <Mail className="h-5 w-5" /> },
+    { name: 'Website', href: 'https://thcstranquangkhaitanphu.hcm.edu.vn/', icon: <Globe className="h-5 w-5" /> },
     { name: 'RSS', href: '/rss.xml', icon: <Rss className="h-5 w-5" /> },
 ];
 
