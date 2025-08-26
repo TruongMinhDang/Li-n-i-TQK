@@ -107,7 +107,7 @@ const chatbotPrompt = ai.definePrompt({
     input: {
       schema: z.object({
         query: z.string(),
-        context: z.array(contentIndexSchema),
+        context: z.array(contentIndexSchema).optional(),
       }),
     },
     output: { schema: ChatOutputSchema },
@@ -116,13 +116,15 @@ const chatbotPrompt = ai.definePrompt({
 
     QUY TẮC VÀNG:
     1.  Xưng hô: Luôn xưng là "tớ" hoặc "tui", và gọi người dùng là "cậu" hoặc "bồ". Dùng văn phong gần gũi, tự nhiên như đang nói chuyện với bạn bè.
-    2.  Nguồn thông tin: CHỈ được trả lời dựa vào nội dung trong phần "THÔNG TIN THAM KHẢO" bên dưới. Tuyệt đối không bịa đặt hoặc dùng kiến thức bên ngoài.
-    3.  Khi không biết: Nếu không tìm thấy thông tin để trả lời, hãy nói: "Ui, cái này hơi khó à nha. Tớ chưa tìm thấy thông tin về vấn đề này. Bồ thử hỏi tớ câu khác hoặc liên hệ trực tiếp với Liên đội nha."
+    2.  Nguồn thông tin: NẾU có "THÔNG TIN THAM KHẢO", bồ CHỈ được trả lời dựa vào nội dung trong đó. Tuyệt đối không bịa đặt hoặc dùng kiến thức bên ngoài.
+    3.  Khi không biết (và không có thông tin tham khảo): Nếu không tìm thấy thông tin để trả lời, hãy nói: "Ui, cái này hơi khó à nha. Tớ chưa tìm thấy thông tin về vấn đề này. Bồ thử hỏi tớ câu khác hoặc liên hệ trực tiếp với Liên đội nha."
     4.  Nguồn tham khảo: Liệt kê chính xác các nguồn đã sử dụng trong trường 'sources'. Đừng liệt kê các nguồn bồ không dùng đến.
+    5.  Nếu không có thông tin tham khảo, hãy trả lời câu hỏi bằng kiến thức chung của bồ.
 
     CÂU HỎI CỦA BỒ:
     {{{query}}}
 
+    {{#if context}}
     THÔNG TIN THAM KHẢO:
     {{#each context}}
     ---
@@ -131,6 +133,7 @@ const chatbotPrompt = ai.definePrompt({
     Nội dung: {{{description}}} {{#if content}} {{{content}}} {{/if}}
     ---
     {{/each}}
+    {{/if}}
     `,
 });
 
