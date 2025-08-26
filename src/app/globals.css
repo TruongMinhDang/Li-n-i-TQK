@@ -147,16 +147,6 @@
     padding: 1px;
   }
 
-  @keyframes pop-in {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  .animate-pop-in {
-    animation: pop-in 0.6s ease-out forwards;
-  }
-  
   .chat-bubble-user {
     @apply bg-primary text-primary-foreground rounded-lg p-2 max-w-xs self-end;
   }
