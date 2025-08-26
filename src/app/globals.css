@@ -74,6 +74,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1, h2, h3, h4, h5, h6 {
+    line-height: normal;
+  }
 }
 
 @layer utilities {
@@ -163,11 +166,8 @@
   }
   
   .chat-gradient-frame {
-    background: linear-gradient(
-      to right,
-      hsl(var(--primary)),
-      hsl(var(--success))
-    );
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--success)));
+    padding: 1px;
   }
 
   @keyframes jump {
