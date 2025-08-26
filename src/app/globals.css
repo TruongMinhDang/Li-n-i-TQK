@@ -84,6 +84,10 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-400;
   }
 
+  .gradient-text-slogan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-purple-500;
+  }
+
   .nav-link-active {
     position: relative;
     color: hsl(var(--primary));
