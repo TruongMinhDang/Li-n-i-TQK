@@ -151,7 +151,7 @@ const chatbotFlow = ai.defineFlow(
     // 2. Call the prompt with the query and context
     const { output } = await chatbotPrompt({
         query: input.query,
-        context: context,
+        context: context.length > 0 ? context : undefined,
     });
     
     // 3. Return the structured output
