@@ -83,20 +83,11 @@ export function ChatBubble() {
   return (
     <>
       <div className="fixed bottom-20 right-5 z-50">
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
           <Button
             onClick={toggleChat}
             size="icon"
-            className="rounded-full h-16 w-16 bg-blue-600 hover:bg-blue-700 shadow-lg p-0 overflow-hidden"
+            variant="ghost"
+            className="rounded-full h-16 w-16 shadow-lg p-0 glint-effect"
             aria-label="Mở Chatbot"
           >
             <Image 
@@ -107,7 +98,6 @@ export function ChatBubble() {
                 className="object-cover"
             />
           </Button>
-        </motion.div>
       </div>
 
       <AnimatePresence>
