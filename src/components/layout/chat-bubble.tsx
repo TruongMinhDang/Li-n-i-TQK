@@ -100,8 +100,8 @@ export function ChatBubble() {
              transition={{ duration: 0.3, ease: "easeOut" }}
              className="fixed bottom-5 right-5 z-[60] w-full max-w-sm"
           >
-             <div className="p-1 chat-gradient-frame rounded-2xl shadow-2xl">
-                <Card className="h-[600px] flex flex-col rounded-xl">
+             <div className="p-0.5 chat-gradient-frame rounded-2xl shadow-2xl">
+                <Card className="h-[600px] flex flex-col rounded-[15px]">
                   <CardHeader className="flex flex-row items-center justify-between bg-secondary">
                     <CardTitle className="text-lg font-bold">Chiêu Minh</CardTitle>
                     <Button variant="ghost" size="icon" onClick={toggleChat}>
@@ -136,8 +136,12 @@ export function ChatBubble() {
                                 </div>
                             ))}
                             {isLoading && (
-                                <div className="flex items-center justify-center p-4">
-                                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                <div className="flex items-start gap-2.5">
+                                    <div className="p-2 rounded-full bg-primary text-primary-foreground"><Bot className="h-5 w-5"/></div>
+                                    <div className="flex items-center gap-2 p-3 rounded-s-xl rounded-ee-xl bg-muted">
+                                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                                        <span className="text-sm text-muted-foreground">Chiêu Minh đang gõ...</span>
+                                    </div>
                                 </div>
                             )}
                         </div>
