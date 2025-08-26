@@ -27,6 +27,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;500;700&family=Pacifico&family=Dancing+Script&display=swap" rel="stylesheet" />
+        <link rel="alternate" type="application/rss+xml" title="RSS Feed cho Liên Đội THCS Trần Quang Khải" href="/rss.xml" />
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased")}>
         <ThemeProvider
