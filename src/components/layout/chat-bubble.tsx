@@ -95,7 +95,7 @@ export function ChatBubble() {
                 alt="Chatbot Mascot"
                 width={64}
                 height={64}
-                className="object-cover"
+                className="object-cover rounded-full"
             />
           </Button>
       </div>
