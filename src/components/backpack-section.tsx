@@ -5,6 +5,8 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { navLinks } from "@/lib/constants";
+import { Button } from "./ui/button";
+import { ChevronRight } from "lucide-react";
 
 const backpackLinks = navLinks.find(link => link.href === '/balo')?.subLinks || [];
 
@@ -83,6 +85,15 @@ export function BackpackSection() {
               </Link>
             </motion.div>
           ))}
+        </motion.div>
+        
+        <motion.div variants={itemVariants} className="mt-12">
+          <Button asChild size="lg" className="group">
+            <Link href="/balo">
+              Mở Balo Hành Trang
+              <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </motion.section>

@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import Image from "next/image";
 import { navLinks } from "@/lib/constants";
 import { Button } from "./ui/button";
+import { ChevronRight } from "lucide-react";
 
 const gardenLinks = navLinks.find(link => link.href === '/vuon-uom')?.subLinks || [];
 
@@ -101,6 +102,15 @@ export function GardenSection() {
               </Link>
             </motion.div>
           ))}
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mt-12">
+          <Button asChild size="lg" className="group">
+            <Link href="/vuon-uom">
+              Ghé Thăm Vườn Ươm
+              <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </motion.section>

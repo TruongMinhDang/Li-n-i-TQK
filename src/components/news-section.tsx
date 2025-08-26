@@ -11,12 +11,13 @@ import { Button } from "./ui/button";
 import { newsArticles } from "@/lib/constants";
 import { format } from "date-fns";
 import { vi } from 'date-fns/locale';
+import { ChevronRight } from "lucide-react";
 
 export function NewsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
 
-  const sortedArticles = [...newsArticles].sort((a, b) => b.date.getTime() - a.date.getTime());
+  const sortedArticles = [...newsArticles].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 6); // Show latest 6
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -103,6 +104,15 @@ export function NewsSection() {
             <CarouselPrevious className="hidden sm:flex" />
             <CarouselNext className="hidden sm:flex" />
           </Carousel>
+        </motion.div>
+        
+        <motion.div variants={itemVariants} className="mt-12">
+          <Button asChild size="lg" className="group">
+            <Link href="/tin-tuc">
+              Xem Tất Cả Tin Tức
+              <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </motion.section>
