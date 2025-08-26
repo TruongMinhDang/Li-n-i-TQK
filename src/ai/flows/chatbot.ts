@@ -129,13 +129,22 @@ const chatbotFlow = ai.defineFlow(
     outputSchema: ChatOutputSchema,
   },
   async (input) => {
-    // 1. Retrieve context based on the user's query
-    const context = retrieveContext(input.query);
+    // Keywords to trigger context retrieval
+    const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
+    const queryLower = input.query.toLowerCase();
+    const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
 
-    // 2. Call the prompt with the query and context
+    let context: ContentIndex[] | undefined;
+    
+    if (useKnowledgeBase) {
+        // 1. Retrieve context based on the user's query if keywords are present
+        context = retrieveContext(input.query);
+    }
+
+    // 2. Call the prompt. If context is available, it will be used. Otherwise, the AI will use general knowledge.
     const { output } = await chatbotPrompt({
         query: input.query,
-        context: context.length > 0 ? context : undefined,
+        context: context,
     });
     
     // 3. Return the structured output
