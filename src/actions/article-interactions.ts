@@ -9,13 +9,15 @@ const ARTICLES_COLLECTION = 'articles';
 interface ArticleStats {
     views: number;
     likes: number;
+    averageRating: number;
+    ratingCount: number;
 }
 
 /**
  * Retrieves stats for a given article and atomically increments its view count.
  * If the article document doesn't exist, it will be created.
  * @param slug The unique identifier for the article.
- * @returns An object containing the new view count and the current like count.
+ * @returns An object containing views, likes, and rating stats.
  */
 export async function getAndIncrementArticleViews(slug: string): Promise<ArticleStats> {
   const articleDocRef = doc(db, ARTICLES_COLLECTION, slug);
@@ -25,38 +27,53 @@ export async function getAndIncrementArticleViews(slug: string): Promise<Article
         const articleDoc = await transaction.get(articleDocRef);
         
         if (!articleDoc.exists()) {
-            // Document doesn't exist, create it with initial values.
-            const initialData = { views: 1, likes: 0, slug: slug };
+            const initialData = { 
+                views: 1, 
+                likes: 0, 
+                slug: slug,
+                totalRating: 0,
+                ratingCount: 0,
+            };
             transaction.set(articleDocRef, initialData);
-            return { views: 1, likes: 0 };
+            return { views: 1, likes: 0, averageRating: 0, ratingCount: 0 };
         }
         
-        // Document exists, increment views.
-        const currentViews = articleDoc.data().views || 0;
-        const currentLikes = articleDoc.data().likes || 0;
-        const newViews = currentViews + 1;
-        
+        const data = articleDoc.data();
+        const newViews = (data.views || 0) + 1;
         transaction.update(articleDocRef, { views: newViews });
         
-        return { views: newViews, likes: currentLikes };
+        const totalRating = data.totalRating || 0;
+        const ratingCount = data.ratingCount || 0;
+        const averageRating = ratingCount > 0 ? totalRating / ratingCount : 0;
+        
+        return { 
+            views: newViews, 
+            likes: data.likes || 0,
+            averageRating: averageRating,
+            ratingCount: ratingCount
+        };
     });
     return newStats;
   } catch (error) {
     console.error("Error in getAndIncrementArticleViews transaction:", error);
-    // As a fallback, try to read the data without incrementing.
     try {
       const docSnap = await getDoc(articleDocRef);
       if (docSnap.exists()) {
+        const data = docSnap.data();
+        const totalRating = data.totalRating || 0;
+        const ratingCount = data.ratingCount || 0;
+        const averageRating = ratingCount > 0 ? totalRating / ratingCount : 0;
         return {
-          views: docSnap.data().views || 1,
-          likes: docSnap.data().likes || 0,
+          views: data.views || 1,
+          likes: data.likes || 0,
+          averageRating: averageRating,
+          ratingCount: ratingCount,
         };
       }
     } catch (readError) {
       console.error("Error reading article stats after transaction failure:", readError);
     }
-    // Return default values if everything fails.
-    return { views: 1, likes: 0 };
+    return { views: 1, likes: 0, averageRating: 0, ratingCount: 0 };
   }
 }
 
@@ -76,5 +93,57 @@ export async function toggleArticleLike(slug: string, liked: boolean): Promise<{
     } catch (error) {
         console.error("Error toggling article like:", error);
         return { success: false };
+    }
+}
+
+/**
+ * Submits a new rating for an article and updates the average.
+ * @param slug The unique identifier for the article.
+ * @param rating The new rating value (1-5).
+ * @returns The new average rating and total rating count.
+ */
+export async function submitArticleRating(
+    slug: string, 
+    rating: number
+): Promise<{ success: boolean; averageRating?: number; ratingCount?: number, error?: string }> {
+    if (rating < 1 || rating > 5) {
+        return { success: false, error: 'Rating must be between 1 and 5.' };
+    }
+
+    const articleDocRef = doc(db, ARTICLES_COLLECTION, slug);
+
+    try {
+        const { averageRating, ratingCount } = await runTransaction(db, async (transaction) => {
+            const articleDoc = await transaction.get(articleDocRef);
+
+            if (!articleDoc.exists()) {
+                const initialData = { 
+                    slug: slug,
+                    views: 0,
+                    likes: 0,
+                    totalRating: rating,
+                    ratingCount: 1,
+                };
+                transaction.set(articleDocRef, initialData);
+                return { averageRating: rating, ratingCount: 1 };
+            }
+
+            const data = articleDoc.data();
+            const newTotalRating = (data.totalRating || 0) + rating;
+            const newRatingCount = (data.ratingCount || 0) + 1;
+            
+            transaction.update(articleDocRef, {
+                totalRating: newTotalRating,
+                ratingCount: newRatingCount
+            });
+
+            const newAverageRating = newTotalRating / newRatingCount;
+            return { averageRating: newAverageRating, ratingCount: newRatingCount };
+        });
+
+        return { success: true, averageRating, ratingCount };
+    } catch (error) {
+        console.error("Error submitting rating:", error);
+        return { success: false, error: 'Failed to submit rating.' };
     }
 }

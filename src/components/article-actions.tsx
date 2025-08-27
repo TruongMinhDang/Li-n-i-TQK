@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { getAndIncrementArticleViews, toggleArticleLike } from '@/actions/article-interactions';
 import { Skeleton } from './ui/skeleton';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { StarRating } from './star-rating';
 
 const ZaloIcon = () => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current">
@@ -29,17 +30,21 @@ interface ArticleActionsProps {
   articleSlug: string;
 }
 
+interface StatsState {
+    views: number;
+    likes: number;
+    averageRating: number;
+    ratingCount: number;
+}
+
 export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps) {
   const { toast } = useToast();
-  const [stats, setStats] = useState({ views: 0, likes: 0 });
+  const [stats, setStats] = useState<StatsState | null>(null);
   const [isLiked, setIsLiked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Load initial stats and liked state
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        setIsLoading(true);
         const fetchedStats = await getAndIncrementArticleViews(articleSlug);
         setStats(fetchedStats);
 
@@ -49,9 +54,7 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
         }
       } catch (error) {
         console.error("Failed to fetch article stats:", error);
-        setStats({ views: 1, likes: 0 });
-      } finally {
-        setIsLoading(false);
+        setStats({ views: 1, likes: 0, averageRating: 0, ratingCount: 0 });
       }
     };
     
@@ -79,9 +82,10 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
   };
 
   const handleLike = async () => {
+      if (!stats) return;
       const newLikedState = !isLiked;
       setIsLiked(newLikedState);
-      setStats(prev => ({ ...prev, likes: newLikedState ? prev.likes + 1 : prev.likes - 1 }));
+      setStats(prev => prev ? ({ ...prev, likes: newLikedState ? prev.likes + 1 : prev.likes - 1 }) : null);
 
       try {
         const likedArticles = JSON.parse(localStorage.getItem('liked_articles') || '{}');
@@ -96,7 +100,7 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
       } catch (error) {
          console.error("Failed to toggle like:", error);
          setIsLiked(!newLikedState);
-         setStats(prev => ({ ...prev, likes: !newLikedState ? prev.likes + 1 : prev.likes - 1 }));
+         setStats(prev => prev ? ({ ...prev, likes: !newLikedState ? prev.likes + 1 : prev.likes - 1 }) : null);
          toast({
             title: "Lỗi",
             description: "Không thể lưu lượt thích của bạn. Vui lòng thử lại.",
@@ -109,65 +113,76 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}`;
   const zaloShareUrl = `https://sp.zalo.me/share_inline?url=${encodeURIComponent(articleUrl)}&is_show_widget=1`;
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(articleUrl)}`;
+  
+  const handleRatingChange = (newAverage: number, newCount: number) => {
+    setStats(prev => prev ? { ...prev, averageRating: newAverage, ratingCount: newCount } : null);
+  };
 
   return (
-    <>
       <Card className="p-4 bg-secondary/30">
-          <CardHeader className="p-0 mb-4">
+          <CardHeader className="p-0 mb-4 text-center">
               <CardTitle className="text-base font-semibold">Tương tác & Chia sẻ</CardTitle>
           </CardHeader>
           <CardContent className="p-0 space-y-4">
-              <div className="flex items-center gap-2">
-                  {isLoading ? (
-                      <>
-                          <Skeleton className="h-9 w-24" />
-                          <Skeleton className="h-9 w-16" />
-                      </>
-                  ) : (
-                      <>
-                           <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm" className="w-full justify-center">
-                              <Star className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-yellow-400")} />
-                              Thích ({stats.likes})
-                          </Button>
-                          <div className="flex items-center justify-center h-9 px-3 rounded-md border bg-background text-sm font-medium w-full">
-                              <Eye className="h-4 w-4 mr-2 text-muted-foreground" />
-                              <span>{stats.views.toLocaleString()}</span>
-                              <span className="ml-1 hidden sm:inline">lượt xem</span>
+              {!stats ? (
+                  <div className="space-y-4">
+                      <Skeleton className="h-9 w-full" />
+                      <Skeleton className="h-6 w-1/2 mx-auto" />
+                      <div className="flex justify-around pt-4 border-t"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-8 w-8 rounded-full" /></div>
+                  </div>
+              ) : (
+                <>
+                    <div className="flex items-center justify-center gap-2">
+                         <div className="flex items-center justify-center h-9 px-3 rounded-md border bg-background text-sm font-medium">
+                            <Eye className="h-4 w-4 mr-2 text-muted-foreground" />
+                            <span>{stats.views.toLocaleString()}</span>
                           </div>
-                      </>
-                  )}
-              </div>
-              
-              <div className="flex items-center justify-around gap-1 pt-4 border-t">
-                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                      <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
-                      <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
-                      </a>
-                  </Button>
-                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                      <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
-                      <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
-                      </a>
-                  </Button>
-                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                      <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
-                      <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
-                          <ZaloIcon />
-                      </div>
-                      </a>
-                  </Button>
-                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                      <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
-                      <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
-                      </a>
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                      <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </Button>
-              </div>
+                          <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm">
+                            <Star className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-yellow-400")} />
+                            {stats.likes}
+                          </Button>
+                    </div>
+
+                    <div className="text-center space-y-2">
+                        <StarRating 
+                            articleSlug={articleSlug}
+                            initialAverageRating={stats.averageRating}
+                            initialRatingCount={stats.ratingCount}
+                            onRatingSubmitted={handleRatingChange}
+                        />
+                    </div>
+                    
+                    <div className="flex items-center justify-around gap-1 pt-4 border-t">
+                        <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                            <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
+                            <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
+                            </a>
+                        </Button>
+                        <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                            <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
+                            <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
+                            </a>
+                        </Button>
+                        <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                            <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
+                            <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
+                                <ZaloIcon />
+                            </div>
+                            </a>
+                        </Button>
+                        <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                            <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
+                            <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
+                            </a>
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                            <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                        </Button>
+                    </div>
+                </>
+              )}
         </CardContent>
       </Card>
-    </>
   );
 }
 
