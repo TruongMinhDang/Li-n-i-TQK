@@ -1,5 +1,4 @@
-
-import { Home, Info, Leaf, Backpack, Handshake, Mail, BookOpen, Star, Route, FolderKanban, Library, FileText, BarChart2, Calendar } from 'lucide-react';
+import { Home, Info, Leaf, Backpack, Handshake, Mail, BookOpen, Star, Route, FolderKanban, Library, FileText, BarChart2, Calendar, Building2, Image as ImageIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
 interface NavLink {
@@ -20,6 +19,7 @@ export const navLinks: NavLink[] = [
       { name: 'Làm theo lời Bác', href: '/hanh-trinh/lam-theo-loi-bac', icon: <BookOpen /> },
       { name: 'Xây Dựng Đội Vững mạnh', href: '/hanh-trinh/xay-dung-doi-vung-manh', icon: <Handshake /> },
       { name: 'Cùng tiến bước lên đoàn', href: '/hanh-trinh/cung-tien-buoc-len-doan', icon: <Star /> },
+      { name: 'Không gian văn hóa Hồ Chí Minh', href: '/hanh-trinh/khong-gian-van-hoa-hcm', icon: <Building2 /> },
     ]
   },
   {
@@ -29,6 +29,7 @@ export const navLinks: NavLink[] = [
     subLinks: [
        { name: 'Mỗi tuần một câu chuyện đẹp', href: '/vuon-uom/cau-chuyen-dep', icon: <BookOpen /> },
        { name: 'Măng non tiêu biểu', href: '/vuon-uom/mang-non-tieu-bieu', icon: <Star /> },
+       { name: 'Triển lãm chuyên đề', href: '/vuon-uom/trien-lam-chuyen-de', icon: <ImageIcon /> },
     ]
   },
   {

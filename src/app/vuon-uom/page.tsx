@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Star } from "lucide-react";
+import { BookOpen, Star, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 const subCategories = [
@@ -18,6 +18,13 @@ const subCategories = [
     href: "/vuon-uom/mang-non-tieu-bieu",
     image: { src: "https://placehold.co/600x400.png", hint: "students award ceremony" },
   },
+  {
+    icon: <ImageIcon className="h-8 w-8 text-primary" />,
+    title: "Triển lãm chuyên đề",
+    description: "Thư viện hình ảnh các hoạt động, mô hình và thành tích nổi bật của Liên đội.",
+    href: "/vuon-uom/trien-lam-chuyen-de",
+    image: { src: "https://placehold.co/600x400.png", hint: "photo gallery exhibit" },
+  },
 ];
 
 export default function GardenPage() {
@@ -34,7 +41,7 @@ export default function GardenPage() {
 
       <section>
         <div className="bg-card p-8 rounded-lg shadow-inner">
-          <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
             {subCategories.map((category) => (
               <Link key={category.title} href={category.href} className="block group">
                   <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">

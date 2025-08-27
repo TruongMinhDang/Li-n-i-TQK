@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Handshake, Star } from "lucide-react";
+import { BookOpen, Handshake, Star, Building2 } from "lucide-react";
 import Image from "next/image";
 
 const subCategories = [
@@ -25,6 +25,13 @@ const subCategories = [
     href: "/hanh-trinh/cung-tien-buoc-len-doan",
     image: { src: "https://placehold.co/600x400.png", hint: "youth union ceremony" },
   },
+   {
+    icon: <Building2 className="h-8 w-8 text-success" />,
+    title: "Không Gian Văn Hóa Hồ Chí Minh",
+    description: "Nơi học tập, lan tỏa tư tưởng, đạo đức và phong cách của Chủ tịch Hồ Chí Minh.",
+    href: "/hanh-trinh/khong-gian-van-hoa-hcm",
+    image: { src: "https://placehold.co/600x400.png", hint: "ho chi minh museum" },
+  },
 ];
 
 export default function JourneyPage() {
@@ -41,7 +48,7 @@ export default function JourneyPage() {
 
       <section>
         <div className="bg-card p-8 rounded-lg shadow-inner">
-          <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
             {subCategories.map((category) => (
               <Link key={category.title} href={category.href} className="block group">
                   <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
