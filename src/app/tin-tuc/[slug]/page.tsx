@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { ArticleActions } from '@/components/article-actions';
 import { Separator } from '@/components/ui/separator';
-import { AuthorBio } from '@/components/author-bio';
 import { ArticleTTSPlayer } from '@/components/article-tts-player';
 
 export async function generateStaticParams() {
@@ -117,7 +116,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       </div>
 
       <div className="grid grid-cols-12 gap-8 mt-12">
-        <div className="col-span-12 lg:col-span-8">
+        <main className="col-span-12 lg:col-span-8">
             <div className="max-w-3xl mx-auto">
                  {/* Lead Paragraph */}
                 <p className="lead text-xl/relaxed md:text-2xl/loose italic text-muted-foreground my-8">{article.description}</p>
@@ -126,19 +125,14 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                 <ArticleTTSPlayer article={ttsArticleData} />
                 
                 {/* Main Content */}
-                <div className="article-body prose-lg dark:prose-invert max-w-none prose-p:leading-relaxed prose-a:text-primary hover:prose-a:underline">
+                <div className="article-body">
                     {parsedContent}
                 </div>
-
-                <Separator className="my-8" />
-                
-                {/* Author Bio */}
-                <AuthorBio authorName={article.author} />
             </div>
-        </div>
+        </main>
 
         <aside className="col-span-12 lg:col-span-4 lg:sticky top-24 self-start">
-             <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />
+             <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} authorName={article.author} />
         </aside>
       </div>
 
