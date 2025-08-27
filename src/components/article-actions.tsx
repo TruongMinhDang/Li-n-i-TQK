@@ -111,61 +111,63 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(articleUrl)}`;
 
   return (
-    <Card className="p-4 bg-secondary/30">
-        <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-base font-semibold">Tương tác & Chia sẻ</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0 space-y-4">
-            <div className="flex items-center gap-2">
-                {isLoading ? (
-                    <>
-                        <Skeleton className="h-9 w-24" />
-                        <Skeleton className="h-9 w-16" />
-                    </>
-                ) : (
-                    <>
-                         <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm" className="w-full justify-center">
-                            <Star className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-yellow-400")} />
-                            Thích ({stats.likes})
-                        </Button>
-                        <div className="flex items-center justify-center h-9 px-3 rounded-md border bg-background text-sm font-medium w-full">
-                            <Eye className="h-4 w-4 mr-2 text-muted-foreground" />
-                            <span>{stats.views.toLocaleString()}</span>
-                            <span className="ml-1 hidden sm:inline">lượt xem</span>
-                        </div>
-                    </>
-                )}
-            </div>
-            
-            <div className="flex items-center justify-around gap-1 pt-4 border-t">
-                <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                    <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
-                    <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
-                    </a>
-                </Button>
-                <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                    <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
-                    <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
-                    </a>
-                </Button>
-                <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                    <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
-                    <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
-                        <ZaloIcon />
-                    </div>
-                    </a>
-                </Button>
-                <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                    <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
-                    <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
-                    </a>
-                </Button>
-                <Button variant="ghost" size="sm" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
-                    <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </Button>
-            </div>
-      </CardContent>
-    </div>
+    <>
+      <Card className="p-4 bg-secondary/30">
+          <CardHeader className="p-0 mb-4">
+              <CardTitle className="text-base font-semibold">Tương tác & Chia sẻ</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0 space-y-4">
+              <div className="flex items-center gap-2">
+                  {isLoading ? (
+                      <>
+                          <Skeleton className="h-9 w-24" />
+                          <Skeleton className="h-9 w-16" />
+                      </>
+                  ) : (
+                      <>
+                           <Button onClick={handleLike} variant={isLiked ? "default" : "outline"} size="sm" className="w-full justify-center">
+                              <Star className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-yellow-400")} />
+                              Thích ({stats.likes})
+                          </Button>
+                          <div className="flex items-center justify-center h-9 px-3 rounded-md border bg-background text-sm font-medium w-full">
+                              <Eye className="h-4 w-4 mr-2 text-muted-foreground" />
+                              <span>{stats.views.toLocaleString()}</span>
+                              <span className="ml-1 hidden sm:inline">lượt xem</span>
+                          </div>
+                      </>
+                  )}
+              </div>
+              
+              <div className="flex items-center justify-around gap-1 pt-4 border-t">
+                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                      <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
+                      <Facebook className="h-5 w-5 text-muted-foreground group-hover:text-[#1877F2] transition-colors" />
+                      </a>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                      <a href={twitterShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Twitter">
+                      <Twitter className="h-5 w-5 text-muted-foreground group-hover:text-[#1DA1F2] transition-colors" />
+                      </a>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                      <a href={zaloShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Zalo">
+                      <div className="text-muted-foreground group-hover:text-[#0068FF] transition-colors">
+                          <ZaloIcon />
+                      </div>
+                      </a>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                      <a href={telegramShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ qua Telegram">
+                      <Send className="h-5 w-5 text-muted-foreground group-hover:text-[#2AABEE] transition-colors" />
+                      </a>
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={copyToClipboard} aria-label="Sao chép liên kết" className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
+                      <LinkIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </Button>
+              </div>
+        </CardContent>
+      </Card>
+    </>
   );
 }
 
