@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { generateArticleAudio, type GenerateArticleAudioInput } from '@/ai/flows/tts';
 import { Button } from './ui/button';
-import { Loader2, PlayCircle, PauseCircle, AlertTriangle, Headphones } from 'lucide-react';
+import { Loader2, PlayCircle, PauseCircle, AlertTriangle, Headphones, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 
@@ -23,10 +23,12 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
     try {
       const result = await generateArticleAudio(article);
       setAudioUrl(result.audioUrl);
-      toast({
-        title: result.isFromCache ? "Đã tải âm thanh" : "Tạo âm thanh thành công!",
-        description: "Bấm nút phát trên trình nghe nhạc để bắt đầu.",
-      });
+      if (!result.isFromCache) {
+         toast({
+            title: "Tạo âm thanh thành công!",
+            description: "Bấm nút phát trên trình nghe nhạc để bắt đầu.",
+         });
+      }
     } catch (err) {
       console.error("Failed to generate audio:", err);
       const errorMessage = err instanceof Error ? err.message : "Đã xảy ra lỗi không xác định.";
@@ -43,11 +45,19 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
 
   if (audioUrl) {
     return (
-      <div className="w-full my-4 p-4 border rounded-lg bg-secondary/50">
-        <audio controls autoPlay className="w-full">
-          <source src={audioUrl} type="audio/wav" />
-          Trình duyệt của bạn không hỗ trợ phát âm thanh.
-        </audio>
+      <div className="w-full my-8 p-4 border rounded-lg bg-secondary/50">
+        <div className="flex items-center gap-4">
+            <audio controls autoPlay className="w-full">
+              <source src={audioUrl} type="audio/wav" />
+              Trình duyệt của bạn không hỗ trợ phát âm thanh.
+            </audio>
+            <Button variant="outline" size="icon" asChild>
+                <a href={audioUrl} download={`${article.slug}.wav`}>
+                    <Download className="h-4 w-4" />
+                    <span className="sr-only">Tải về</span>
+                </a>
+            </Button>
+        </div>
         <div className="text-center mt-2">
             <Button variant="link" size="sm" onClick={() => setAudioUrl(null)}>Đóng trình phát</Button>
         </div>
@@ -57,7 +67,7 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
 
   if (error) {
     return (
-      <Alert variant="destructive" className="my-4">
+      <Alert variant="destructive" className="my-8">
         <AlertTriangle className="h-4 w-4" />
         <AlertTitle>Lỗi</AlertTitle>
         <AlertDescription>{error}</AlertDescription>
@@ -66,8 +76,8 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
   }
 
   return (
-    <div className="my-4 text-center">
-      <Button onClick={handlePlay} disabled={isLoading} size="lg">
+    <div className="my-8">
+      <Button onClick={handlePlay} disabled={isLoading} size="lg" className="w-full">
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -80,7 +90,7 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
           </>
         )}
       </Button>
-      <p className="text-xs text-muted-foreground mt-2">
+      <p className="text-xs text-muted-foreground mt-2 text-center">
         Tính năng AI có thể cần một chút thời gian để tạo âm thanh cho lần đầu tiên.
       </p>
     </div>
