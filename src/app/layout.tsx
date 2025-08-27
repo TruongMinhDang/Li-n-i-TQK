@@ -9,6 +9,7 @@ import { BackToTopButton } from '@/components/layout/back-to-top-button'
 import { ChatBubble } from '@/components/layout/chat-bubble'
 import { ThemeProvider } from '@/components/layout/theme-provider'
 import { AnnouncementTicker } from '@/components/layout/announcement-ticker'
+import { GoogleAnalytics } from '@/components/layout/google-analytics'
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -37,6 +38,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <FirebaseProvider>
+            <GoogleAnalytics />
             <div id="fb-root"></div>
             <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=YOUR_FACEBOOK_APP_ID&autoLogAppEvents=1" nonce="aBcDeFg"></script>
             <div className="relative flex min-h-screen flex-col">

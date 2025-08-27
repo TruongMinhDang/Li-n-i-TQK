@@ -66,9 +66,6 @@ export function SiteFooter() {
                         </Link>
                     ))}
                 </div>
-                 <div className="pt-4">
-                    <SubscribeForm />
-                </div>
             </div>
           </div>
 
@@ -86,18 +83,23 @@ export function SiteFooter() {
             </ul>
           </div>
           
-          {/* Column 3: Info Links */}
-           <div className="md:mx-auto">
-            <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Thông Tin</h3>
-            <ul className="space-y-2">
-              {infoLinks.map(link => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-sm hover:text-primary transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Column 3: Info Links & Subscribe */}
+           <div className="md:mx-auto space-y-8">
+             <div>
+                <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Thông Tin</h3>
+                <ul className="space-y-2">
+                  {infoLinks.map(link => (
+                    <li key={link.name}>
+                      <Link href={link.href} className="text-sm hover:text-primary transition-colors">
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+             </div>
+             <div className="pt-4">
+                <SubscribeForm />
+            </div>
           </div>
 
         </div>
