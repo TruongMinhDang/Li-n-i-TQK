@@ -120,7 +120,7 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
   };
 
   return (
-      <Card className="p-4 bg-secondary/30 space-y-4">
+      <Card className="p-4 bg-secondary/30">
           {!stats ? (
               <div className="space-y-4">
                   <Skeleton className="h-9 w-full" />
@@ -128,9 +128,9 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
                   <div className="flex justify-around pt-4 border-t"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-8 w-8 rounded-full" /></div>
               </div>
           ) : (
-            <>
+            <div className="space-y-4">
                 {/* Row 1: Interactions */}
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center justify-between gap-2 md:gap-4">
                     <div className="flex items-center justify-center h-9 px-3 rounded-md border bg-background text-sm font-medium">
                         <Eye className="h-4 w-4 mr-2 text-muted-foreground" />
                         <span>{stats.views.toLocaleString()}</span>
@@ -141,9 +141,9 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
                         initialRatingCount={stats.ratingCount}
                         onRatingSubmitted={handleRatingChange}
                     />
-                    <Button onClick={handleLike} variant={isLiked ? "destructive" : "outline"} size="sm" className="bg-background">
-                        <Heart className={cn("h-4 w-4 mr-1.5", isLiked && "fill-current text-red-500")} />
-                        {stats.likes}
+                    <Button onClick={handleLike} variant={isLiked ? "destructive" : "outline"} size="icon" className="bg-background flex-shrink-0">
+                        <Heart className={cn("h-4 w-4", isLiked && "fill-current text-red-500")} />
+                        <span className="sr-only">Thích</span>
                     </Button>
                 </div>
 
@@ -180,7 +180,7 @@ export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps)
                         </Button>
                     </div>
                 </div>
-            </>
+            </div>
           )}
       </Card>
   );
