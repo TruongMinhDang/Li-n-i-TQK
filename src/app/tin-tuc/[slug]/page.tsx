@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArticleActions } from '@/components/article-actions';
 import { Separator } from '@/components/ui/separator';
 import { AuthorBio } from '@/components/author-bio';
+import { ArticleTTSPlayer } from '@/components/article-tts-player';
 
 export async function generateStaticParams() {
   return newsArticles.map((article) => ({
@@ -71,6 +72,13 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   const parsedContent = parseContent(article.content);
   const fullUrl = `https://ldtqk.website/tin-tuc/${article.slug}`;
 
+  const ttsArticleData = {
+      slug: article.slug,
+      title: article.title,
+      author: article.author,
+      content: article.content,
+  };
+
   return (
     <article className="max-w-4xl mx-auto py-8">
       <div className="space-y-4 mb-8">
@@ -109,6 +117,9 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           priority
         />
       </Card>
+      
+      {/* TTS Player */}
+      <ArticleTTSPlayer article={ttsArticleData} />
       
       <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-headline prose-p:leading-relaxed prose-a:text-primary hover:prose-a:underline">
           <p className="lead text-xl italic text-muted-foreground border-l-4 border-primary/50 pl-4">{article.description}</p>
