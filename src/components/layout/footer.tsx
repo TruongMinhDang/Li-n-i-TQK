@@ -66,6 +66,9 @@ export function SiteFooter() {
                         </Link>
                     ))}
                 </div>
+                <div className="pt-2">
+                    <PageViewCounter />
+                </div>
             </div>
           </div>
 
@@ -130,7 +133,6 @@ export function SiteFooter() {
                 <Image src={newFirebaseLogoUrl} alt="Firebase Logo" width={20} height={20} />
                 <span>Phát triển trên nền tảng Firebase</span>
             </div>
-            <PageViewCounter />
           </div>
         </div>
       </div>
