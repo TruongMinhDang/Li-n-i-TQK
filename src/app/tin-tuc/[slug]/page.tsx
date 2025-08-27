@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArticleActions } from '@/components/article-actions';
 import { Separator } from '@/components/ui/separator';
 import { ArticleTTSPlayer } from '@/components/article-tts-player';
+import { AuthorBio } from '@/components/author-bio';
 
 export async function generateStaticParams() {
   return newsArticles.map((article) => ({
@@ -131,8 +132,16 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             </div>
         </main>
 
-        <aside className="col-span-12 lg:col-span-4 lg:sticky top-24 self-start">
-             <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} authorName={article.author} />
+        <aside className="col-span-12 lg:col-span-4 lg:sticky top-24 self-start space-y-6">
+             <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />
+             <Card>
+                <CardHeader>
+                    <CardTitle className="text-base">Tác giả</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <AuthorBio authorName={article.author} />
+                </CardContent>
+             </Card>
         </aside>
       </div>
 

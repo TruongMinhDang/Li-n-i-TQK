@@ -14,9 +14,8 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { getAndIncrementArticleViews, toggleArticleLike } from '@/actions/article-interactions';
 import { Skeleton } from './ui/skeleton';
-import { Card, CardContent } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { StarRating } from './star-rating';
-import { AuthorBio } from './author-bio';
 import { Separator } from './ui/separator';
 
 const ZaloIcon = () => (
@@ -30,7 +29,6 @@ const ZaloIcon = () => (
 interface ArticleActionsProps {
   articleUrl: string;
   articleSlug: string;
-  authorName: string;
 }
 
 interface StatsState {
@@ -40,7 +38,7 @@ interface StatsState {
     ratingCount: number;
 }
 
-export function ArticleActions({ articleUrl, articleSlug, authorName }: ArticleActionsProps) {
+export function ArticleActions({ articleUrl, articleSlug }: ArticleActionsProps) {
   const { toast } = useToast();
   const [stats, setStats] = useState<StatsState | null>(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -151,9 +149,9 @@ export function ArticleActions({ articleUrl, articleSlug, authorName }: ArticleA
 
                 <Separator />
 
-                {/* Row 2: Share and Author */}
-                <div className="flex items-center justify-between">
-                    <AuthorBio authorName={authorName} />
+                {/* Row 2: Share */}
+                 <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold">Chia sẻ:</span>
                     <div className="flex items-center justify-end gap-1">
                         <Button variant="ghost" size="sm" asChild className="group hover:bg-transparent rounded-full h-8 w-8 p-0">
                             <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Chia sẻ lên Facebook">
