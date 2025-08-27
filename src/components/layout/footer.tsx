@@ -7,8 +7,14 @@ import { SubscribeForm } from './subscribe-form';
 const footerLogoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/logo-nha-xanh.gif?alt=media&token=0a8db890-a563-4887-a333-6c61d14714eb";
 const newFirebaseLogoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/firebase%20studio.png?alt=media&token=fe3c9a3d-6251-426e-a389-83379893dfe8";
 
-const usefulLinks = [
-  { name: 'Podcast', href: '/podcast' },
+const discoveryLinks = [
+  { name: 'Không Gian Văn Hóa HCM', href: '/hanh-trinh/khong-gian-van-hoa-hcm' },
+  { name: 'Triển Lãm Chuyên Đề', href: '/vuon-uom/trien-lam-chuyen-de' },
+  { name: 'Podcast Nhà Xanh', href: '/podcast' },
+  { name: 'Chiêu Minh Hội Quán', href: '/balo/chieu-minh-hoi-quan' },
+];
+
+const infoLinks = [
   { name: 'Điều Khoản Sử Dụng', href: '/dieu-khoan-su-dung' },
   { name: 'Chính Sách Bảo Mật', href: '/chinh-sach-bao-mat' },
   { name: 'Hỏi Đáp (FAQ)', href: '/hoi-dap' },
@@ -30,9 +36,9 @@ export function SiteFooter() {
   return (
     <footer className="bg-slate-800 text-slate-300">
       <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Column 1: About, Contact, Subscribe */}
-          <div className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Column 1: About */}
+          <div className="space-y-4 md:col-span-1">
              <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Image src={footerLogoUrl} alt="Footer Logo" width={60} height={60} unoptimized />
@@ -42,10 +48,15 @@ export function SiteFooter() {
                   Đoàn kết để Rèn luyện – Rèn luyện để Sáng tạo – Sáng tạo để Hội nhập số
                 </p>
             </div>
-
-            <div className="pt-4">
-                 <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Kết Nối Với Chúng Tôi</h3>
-                <div className="flex space-x-4 mb-4">
+            <div className="space-y-4 pt-4">
+                <div className="flex items-start gap-3 pt-2">
+                    <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                    <p className="text-sm">
+                       94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh
+                    </p>
+                </div>
+                 <h3 className="text-lg font-semibold text-white mb-2 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Kết Nối Với Chúng Tôi</h3>
+                <div className="flex space-x-4">
                     {socialLinks.map(link => (
                         <Link key={link.name} href={link.href} className="text-slate-300 hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
                             {link.icon}
@@ -53,24 +64,31 @@ export function SiteFooter() {
                         </Link>
                     ))}
                 </div>
-                 <div className="flex items-start gap-3 pt-2">
-                    <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-                    <p className="text-sm">
-                       94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh
-                    </p>
+                 <div className="pt-4">
+                    <SubscribeForm />
                 </div>
-            </div>
-            
-            <div>
-              <SubscribeForm />
             </div>
           </div>
 
-          {/* Column 2: Useful Links */}
+          {/* Column 2: Discovery Links */}
           <div className="md:mx-auto">
-            <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Liên Kết Hữu Ích</h3>
+            <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Khám Phá</h3>
             <ul className="space-y-2">
-              {usefulLinks.map(link => (
+              {discoveryLinks.map(link => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-sm hover:text-primary transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Column 3: Info Links */}
+           <div className="md:mx-auto">
+            <h3 className="text-lg font-semibold text-white mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-10 after:bg-primary">Thông Tin</h3>
+            <ul className="space-y-2">
+              {infoLinks.map(link => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-sm hover:text-primary transition-colors">
                     {link.name}
