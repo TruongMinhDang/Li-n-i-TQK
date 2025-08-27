@@ -155,10 +155,10 @@ export function SiteHeader() {
             <div className="relative overflow-hidden rounded-full">
               <Image 
                   src={logoUrl}
-                  width={144} 
-                  height={144} 
+                  width={96} 
+                  height={96} 
                   alt="Logo" 
-                  className="h-36 w-36"
+                  className="h-24 w-24"
               />
               <div className="glint-effect"></div>
             </div>
