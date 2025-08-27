@@ -91,6 +91,10 @@
     margin-bottom: 1.5rem;
   }
 
+  .article-body p {
+    @apply text-justify;
+  }
+
   .article-body p + p {
     margin-top: 1.5rem;
   }
