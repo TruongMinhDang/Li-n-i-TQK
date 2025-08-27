@@ -3,8 +3,7 @@
 
 import * as React from "react";
 import { useRef } from "react";
-import CountUp from "react-countup";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Users, Library, CalendarCheck, Calendar, Trophy, Award, Flag, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -76,6 +75,28 @@ const colorVariants: { [key: string]: string } = {
   accent: "border-accent text-accent",
 };
 
+function AnimatedCounter({ value }: { value: number }) {
+  const ref = React.useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+
+  const motionValue = useSpring(0, {
+    damping: 100,
+    stiffness: 100,
+  });
+
+  const rounded = useTransform(motionValue, (latest) => {
+    return new Intl.NumberFormat('de-DE').format(Math.round(latest));
+  });
+
+  React.useEffect(() => {
+    if (isInView) {
+      motionValue.set(value);
+    }
+  }, [motionValue, isInView, value]);
+
+  return <motion.span ref={ref}>{rounded}</motion.span>;
+}
+
 export function StatsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -120,7 +141,7 @@ export function StatsSection() {
         
         <motion.div 
             variants={containerVariants}
-            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
         >
             {stats.map((stat) => (
                 <motion.div 
@@ -138,7 +159,7 @@ export function StatsSection() {
                         </CardHeader>
                         <CardContent className="space-y-2">
                             <div className="text-5xl font-bold">
-                                {isInView && <CountUp end={stat.value} duration={2.5} separator="." />}
+                                <AnimatedCounter value={stat.value} />
                             </div>
                             <CardTitle className="text-xl font-headline text-foreground">{stat.title}</CardTitle>
                             <p className="text-muted-foreground text-sm">{stat.description}</p>
