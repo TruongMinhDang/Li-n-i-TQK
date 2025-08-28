@@ -10,7 +10,8 @@ import { PlayCircle } from "lucide-react";
 import { VideoPlayer } from "./video-player";
 
 const videoThumbnailUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/video-thumbnail.jpg?alt=media&token=2409a805-4740-4965-985c-43f9a74c4314";
-const videoUrl = "https://drive.google.com/file/d/1hPt1wYMG7fmazyW4r926qE3EnwbTSrVl/preview";
+// Use a direct MP4 link for the <video> tag. The Google Drive link is not directly embeddable this way.
+const videoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/LDTQK-intro-video.mp4?alt=media&token=875323a6-5632-4048-a151-71170d107128";
 
 export function VideoSection() {
   const ref = useRef(null);
@@ -65,20 +66,16 @@ export function VideoSection() {
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
                     variants={videoVariants}
+                    onClick={openPlayer}
                   >
-                    <div 
-                      onClick={openPlayer}
-                      className="p-1 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group aspect-video overflow-hidden relative"
-                    >
+                    <div className="p-1 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group aspect-video overflow-hidden relative">
                       <Image
                         src={videoThumbnailUrl}
                         alt="Video Giới thiệu Liên Đội Trần Quang Khải"
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div 
-                         className="absolute inset-0 flex items-center justify-center"
-                      >
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
                         <PlayCircle className="h-20 w-20 text-white/80 group-hover:text-white transition-all duration-300 transform group-hover:scale-110" />
                       </div>
                     </div>

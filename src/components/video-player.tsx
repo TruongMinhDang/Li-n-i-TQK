@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -17,12 +16,15 @@ export function VideoPlayer({ isOpen, onClose, videoUrl }: VideoPlayerProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl w-full p-0 bg-black border-0">
         <div className="aspect-video">
-           <iframe
+           <video
             className="w-full h-full"
             src={videoUrl}
             title="Giới thiệu Liên Đội Trần Quang Khải"
-            allow="autoplay"
-          ></iframe>
+            controls
+            autoPlay
+          >
+            Trình duyệt của bạn không hỗ trợ thẻ video.
+          </video>
         </div>
       </DialogContent>
     </Dialog>
