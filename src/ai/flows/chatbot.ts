@@ -153,9 +153,8 @@ const chatbotFlow = ai.defineFlow(
                 });
         }
         
-        // Retrieve context only if it's a knowledge-based question AND not primarily an image request
-        // This prevents searching the knowledge base for a drawing prompt.
-        if (useKnowledgeBase && !isImageRequest) {
+        // Retrieve context only if it's a knowledge-based question.
+        if (useKnowledgeBase) {
             context = retrieveContext(input.query);
         }
 
