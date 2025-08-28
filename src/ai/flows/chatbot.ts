@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A chatbot flow that answers questions based on the website's content.
@@ -59,7 +60,6 @@ const retrieveContext = (query: string): ContentIndex[] => {
         .map(x => x.item);
 };
 
-
 // Define Zod schemas for input and output
 const ChatInputSchema = z.object({
   query: z.string().describe("The user's question about the school."),
@@ -75,7 +75,6 @@ const ChatOutputSchema = z.object({
   imageUrl: z.string().url().optional().describe('The URL of a generated image, if requested.'),
 });
 export type ChatOutput = z.infer<typeof ChatOutputSchema>;
-
 
 const chatbotPrompt = ai.definePrompt({
     name: 'chatbotPrompt',
@@ -124,7 +123,6 @@ const chatbotPrompt = ai.definePrompt({
     `,
 });
 
-
 const chatbotFlow = ai.defineFlow(
     {
         name: 'chatbotFlow',
@@ -140,39 +138,31 @@ const chatbotFlow = ai.defineFlow(
         const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
         const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
         
-        let imagePromise: Promise<string | undefined> | undefined;
-        let context: ContentIndex[] | undefined;
+        let imageUrl: string | undefined;
 
-        // Start image generation in parallel if requested
+        // Start image generation only if requested.
         if (isImageRequest) {
-            imagePromise = generateImage({ prompt: input.query })
-                .then(result => result.imageUrl)
-                .catch(e => {
-                    console.error("Image generation failed", e);
-                    return undefined;
-                });
+            try {
+                const imageResult = await generateImage({ prompt: input.query });
+                imageUrl = imageResult.imageUrl;
+            } catch (e) {
+                console.error("Image generation failed", e);
+                // The text response will still be generated, but imageUrl will be undefined.
+            }
         }
         
         // Retrieve context only if it's a knowledge-based question.
-        if (useKnowledgeBase) {
-            context = retrieveContext(input.query);
-        }
-
-        // Start text generation
-        const textPromise = chatbotPrompt({
+        const context = useKnowledgeBase ? retrieveContext(input.query) : undefined;
+        
+        // Generate text response
+        const { output } = await chatbotPrompt({
             query: input.query,
             context: context,
         });
 
-        // Await both promises
-        const [textResult, imageUrl] = await Promise.all([
-            textPromise,
-            imagePromise // This will be undefined if no image was requested
-        ]);
-
         // Combine results
         return {
-            ...textResult.output!,
+            ...output!,
             imageUrl: imageUrl,
         };
     }
