@@ -8,7 +8,7 @@
  * - ChatOutput - The return type for the chat function.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai } from '@/lib/genkit-instance';
 import { z } from 'zod';
 import { knowledgeBase } from '@/lib/knowledge';
 import { generateImage } from './image-generation';

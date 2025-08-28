@@ -8,7 +8,7 @@
  * - GenerateImageOutput - The return type for the function.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai } from '@/lib/genkit-instance';
 import { z } from 'zod';
 
 const GenerateImageInputSchema = z.object({

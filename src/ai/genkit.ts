@@ -1,8 +1,11 @@
-import {genkit} from 'genkit';
-import {googleAI} from '@genkit-ai/googleai';
-import 'dotenv/config';
+'use server';
 
-export const ai = genkit({
-  plugins: [googleAI()],
-  model: 'googleai/gemini-1.5-flash-latest',
-});
+/**
+ * @fileOverview This file re-exports the Genkit AI instance.
+ * It is marked as a server-side module.
+ */
+
+import { ai } from '@/lib/genkit-instance';
+
+// Re-exporting for server-side usage.
+export { ai };
