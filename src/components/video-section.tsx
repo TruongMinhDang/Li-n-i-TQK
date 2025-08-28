@@ -68,20 +68,18 @@ export function VideoSection() {
                   >
                     <div 
                       onClick={openPlayer}
-                      className="animated-gradient-frame p-1 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group"
+                      className="p-1 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer group aspect-video overflow-hidden relative"
                     >
-                      <div className="aspect-video overflow-hidden rounded-lg relative">
-                        <Image
-                          src={videoThumbnailUrl}
-                          alt="Video Giới thiệu Liên Đội Trần Quang Khải"
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div 
-                           className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center"
-                        >
-                          <PlayCircle className="h-20 w-20 text-white/80 group-hover:text-white transition-all duration-300 transform group-hover:scale-110" />
-                        </div>
+                      <Image
+                        src={videoThumbnailUrl}
+                        alt="Video Giới thiệu Liên Đội Trần Quang Khải"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div 
+                         className="absolute inset-0 flex items-center justify-center"
+                      >
+                        <PlayCircle className="h-20 w-20 text-white/80 group-hover:text-white transition-all duration-300 transform group-hover:scale-110" />
                       </div>
                     </div>
                   </motion.div>
