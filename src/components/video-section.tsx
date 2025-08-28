@@ -58,7 +58,7 @@ export function VideoSection() {
                     <div className="aspect-video overflow-hidden rounded-xl shadow-lg">
                         <iframe
                             className="w-full h-full"
-                            src="https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Intro-LDTQK.mp4?alt=media&token=16c4f346-6819-455a-b286-a5d625d99f0e"
+                            src="https://drive.google.com/file/d/1hPt1wYMG7fmazyW4r926qE3EnwbTSrVl/preview"
                             title="Giới thiệu Liên Đội Trần Quang Khải"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
