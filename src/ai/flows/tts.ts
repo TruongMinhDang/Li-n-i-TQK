@@ -71,6 +71,30 @@ async function toWavBuffer(
   });
 }
 
+function expandAbbreviations(text: string): string {
+    const replacements: { [key: string]: string } = {
+        'THCS': 'Trung học cơ sở',
+        'TNTP': 'Thiếu niên Tiền phong',
+        'LĐTQK': 'Liên đội Trần Quang Khải',
+        'HCM': 'Hồ Chí Minh',
+        'CLB': 'Câu lạc bộ',
+        'BCH': 'Ban chỉ huy',
+        'TPT': 'Tổng phụ trách',
+        'ĐTN': 'Đoàn Thanh niên',
+        'TW': 'Trung ương',
+        'TP.HCM': 'Thành phố Hồ Chí Minh',
+        'TPHCM': 'Thành phố Hồ Chí Minh',
+        'HS': 'học sinh',
+        'GV': 'giáo viên',
+        'BGH': 'Ban Giám hiệu',
+        'HĐĐ': 'Hội đồng Đội',
+    };
+
+    // Use a regex with word boundaries (\b) to replace whole words only
+    const regex = new RegExp(`\\b(${Object.keys(replacements).join('|')})\\b`, 'g');
+    return text.replace(regex, (match) => replacements[match]);
+}
+
 const ttsFlow = ai.defineFlow(
   {
     name: 'ttsFlow',
@@ -93,8 +117,11 @@ const ttsFlow = ai.defineFlow(
       }
     }
 
-    // 2. If not cached, generate the audio
-    const fullTextToRead = `Bạn đang nghe tin của Liên đội Trần Quang Khải. ${title}. Tác giả: ${author}. ${content}. Cảm ơn bạn đã nghe tin!`;
+    // 2. If not cached, expand abbreviations and generate the audio
+    const expandedTitle = expandAbbreviations(title);
+    const expandedContent = expandAbbreviations(content);
+    
+    const fullTextToRead = `Bạn đang nghe tin của Liên đội Trần Quang Khải. ${expandedTitle}. Tác giả: ${author}. ${expandedContent}. Cảm ơn bạn đã nghe tin!`;
 
     const { media } = await ai.generate({
       model: 'googleai/gemini-2.5-flash-preview-tts',
