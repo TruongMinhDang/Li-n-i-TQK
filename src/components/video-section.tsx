@@ -10,7 +10,7 @@ import { PlayCircle } from "lucide-react";
 import { VideoPlayer } from "./video-player";
 
 const videoThumbnailUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/video-thumbnail.jpg?alt=media&token=2409a805-4740-4965-985c-43f9a74c4314";
-const videoUrl = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+const videoUrl = "https://www.youtube.com/embed/fB8TyL14UVQ?autoplay=1";
 
 export function VideoSection() {
   const ref = useRef(null);
