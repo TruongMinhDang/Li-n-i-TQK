@@ -9,30 +9,23 @@ import {
     Play, 
     Pause, 
     AlertTriangle, 
-    Headphones, 
-    Download,
-    Volume2,
-    VolumeX,
-    RotateCcw,
-    StopCircle
+    Headphones,
+    Download
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Slider } from './ui/slider';
-import { cn } from '@/lib/utils';
-import { Card } from './ui/card';
 
 interface ArticleTTSPlayerProps {
   article: Omit<GenerateArticleAudioInput, 'content'> & { content: string };
 }
 
-type PlayerStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'stopped' | 'error';
+type PlayerStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
 
 export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
   const [status, setStatus] = useState<PlayerStatus>('idle');
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [volume, setVolume] = useState(1);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -47,7 +40,7 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
     const setAudioTime = () => setCurrentTime(audio.currentTime);
     const handleEnded = () => {
       setCurrentTime(audio.duration);
-      setStatus('stopped');
+      setStatus('idle');
     };
 
     audio.addEventListener('loadeddata', setAudioData);
@@ -61,15 +54,9 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
     };
   }, [audioUrl]);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
-
   const handleGenerateAndPlay = async () => {
-    if (audioUrl) {
-      audioRef.current?.play();
+    if (audioUrl && audioRef.current) {
+      audioRef.current.play();
       setStatus('playing');
       return;
     }
@@ -82,7 +69,7 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
       if (!result.isFromCache) {
         toast({
           title: "Tạo âm thanh thành công!",
-          description: "Trình phát nhạc sẽ tự động bắt đầu.",
+          description: "Âm thanh sẽ tự động phát.",
         });
       }
     } catch (err) {
@@ -99,41 +86,27 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
   };
   
   useEffect(() => {
-      if(audioUrl && status === 'loading'){
-          const audio = audioRef.current;
-          if(audio){
-              audio.play().then(() => {
-                  setStatus('playing');
-              }).catch(e => {
-                  console.error("Autoplay was prevented:", e);
-                  setStatus('paused');
-              });
-          }
-      }
+    if (audioUrl && status === 'loading' && audioRef.current) {
+        audioRef.current.play().then(() => {
+            setStatus('playing');
+        }).catch(e => {
+            console.error("Autoplay was prevented:", e);
+            setStatus('paused');
+        });
+    }
   }, [audioUrl, status]);
 
-
-  const handlePlay = () => {
-    if (status === 'idle' || status === 'stopped') {
-      handleGenerateAndPlay();
-    } else if (status === 'paused') {
-      audioRef.current?.play();
-      setStatus('playing');
-    }
-  };
-  
-  const handlePause = () => {
-      if (status === 'playing') {
-          audioRef.current?.pause();
-          setStatus('paused');
-      }
-  };
-
-  const handleStop = () => {
-    if (audioRef.current) {
+  const handlePlayPause = () => {
+    if (status === 'playing' && audioRef.current) {
       audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setStatus('stopped');
+      setStatus('paused');
+    } else if ((status === 'paused' || status === 'idle') && audioRef.current) {
+      if (audioUrl) {
+         audioRef.current.play();
+         setStatus('playing');
+      } else {
+          handleGenerateAndPlay();
+      }
     }
   };
 
@@ -161,72 +134,44 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
     );
   }
 
-  const isPlayerActive = status === 'playing' || status === 'paused' || status === 'loading';
+  const isPlayerActive = status === 'playing' || status === 'paused';
 
   return (
-    <Card className="w-full my-8 p-4 rounded-lg bg-secondary/30 shadow-lg space-y-4">
-      <audio ref={audioRef} src={audioUrl || ''} controls={false} preload="metadata" />
+    <div className="flex items-center gap-2 p-2 my-6 border rounded-lg bg-secondary/50 w-full max-w-sm">
+      <audio ref={audioRef} src={audioUrl || ''} preload="metadata" />
 
-      <div className="flex items-center gap-4">
-        {/* Play/Pause Button */}
-        {status === 'playing' ? (
-             <Button onClick={handlePause} size="icon" className="rounded-full flex-shrink-0 bg-primary/80 hover:bg-primary h-12 w-12">
-                 <Pause className="h-6 w-6 fill-current" />
-             </Button>
-        ) : (
-            <Button onClick={handlePlay} size="icon" className="rounded-full flex-shrink-0 bg-primary/80 hover:bg-primary h-12 w-12" disabled={status === 'loading'}>
-                {status === 'loading' ? <Loader2 className="h-6 w-6 animate-spin" /> : <Play className="h-6 w-6 fill-current" />}
-            </Button>
-        )}
+      <Button onClick={handlePlayPause} variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0" disabled={status === 'loading'}>
+        {status === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" /> : 
+         status === 'playing' ? <Pause className="h-4 w-4" /> : 
+         <Play className="h-4 w-4" />}
+      </Button>
 
-        {/* Title and Scrubber */}
-        <div className="flex-grow space-y-2">
-            <div className="flex items-center gap-2">
-                <Headphones className="h-4 w-4 text-muted-foreground" />
-                <p className="text-sm font-semibold text-foreground truncate">Nghe bài viết</p>
-            </div>
-            <div className="flex items-center gap-2">
-                <span className="text-xs font-mono tabular-nums text-muted-foreground">{formatTime(currentTime)}</span>
-                <Slider
-                    value={[currentTime]}
-                    max={duration || 1}
-                    step={1}
-                    onValueChange={handleSeek}
-                    disabled={!isPlayerActive}
-                    className="flex-grow"
-                />
-                <span className="text-xs font-mono tabular-nums text-muted-foreground">{formatTime(duration)}</span>
-            </div>
+      <div className="flex flex-col flex-grow justify-center gap-1">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold text-foreground">Nghe đọc bài</span>
+          <a 
+            href={audioUrl || '#'} 
+            download={`${article.slug}.wav`} 
+            className={!audioUrl ? 'pointer-events-none opacity-50' : ''}
+            aria-disabled={!audioUrl}
+            tabIndex={!audioUrl ? -1 : undefined}
+          >
+            <Download className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+          </a>
         </div>
-
-         {/* Stop Button */}
-        <Button onClick={handleStop} size="icon" variant="ghost" className="rounded-full flex-shrink-0" disabled={!isPlayerActive}>
-            <StopCircle className="h-6 w-6" />
-        </Button>
+        <div className="flex items-center gap-2">
+           <span className="text-xs font-mono tabular-nums text-muted-foreground w-9">{formatTime(currentTime)}</span>
+           <Slider
+              value={[currentTime]}
+              max={duration || 1}
+              step={1}
+              onValueChange={handleSeek}
+              disabled={!isPlayerActive}
+              className="flex-grow h-1"
+            />
+           <span className="text-xs font-mono tabular-nums text-muted-foreground w-9">{formatTime(duration)}</span>
+        </div>
       </div>
-
-       {/* Volume and Download Controls */}
-       <div className="flex items-center justify-between gap-4 pt-2">
-            <div className="flex items-center gap-2 w-full max-w-[120px]">
-                <Button onClick={() => setVolume(v => v > 0 ? 0 : 1)} size="icon" variant="ghost" className="rounded-full h-8 w-8">
-                    {volume > 0 ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
-                </Button>
-                <Slider
-                    value={[volume]}
-                    max={1}
-                    step={0.1}
-                    onValueChange={(value) => setVolume(value[0])}
-                    className="flex-grow"
-                />
-            </div>
-            <Button variant="ghost" size="icon" asChild className="rounded-full h-8 w-8" disabled={!audioUrl}>
-                <a href={audioUrl || '#'} download={`${article.slug}.wav`}>
-                    <Download className="h-4 w-4" />
-                    <span className="sr-only">Tải về</span>
-                </a>
-            </Button>
-       </div>
-
-    </Card>
+    </div>
   );
 }
