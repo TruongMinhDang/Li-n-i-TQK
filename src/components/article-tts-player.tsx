@@ -148,16 +148,19 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
 
       <div className="flex flex-col flex-grow justify-center gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold text-foreground">Nghe đọc bài</span>
-          <a 
-            href={audioUrl || '#'} 
-            download={`${article.slug}.wav`} 
-            className={!audioUrl ? 'pointer-events-none opacity-50' : ''}
-            aria-disabled={!audioUrl}
-            tabIndex={!audioUrl ? -1 : undefined}
-          >
-            <Download className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-          </a>
+            <div className="flex items-center gap-2">
+                <Headphones className="h-4 w-4 text-primary" />
+                <span className="text-xs font-bold gradient-text">Nghe đọc bài</span>
+            </div>
+            <a 
+                href={audioUrl || '#'} 
+                download={`${article.slug}.wav`} 
+                className={!audioUrl ? 'pointer-events-none opacity-50' : ''}
+                aria-disabled={!audioUrl}
+                tabIndex={!audioUrl ? -1 : undefined}
+            >
+                <Download className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+            </a>
         </div>
         <div className="flex items-center gap-2">
            <span className="text-xs font-mono tabular-nums text-muted-foreground w-9">{formatTime(currentTime)}</span>
