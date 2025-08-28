@@ -21,8 +21,7 @@ export function VideoPlayer({ isOpen, onClose, videoUrl }: VideoPlayerProps) {
             className="w-full h-full"
             src={videoUrl}
             title="Giới thiệu Liên Đội Trần Quang Khải"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
+            allow="autoplay"
           ></iframe>
         </div>
       </DialogContent>
