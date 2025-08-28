@@ -17,6 +17,7 @@ interface Message {
     sender: 'user' | 'bot';
     text: string;
     sources?: ChatOutput['sources'];
+    imageUrl?: string;
 }
 
 // Helper function to parse simple Markdown (bold)
@@ -43,7 +44,7 @@ export function ChatBubble() {
     if (!isChatOpen && messages.length === 0) {
         // Add initial bot message when chat opens for the first time
         setMessages([
-            { sender: 'bot', text: 'Chào bồ, tớ là Chiêu Minh đây! Bồ cần tớ giúp gì không nè?' }
+            { sender: 'bot', text: 'Chào bồ, tớ là Chiêu Minh đây! Bồ cần tớ giúp gì không nè? Tớ còn biết vẽ nữa đó nha, thử yêu cầu tớ vẽ gì đó xem! 😉' }
         ]);
     }
   };
@@ -59,7 +60,12 @@ export function ChatBubble() {
 
     try {
       const result = await chat({ query: userMessage.text });
-      const botMessage: Message = { sender: 'bot', text: result.answer, sources: result.sources };
+      const botMessage: Message = { 
+          sender: 'bot', 
+          text: result.answer, 
+          sources: result.sources,
+          imageUrl: result.imageUrl 
+      };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error("Chatbot error:", error);
@@ -126,6 +132,17 @@ export function ChatBubble() {
                                     <div className={`flex flex-col gap-1 w-full max-w-[320px] ${msg.sender === 'user' ? 'items-end' : ''}`}>
                                         <div className={`flex flex-col leading-1.5 p-3 border-gray-200 ${msg.sender === 'user' ? 'rounded-e-xl rounded-es-xl bg-primary text-primary-foreground' : 'rounded-s-xl rounded-ee-xl bg-muted'}`}>
                                             <p className="text-sm font-normal">{renderMessage(msg.text)}</p>
+                                            {msg.imageUrl && (
+                                                <div className="mt-2">
+                                                    <Image 
+                                                        src={msg.imageUrl}
+                                                        alt="Generated image"
+                                                        width={300}
+                                                        height={300}
+                                                        className="rounded-lg"
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
                                         {msg.sources && msg.sources.length > 0 && (
                                             <div className="flex flex-wrap gap-1.5 mt-1">

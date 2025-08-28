@@ -11,6 +11,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import { knowledgeBase } from '@/lib/knowledge';
+import { generateImage } from './image-generation';
 
 // Define the structure for our searchable content index
 const contentIndexSchema = z.object({
@@ -71,6 +72,7 @@ const ChatOutputSchema = z.object({
     title: z.string(),
     url: z.string(),
   })).describe('A list of source documents used to generate the answer.'),
+  imageUrl: z.string().url().optional().describe('The URL of a generated image, if requested.'),
 });
 export type ChatOutput = z.infer<typeof ChatOutputSchema>;
 
@@ -102,6 +104,7 @@ const chatbotPrompt = ai.definePrompt({
         *   Nếu câu hỏi quá khó hoặc không biết, hãy nói một cách khéo léo: "Ui, câu này hơi khoai à nha 😅. Tớ chưa tìm thấy thông tin về vấn đề này. Bồ thử hỏi tớ câu khác hoặc liên hệ trực tiếp với Liên đội để có câu trả lời xịn nhất nha."
 
     4.  **Nguồn tham khảo:** Liệt kê chính xác các nguồn đã sử dụng trong trường 'sources'. Đừng liệt kê các nguồn bồ không dùng đến.
+    5.  **Yêu cầu vẽ:** Nếu người dùng yêu cầu vẽ, tạo hình ảnh, câu trả lời của bồ trong trường 'answer' phải là một câu xác nhận hoặc bình luận về hình ảnh sắp được tạo, ví dụ: "Okie la, để tớ trổ tài họa sĩ cho bồ xem nhé!", hoặc "Ta da! Tranh của bồ đây, xịn sò chưa?". KHÔNG đưa mô tả hình ảnh vào câu trả lời. Trường 'imageUrl' sẽ được xử lý riêng.
 
     ---
 
@@ -134,21 +137,32 @@ const chatbotFlow = ai.defineFlow(
     const queryLower = input.query.toLowerCase();
     const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
 
+    const imageKeywords = ['vẽ', 'tạo hình', 'vẽ cho', 'tạo cho', 'họa sĩ', 'bức tranh'];
+    const isImageRequest = imageKeywords.some(keyword => queryLower.includes(keyword));
+
     let context: ContentIndex[] | undefined;
+    let imageUrl: string | undefined;
     
     if (useKnowledgeBase) {
-        // 1. Retrieve context based on the user's query if keywords are present
         context = retrieveContext(input.query);
     }
 
-    // 2. Call the prompt. If context is available, it will be used. Otherwise, the AI will use general knowledge.
+    if (isImageRequest) {
+      try {
+        const imageResult = await generateImage({ prompt: input.query });
+        imageUrl = imageResult.imageUrl;
+      } catch (e) {
+        console.error("Image generation failed", e);
+        // Do not generate image, but the text response will still be generated.
+      }
+    }
+
     const { output } = await chatbotPrompt({
         query: input.query,
         context: context,
     });
     
-    // 3. Return the structured output
-    return output!;
+    return { ...output!, imageUrl };
   }
 );
 
