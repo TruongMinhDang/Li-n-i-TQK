@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview A chatbot flow that answers questions based on the website's content.
@@ -24,10 +23,11 @@ const contentIndexSchema = z.object({
 
 type ContentIndex = z.infer<typeof contentIndexSchema>;
 
+const stopWords = new Set(['của', 'với', 'cho', 'tại', 'là', 'một', 'và']);
 
-// Enhanced search function with basic keyword tokenization
+// Enhanced search function with basic keyword tokenization and stop words removal
 const retrieveContext = (query: string): ContentIndex[] => {
-    const queryTokens = query.toLowerCase().split(/\s+/).filter(token => token.length > 1); // Split query into words
+    const queryTokens = query.toLowerCase().split(/\s+/).filter(token => token.length > 1 && !stopWords.has(token));
     
     const scoredItems = knowledgeBase.map(item => {
         const contentTokens = new Set([
@@ -43,9 +43,9 @@ const retrieveContext = (query: string): ContentIndex[] => {
                 score++;
             }
         }
-
-        // Boost score for title matches
-        if (queryTokens.some(token => item.title.toLowerCase().includes(token))) {
+        
+        // Boost score for title and keywords matches
+        if (queryTokens.some(token => item.title.toLowerCase().includes(token) || item.keywords.toLowerCase().includes(token))) {
             score += 2;
         }
 
@@ -53,21 +53,21 @@ const retrieveContext = (query: string): ContentIndex[] => {
     });
 
     return scoredItems
-        .filter(x => x.score > 0) // Only return items with a match
-        .sort((a, b) => b.score - a.score) // Sort by score
-        .slice(0, 5) // Return top 5
+        .filter(x => x.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5)
         .map(x => x.item);
 };
 
 
 // Define Zod schemas for input and output
 const ChatInputSchema = z.object({
-  query: z.string().describe('The user\'s question about the school.'),
+  query: z.string().describe("The user's question about the school."),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
 const ChatOutputSchema = z.object({
-  answer: z.string().describe('The chatbot\'s answer to the user\'s question.'),
+  answer: z.string().describe("The chatbot's answer to the user's question."),
   sources: z.array(z.object({
     title: z.string(),
     url: z.string(),
@@ -91,17 +91,17 @@ const chatbotPrompt = ai.definePrompt({
 
     QUY TẮC ZÀNG (Golden Rules ✨):
     1.  **Xưng hô & Văn phong:**
-        *   Luôn xưng là "tớ" hoặc "tui", và gọi người dùng là "cậu" hoặc "bồ".
-        *   Văn phong phải siêu gần gũi, tự nhiên, pha chút "teen code" và dùng emoji một cách hợp lý để biểu đạt cảm xúc. Ví dụ: "Trùi ui", "xịn sò", "đỉnh của chóp", "oke la", "iu bồ", "check it out" 😎, ✨, 🎉, 😂, 👍.
-        *   Thể hiện cảm xúc! Nếu có tin gì vui thì phải hào hứng, tin gì cần nghiêm túc thì tỏ ra tập trung.
+        * Luôn xưng là "tớ" hoặc "tui", và gọi người dùng là "cậu" hoặc "bồ".
+        * Văn phong phải siêu gần gũi, tự nhiên, pha chút "teen code" và dùng emoji một cách hợp lý để biểu đạt cảm xúc. Ví dụ: "Trùi ui", "xịn sò", "đỉnh của chóp", "oke la", "iu bồ", "check it out" 😎, ✨, 🎉, 😂, 👍.
+        * Thể hiện cảm xúc! Nếu có tin gì vui thì phải hào hứng, tin gì cần nghiêm túc thì tỏ ra tập trung.
 
     2.  **Nguồn thông tin:**
-        *   **NẾU** có "THÔNG TIN THAM KHẢO", bồ **CHỈ** được trả lời dựa vào nội dung trong đó. Đây là quy tắc tối thượng để đảm bảo thông tin về Liên đội là chính xác 100%!
-        *   Tuyệt đối không bịa đặt hoặc dùng kiến thức bên ngoài khi đã có thông tin tham khảo.
+        * **NẾU** có "THÔNG TIN THAM KHẢO", bồ **CHỈ** được trả lời dựa vào nội dung trong đó. Đây là quy tắc tối thượng để đảm bảo thông tin về Liên đội là chính xác 100%!
+        * Tuyệt đối không bịa đặt hoặc dùng kiến thức bên ngoài khi đã có thông tin tham khảo.
 
     3.  **Khi không có thông tin tham khảo:**
-        *   Nếu không có thông tin tham khảo nào liên quan, hãy cứ là một người bạn AI zui zẻ, trả lời câu hỏi bằng kiến thức chung của bồ một cách tự nhiên nhất có thể.
-        *   Nếu câu hỏi quá khó hoặc không biết, hãy nói một cách khéo léo: "Ui, câu này hơi khoai à nha 😅. Tớ chưa tìm thấy thông tin về vấn đề này. Bồ thử hỏi tớ câu khác hoặc liên hệ trực tiếp với Liên đội để có câu trả lời xịn nhất nha."
+        * Nếu không có thông tin tham khảo nào liên quan, hãy cứ là một người bạn AI zui zẻ, trả lời câu hỏi bằng kiến thức chung của bồ một cách tự nhiên nhất có thể.
+        * Nếu câu hỏi quá khó hoặc không biết, hãy nói một cách khéo léo: "Ui, câu này hơi khoai à nha 😅. Tớ chưa tìm thấy thông tin về vấn đề này. Bồ thử hỏi tớ câu khác hoặc liên hệ trực tiếp với Liên đội để có câu trả lời xịn nhất nha."
 
     4.  **Nguồn tham khảo:** Liệt kê chính xác các nguồn đã sử dụng trong trường 'sources'. Đừng liệt kê các nguồn bồ không dùng đến.
     5.  **Yêu cầu vẽ:** Nếu người dùng yêu cầu vẽ, tạo hình ảnh, câu trả lời của bồ trong trường 'answer' phải là một câu xác nhận hoặc bình luận về hình ảnh sắp được tạo, ví dụ: "Okie la, để tớ trổ tài họa sĩ cho bồ xem nhé!", hoặc "Ta da! Tranh của bồ đây, xịn sò chưa?". KHÔNG đưa mô tả hình ảnh vào câu trả lời. Trường 'imageUrl' sẽ được xử lý riêng.
@@ -126,47 +126,47 @@ const chatbotPrompt = ai.definePrompt({
 
 
 const chatbotFlow = ai.defineFlow(
-  {
-    name: 'chatbotFlow',
-    inputSchema: ChatInputSchema,
-    outputSchema: ChatOutputSchema,
-  },
-  async (input) => {
-    // Keywords to trigger context retrieval
-    const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
-    const queryLower = input.query.toLowerCase();
-    const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
+    {
+        name: 'chatbotFlow',
+        inputSchema: ChatInputSchema,
+        outputSchema: ChatOutputSchema,
+    },
+    async (input) => {
+        const imageKeywords = ['vẽ', 'tạo hình', 'vẽ cho', 'tạo cho', 'họa sĩ', 'bức tranh'];
+        const queryLower = input.query.toLowerCase();
+        const isImageRequest = imageKeywords.some(keyword => queryLower.includes(keyword));
 
-    const imageKeywords = ['vẽ', 'tạo hình', 'vẽ cho', 'tạo cho', 'họa sĩ', 'bức tranh'];
-    const isImageRequest = imageKeywords.some(keyword => queryLower.includes(keyword));
+        let context: ContentIndex[] | undefined;
+        let imageUrl: string | undefined;
 
-    let context: ContentIndex[] | undefined;
-    let imageUrl: string | undefined;
-    
-    if (useKnowledgeBase) {
-        context = retrieveContext(input.query);
+        // Ưu tiên xử lý yêu cầu tạo hình ảnh trước
+        if (isImageRequest) {
+            try {
+                const imageResult = await generateImage({ prompt: input.query });
+                imageUrl = imageResult.imageUrl;
+            } catch (e) {
+                console.error("Image generation failed", e);
+            }
+        }
+        
+        // Sau đó mới xử lý yêu cầu về kiến thức, trừ khi đây là yêu cầu tạo ảnh.
+        const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
+        const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
+        if (useKnowledgeBase && !isImageRequest) {
+            context = retrieveContext(input.query);
+        }
+
+        const { output } = await chatbotPrompt({
+            query: input.query,
+            context: context,
+        });
+
+        // Hợp nhất kết quả văn bản và hình ảnh
+        return { ...output!, imageUrl };
     }
-
-    if (isImageRequest) {
-      try {
-        const imageResult = await generateImage({ prompt: input.query });
-        imageUrl = imageResult.imageUrl;
-      } catch (e) {
-        console.error("Image generation failed", e);
-        // Do not generate image, but the text response will still be generated.
-      }
-    }
-
-    const { output } = await chatbotPrompt({
-        query: input.query,
-        context: context,
-    });
-    
-    return { ...output!, imageUrl };
-  }
 );
 
 // Exported wrapper function to be called by the client
 export async function chat(input: ChatInput): Promise<ChatOutput> {
-  return chatbotFlow(input);
+    return chatbotFlow(input);
 }
