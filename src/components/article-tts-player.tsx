@@ -13,7 +13,8 @@ import {
     Download,
     Volume2,
     VolumeX,
-    RotateCcw
+    RotateCcw,
+    Square
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
@@ -40,15 +41,19 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
         }
 
         const setAudioTime = () => setCurrentTime(audio.currentTime);
+        
+        const handleEnded = () => setIsPlaying(false);
 
         audio.addEventListener('loadeddata', setAudioData);
         audio.addEventListener('timeupdate', setAudioTime);
+        audio.addEventListener('ended', handleEnded);
 
         audio.play().catch(e => console.error("Autoplay was prevented:", e));
 
         return () => {
             audio.removeEventListener('loadeddata', setAudioData);
             audio.removeEventListener('timeupdate', setAudioTime);
+            audio.removeEventListener('ended', handleEnded);
         }
     }, []);
     
@@ -58,14 +63,18 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
         }
     }, [volume]);
 
-    const togglePlayPause = () => {
+    const handlePlay = () => {
         if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-            } else {
-                audioRef.current.play();
-            }
-            setIsPlaying(!isPlaying);
+            audioRef.current.play();
+            setIsPlaying(true);
+        }
+    };
+
+    const handleStopPlayer = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            setIsPlaying(false);
         }
     };
     
@@ -88,8 +97,11 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
             <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} controls={false} />
             
             <div className="flex items-center gap-4">
-                <Button onClick={togglePlayPause} size="icon" className="rounded-full flex-shrink-0">
-                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+                <Button onClick={handlePlay} size="icon" className="rounded-full flex-shrink-0" disabled={isPlaying}>
+                    <Play className="h-5 w-5" />
+                </Button>
+                 <Button onClick={handleStopPlayer} size="icon" variant="destructive" className="rounded-full flex-shrink-0" disabled={!isPlaying}>
+                    <Square className="h-5 w-5" />
                 </Button>
 
                 <div className="flex-grow flex items-center gap-2">
@@ -119,7 +131,7 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
                 <div className="flex items-center gap-2">
                     <Button variant="ghost" onClick={onStop}>
                         <RotateCcw className="h-4 w-4 mr-2" />
-                        Dừng
+                        Đóng
                     </Button>
                     <Button variant="outline" size="icon" asChild>
                         <a href={audioUrl} download={`${slug}.wav`}>
