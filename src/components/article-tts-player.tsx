@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -83,7 +84,7 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
 
     return (
         <div className="w-full my-8 p-4 border rounded-lg bg-secondary/50 space-y-4">
-            <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} />
+            <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} controls={false} />
             
             <div className="flex items-center gap-4">
                 <Button onClick={togglePlayPause} size="icon" className="rounded-full">
