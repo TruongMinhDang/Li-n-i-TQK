@@ -1,60 +1,74 @@
-
-import { MetadataRoute } from 'next';
-import { newsArticles, podcasts, navLinks } from '@/lib/constants';
-
-const siteUrl = 'https://ldtqk.website';
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = [
-      '/',
-      '/chung-minh-la',
-      '/hanh-trinh',
-      '/hanh-trinh/lam-theo-loi-bac',
-      '/hanh-trinh/xay-dung-doi-vung-manh',
-      '/hanh-trinh/cung-tien-buoc-len-doan',
-      '/hanh-trinh/khong-gian-van-hoa-hcm',
-      '/vuon-uom',
-      '/vuon-uom/cau-chuyen-dep',
-      '/vuon-uom/mang-non-tieu-bieu',
-      '/vuon-uom/trien-lam-chuyen-de',
-      '/balo',
-      '/balo/chieu-minh-hoi-quan',
-      '/balo/ke-hoach',
-      '/balo/tai-lieu',
-      '/balo/ky-yeu',
-      '/balo/infographic',
-      '/lich-su-kien',
-      '/lien-he',
-      '/tin-tuc',
-      '/podcast',
-      '/gui-loi-chuc',
-      '/hoi-dap',
-      '/dieu-khoan-su-dung',
-      '/chinh-sach-bao-mat',
-      '/chinh-sach-cookie',
-      '/van-hoa-ung-xu',
-  ];
-
-  const staticRoutes = staticPages.map((route) => ({
-      url: `${siteUrl}${route}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: route === '/' ? 1.0 : 0.8,
-  }));
-
-  const articleRoutes = newsArticles.map(article => ({
-    url: `${siteUrl}/tin-tuc/${article.slug}`,
-    lastModified: article.date,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
-
-  const podcastRoutes = podcasts.map(podcast => ({
-    url: `${siteUrl}/podcast/${podcast.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }));
-
-  return [...staticRoutes, ...articleRoutes, ...podcastRoutes];
+{
+  "name": "nextn",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
+    "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@genkit-ai/googleai": "^1.14.1",
+    "@genkit-ai/next": "^1.14.1",
+    "@hookform/resolvers": "^4.1.3",
+    "@radix-ui/react-accordion": "^1.2.3",
+    "@radix-ui/react-alert-dialog": "^1.1.6",
+    "@radix-ui/react-avatar": "^1.1.3",
+    "@radix-ui/react-checkbox": "^1.1.4",
+    "@radix-ui/react-collapsible": "^1.1.11",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-dropdown-menu": "^2.1.6",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-menubar": "^1.1.6",
+    "@radix-ui/react-popover": "^1.1.6",
+    "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-radio-group": "^1.2.3",
+    "@radix-ui/react-scroll-area": "^1.2.3",
+    "@radix-ui/react-select": "^2.1.6",
+    "@radix-ui/react-separator": "^1.1.2",
+    "@radix-ui/react-slider": "^1.2.3",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-switch": "^1.1.3",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-toast": "^1.2.6",
+    "@radix-ui/react-tooltip": "^1.1.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.5.0",
+    "embla-carousel-react": "^8.6.0",
+    "firebase": "^10.12.2",
+    "framer-motion": "^11.3.19",
+    "genkit": "^1.14.1",
+    "lucide-react": "^0.475.0",
+    "next": "15.3.3",
+    "next-themes": "^0.3.0",
+    "patch-package": "^8.0.0",
+    "react": "^18.3.1",
+    "react-confetti": "^6.1.0",
+    "react-countup": "^6.5.3",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "recharts": "^2.15.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "tone": "^15.0.4",
+    "wav": "^1.0.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "genkit-cli": "^1.14.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
 }
