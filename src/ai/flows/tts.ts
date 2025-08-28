@@ -1,4 +1,5 @@
 'use server';
+
 /**
  * @fileOverview A Text-to-Speech (TTS) flow that converts article content to audio
  * and caches it in Firebase Storage.
@@ -10,9 +11,14 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import wav from 'wav';
-import { getStorage, ref, getDownloadURL, uploadString } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytes,
+} from 'firebase/storage';
 import firebaseApp from '@/lib/firebase';
+import wav from 'wav';
 
 const storage = getStorage(firebaseApp);
 
@@ -23,32 +29,43 @@ const GenerateArticleAudioInputSchema = z.object({
   author: z.string().describe('The author of the article.'),
   content: z.string().describe('The full text content of the article.'),
 });
-export type GenerateArticleAudioInput = z.infer<typeof GenerateArticleAudioInputSchema>;
+export type GenerateArticleAudioInput = z.infer<
+  typeof GenerateArticleAudioInputSchema
+>;
 
 const GenerateArticleAudioOutputSchema = z.object({
-  audioUrl: z.string().url().describe('The public URL of the generated audio file.'),
-  isFromCache: z.boolean().describe('Indicates if the audio was retrieved from cache.'),
+  audioUrl: z
+    .string()
+    .url()
+    .describe('The public URL of the generated audio file.'),
+  isFromCache: z
+    .boolean()
+    .describe('Indicates if the audio was retrieved from cache.'),
 });
-export type GenerateArticleAudioOutput = z.infer<typeof GenerateArticleAudioOutputSchema>;
+export type GenerateArticleAudioOutput = z.infer<
+  typeof GenerateArticleAudioOutputSchema
+>;
 
-
-async function toWav(pcmData: Buffer, channels = 1, rate = 24000, sampleWidth = 2): Promise<string> {
+async function toWavBuffer(
+  pcmData: Buffer,
+  channels = 1,
+  rate = 24000,
+  sampleWidth = 2
+): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const writer = new wav.Writer({
       channels,
       sampleRate: rate,
       bitDepth: sampleWidth * 8,
     });
-
     const bufs: any[] = [];
     writer.on('error', reject);
     writer.on('data', function (d) {
       bufs.push(d);
     });
     writer.on('end', function () {
-      resolve(Buffer.concat(bufs).toString('base64'));
+      resolve(Buffer.concat(bufs));
     });
-
     writer.write(pcmData);
     writer.end();
   });
@@ -70,23 +87,22 @@ const ttsFlow = ai.defineFlow(
       const downloadUrl = await getDownloadURL(storageRef);
       return { audioUrl: downloadUrl, isFromCache: true };
     } catch (error: any) {
-      // If file doesn't exist, proceed to generate it.
       if (error.code !== 'storage/object-not-found') {
-        console.error("Error checking Firebase Storage:", error);
+        console.error('Error checking Firebase Storage:', error);
         throw error;
       }
     }
 
     // 2. If not cached, generate the audio
     const fullTextToRead = `Bạn đang nghe tin của Liên đội Trần Quang Khải. ${title}. Tác giả: ${author}. ${content}. Cảm ơn bạn đã nghe tin!`;
-    
+
     const { media } = await ai.generate({
       model: 'googleai/gemini-2.5-flash-preview-tts',
       config: {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Algenib' }, // A standard, clear voice
+            prebuiltVoiceConfig: { voiceName: 'Algenib' },
           },
         },
       },
@@ -102,20 +118,20 @@ const ttsFlow = ai.defineFlow(
       media.url.substring(media.url.indexOf(',') + 1),
       'base64'
     );
-    const wavBase64 = await toWav(audioBuffer);
-    const wavDataUri = `data:audio/wav;base64,${wavBase64}`;
+    const wavBuffer = await toWavBuffer(audioBuffer);
 
     // 4. Upload the new WAV file to Firebase Storage
-    await uploadString(storageRef, wavDataUri, 'data_url');
-    
+    await uploadBytes(storageRef, wavBuffer, { contentType: 'audio/wav' });
+
     // 5. Get the public URL of the uploaded file
     const downloadUrl = await getDownloadURL(storageRef);
-    
+
     return { audioUrl: downloadUrl, isFromCache: false };
   }
 );
 
-
-export async function generateArticleAudio(input: GenerateArticleAudioInput): Promise<GenerateArticleAudioOutput> {
+export async function generateArticleAudio(
+  input: GenerateArticleAudioInput
+): Promise<GenerateArticleAudioOutput> {
   return ttsFlow(input);
 }
