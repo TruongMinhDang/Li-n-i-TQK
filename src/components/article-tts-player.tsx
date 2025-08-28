@@ -19,12 +19,13 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Slider } from './ui/slider';
+import { cn } from '@/lib/utils';
 
 interface ArticleTTSPlayerProps {
   article: Omit<GenerateArticleAudioInput, 'content'> & { content: string };
 }
 
-const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug: string; onStop: () => void }) => {
+const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl:string; slug: string; onStop: () => void }) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState(true);
     const [volume, setVolume] = useState(1);
@@ -70,7 +71,7 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
         }
     };
 
-    const handleStopPlayer = () => {
+    const handleStop = () => {
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
@@ -93,32 +94,32 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
     };
 
     return (
-        <div className="w-full my-8 p-4 border rounded-lg bg-secondary/50 space-y-4">
+        <div className="w-full my-8 p-4 border rounded-lg bg-secondary/50 shadow-lg space-y-4">
             <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} controls={false} />
             
             <div className="flex items-center gap-4">
                 <Button onClick={handlePlay} size="icon" className="rounded-full flex-shrink-0" disabled={isPlaying}>
-                    <Play className="h-5 w-5" />
+                    <Play className="h-5 w-5 fill-current" />
                 </Button>
-                 <Button onClick={handleStopPlayer} size="icon" variant="destructive" className="rounded-full flex-shrink-0" disabled={!isPlaying}>
-                    <Square className="h-5 w-5" />
+                 <Button onClick={handleStop} size="icon" variant="destructive" className="rounded-full flex-shrink-0" disabled={!isPlaying}>
+                    <Square className="h-5 w-5 fill-current" />
                 </Button>
 
                 <div className="flex-grow flex items-center gap-2">
-                    <span className="text-xs font-mono tabular-nums">{formatTime(currentTime)}</span>
+                    <span className="text-xs font-mono tabular-nums text-muted-foreground">{formatTime(currentTime)}</span>
                     <Slider
                         value={[currentTime]}
                         max={duration || 100}
                         step={1}
                         onValueChange={handleSeek}
                     />
-                    <span className="text-xs font-mono tabular-nums">{formatTime(duration)}</span>
+                    <span className="text-xs font-mono tabular-nums text-muted-foreground">{formatTime(duration)}</span>
                 </div>
             </div>
 
             <div className="flex items-center justify-between gap-4">
                  <div className="flex items-center gap-2 w-1/2 md:w-1/3">
-                    <Button onClick={() => setVolume(v => v > 0 ? 0 : 1)} size="icon" variant="ghost">
+                    <Button onClick={() => setVolume(v => v > 0 ? 0 : 1)} size="icon" variant="ghost" className="rounded-full">
                         {volume > 0 ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
                     </Button>
                     <Slider 
@@ -133,7 +134,7 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
                         <RotateCcw className="h-4 w-4 mr-2" />
                         Đóng
                     </Button>
-                    <Button variant="outline" size="icon" asChild>
+                    <Button variant="outline" size="icon" asChild className="rounded-full">
                         <a href={audioUrl} download={`${slug}.wav`}>
                             <Download className="h-4 w-4" />
                             <span className="sr-only">Tải về</span>
