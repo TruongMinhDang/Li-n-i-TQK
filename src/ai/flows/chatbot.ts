@@ -132,37 +132,50 @@ const chatbotFlow = ai.defineFlow(
         outputSchema: ChatOutputSchema,
     },
     async (input) => {
-        const imageKeywords = ['vẽ', 'tạo hình', 'vẽ cho', 'tạo cho', 'họa sĩ', 'bức tranh'];
+        const imageKeywords = ['vẽ', 'tạo hình', 'vẽ cho', 'tạo cho', 'họa sĩ', 'bức tranh', 'thiết kế'];
         const queryLower = input.query.toLowerCase();
         const isImageRequest = imageKeywords.some(keyword => queryLower.includes(keyword));
 
-        let context: ContentIndex[] | undefined;
-        let imageUrl: string | undefined;
-
-        // Ưu tiên xử lý yêu cầu tạo hình ảnh trước
-        if (isImageRequest) {
-            try {
-                const imageResult = await generateImage({ prompt: input.query });
-                imageUrl = imageResult.imageUrl;
-            } catch (e) {
-                console.error("Image generation failed", e);
-            }
-        }
-        
-        // Sau đó mới xử lý yêu cầu về kiến thức, trừ khi đây là yêu cầu tạo ảnh.
+        // School-related keywords to decide whether to use the knowledge base
         const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
         const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
+        
+        let imagePromise: Promise<string | undefined> | undefined;
+        let context: ContentIndex[] | undefined;
+
+        // Start image generation in parallel if requested
+        if (isImageRequest) {
+            imagePromise = generateImage({ prompt: input.query })
+                .then(result => result.imageUrl)
+                .catch(e => {
+                    console.error("Image generation failed", e);
+                    return undefined;
+                });
+        }
+        
+        // Retrieve context only if it's a knowledge-based question AND not primarily an image request
+        // This prevents searching the knowledge base for a drawing prompt.
         if (useKnowledgeBase && !isImageRequest) {
             context = retrieveContext(input.query);
         }
 
-        const { output } = await chatbotPrompt({
+        // Start text generation
+        const textPromise = chatbotPrompt({
             query: input.query,
             context: context,
         });
 
-        // Hợp nhất kết quả văn bản và hình ảnh
-        return { ...output!, imageUrl };
+        // Await both promises
+        const [textResult, imageUrl] = await Promise.all([
+            textPromise,
+            imagePromise // This will be undefined if no image was requested
+        ]);
+
+        // Combine results
+        return {
+            ...textResult.output!,
+            imageUrl: imageUrl,
+        };
     }
 );
 
