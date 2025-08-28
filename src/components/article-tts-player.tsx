@@ -77,6 +77,7 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
     };
 
     const formatTime = (time: number) => {
+        if (isNaN(time)) return "0:00";
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -87,19 +88,19 @@ const CustomAudioPlayer = ({ audioUrl, slug, onStop }: { audioUrl: string; slug:
             <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} controls={false} />
             
             <div className="flex items-center gap-4">
-                <Button onClick={togglePlayPause} size="icon" className="rounded-full">
+                <Button onClick={togglePlayPause} size="icon" className="rounded-full flex-shrink-0">
                     {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                 </Button>
 
                 <div className="flex-grow flex items-center gap-2">
-                    <span className="text-xs font-mono">{formatTime(currentTime)}</span>
+                    <span className="text-xs font-mono tabular-nums">{formatTime(currentTime)}</span>
                     <Slider
                         value={[currentTime]}
                         max={duration || 100}
                         step={1}
                         onValueChange={handleSeek}
                     />
-                    <span className="text-xs font-mono">{formatTime(duration)}</span>
+                    <span className="text-xs font-mono tabular-nums">{formatTime(duration)}</span>
                 </div>
             </div>
 
