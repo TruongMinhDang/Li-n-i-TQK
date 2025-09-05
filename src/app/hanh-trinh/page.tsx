@@ -46,6 +46,17 @@ export default function JourneyPage() {
         </p>
       </section>
 
+       <section className="prose prose-lg dark:prose-invert max-w-4xl mx-auto">
+        <blockquote>
+          <p>
+            Hành trình của mỗi đội viên tại Liên đội THCS Trần Quang Khải là một chuỗi những trải nghiệm học tập, rèn luyện và trưởng thành. Đó là con đường tiếp thu tri thức, trau dồi đạo đức theo 5 điều Bác Hồ dạy, tham gia các hoạt động tập thể để xây dựng một tổ chức Đội vững mạnh, và không ngừng phấn đấu để trở thành những đoàn viên ưu tú trong tương lai.
+          </p>
+        </blockquote>
+        <p>
+          Chuyên mục "Hành Trình" ghi lại những dấu ấn trên con đường đó, được chia thành các chủ đề chính: học tập và làm theo tấm gương đạo đức Hồ Chí Minh, các hoạt động xây dựng Đội, và quá trình phấn đấu để được đứng vào hàng ngũ của Đoàn. Mỗi bài viết, mỗi hình ảnh là một mảnh ghép tạo nên bức tranh toàn cảnh về sự phát triển của mỗi đội viên dưới mái nhà chung Trần Quang Khải.
+        </p>
+      </section>
+
       <section>
         <div className="bg-card p-8 rounded-lg shadow-inner">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
