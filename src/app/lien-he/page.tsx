@@ -1,12 +1,23 @@
-import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, MapPin, Phone } from 'lucide-react';
+
+"use client";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+
 
 const contactInfo = [
     {
       icon: <MapPin className="h-6 w-6 text-primary" />,
       title: "Địa chỉ",
-      value: "123 Đường ABC, Phường XYZ, Quận 1, Thành phố Hồ Chí Minh",
+      value: "94/3 Nguyễn Thế Truyện, Phường Tân Sơn Nhì, TP. Hồ Chí Minh",
     },
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
@@ -19,6 +30,107 @@ const contactInfo = [
       value: "contact@ldtqk.website",
     },
 ];
+
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: "Tên phải có ít nhất 2 ký tự." }),
+  email: z.string().email({ message: "Vui lòng nhập địa chỉ email hợp lệ." }),
+  subject: z.string().min(5, { message: "Chủ đề phải có ít nhất 5 ký tự." }),
+  message: z.string().min(10, { message: "Nội dung phải có ít nhất 10 ký tự." }),
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
+
+const ContactForm = () => {
+  const { toast } = useToast();
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: { name: "", email: "", subject: "", message: "" },
+  });
+
+  const onSubmit = (data: ContactFormData) => {
+    // Đây là nơi xử lý việc gửi form, ví dụ như gọi một API
+    console.log(data);
+    toast({
+      title: "Gửi thành công!",
+      description: "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất có thể.",
+    });
+    form.reset();
+  };
+  
+  return (
+      <Card>
+          <CardHeader>
+              <CardTitle className="font-headline text-2xl">Gửi Tin Nhắn Cho Chúng Tôi</CardTitle>
+              <CardDescription>Có câu hỏi hoặc góp ý? Đừng ngần ngại cho chúng tôi biết.</CardDescription>
+          </CardHeader>
+          <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Họ và Tên</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Tên của bạn" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Email của bạn" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <FormField
+                        control={form.control}
+                        name="subject"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Chủ đề</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Về vấn đề bạn quan tâm" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="message"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Nội dung</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Viết nội dung của bạn ở đây..." className="min-h-[100px]" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <Button type="submit" size="lg" className="w-full">
+                        <Send />
+                        Gửi Đi
+                    </Button>
+                </form>
+              </Form>
+          </CardContent>
+      </Card>
+  )
+}
+
 
 export default function ContactPage() {
   return (
@@ -33,7 +145,7 @@ export default function ContactPage() {
       </section>
 
       <section>
-        <div className="grid md:grid-cols-2 gap-8 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">
                 {contactInfo.map((info) => (
                     <Card key={info.title} className="bg-transparent border-0 shadow-none">
@@ -50,16 +162,22 @@ export default function ContactPage() {
                         </CardHeader>
                     </Card>
                 ))}
+                 <div className="rounded-lg overflow-hidden shadow-lg aspect-video">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.227076150244!2d106.6346723147498!3d10.79383639230948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175295f19523c9b%3A0x8615b39414417a82!2zOTQgTmd1eeG7hW4gVGjhur8gVHJ1eeG7h24sIFBow7ogVHJ1bmcsIFTDom4gUGjDuiwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1678886363023!5m2!1svi!2s"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen={true}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="Bản đồ vị trí Liên đội"
+                    ></iframe>
+                </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
-                <Image 
-                    src="https://placehold.co/800x600.png"
-                    data-ai-hint="city map"
-                    alt="Bản đồ"
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover"
-                />
+           
+            <div>
+              <ContactForm />
             </div>
         </div>
       </section>
