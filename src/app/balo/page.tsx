@@ -53,13 +53,13 @@ export default function BackpackPage() {
           {subCategories.map((category) => (
              <Link key={category.title} href={category.href} className="block group">
                 <Card className="h-full flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                    <CardHeader className="flex-row items-center gap-4">
-                        <div className="bg-secondary p-4 rounded-full">
+                    <CardHeader className="flex-row items-center gap-4 p-6">
+                        <div className="bg-secondary p-4 rounded-full transition-colors duration-300 group-hover:bg-primary/10">
                            {category.icon}
                         </div>
                         <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">{category.title}</CardTitle>
                     </CardHeader>
-                    <CardContent className="flex-grow">
+                    <CardContent className="flex-grow pt-0 p-6">
                         <p className="text-muted-foreground">{category.description}</p>
                     </CardContent>
                 </Card>
