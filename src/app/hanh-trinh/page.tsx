@@ -79,7 +79,9 @@ export default function JourneyPage() {
                               <div className="bg-secondary p-3 rounded-full">
                                   {category.icon}
                               </div>
-                              <CardTitle className="font-headline pt-2 text-xl group-hover:text-primary transition-colors">{category.title}</CardTitle>
+                              <CardTitle className="font-headline pt-2 text-xl group-hover:text-transparent group-hover:gradient-text-orange transition-colors duration-300">
+                                {category.title}
+                              </CardTitle>
                           </div>
                       </CardHeader>
                       <CardContent className="flex-grow">

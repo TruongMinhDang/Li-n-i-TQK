@@ -120,6 +120,10 @@
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-400;
   }
+  
+  .gradient-text-orange {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-orange-600;
+  }
 
   .gradient-text-slogan {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-purple-500;
