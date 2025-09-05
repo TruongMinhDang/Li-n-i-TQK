@@ -1,7 +1,12 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BookOpen, Star, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { newsArticles } from "@/lib/constants";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Calendar } from "lucide-react";
+
 
 const subCategories = [
   {
@@ -9,21 +14,21 @@ const subCategories = [
     title: "Mỗi Tuần Một Câu Chuyện Đẹp",
     description: "Lan tỏa những hành động đẹp, những câu chuyện ý nghĩa và những tấm gương người tốt việc tốt.",
     href: "/vuon-uom/cau-chuyen-dep",
-    image: { src: "https://placehold.co/600x400.png", hint: "helping others" },
+    categorySlug: "cau-chuyen-dep",
   },
   {
     icon: <Star className="h-8 w-8 text-warning" />,
     title: "Măng Non Tiêu Biểu",
     description: "Vinh danh những tấm gương đội viên xuất sắc trong học tập, rèn luyện và các hoạt động phong trào.",
     href: "/vuon-uom/mang-non-tieu-bieu",
-    image: { src: "https://placehold.co/600x400.png", hint: "students award ceremony" },
+    categorySlug: "mang-non-tieu-bieu",
   },
   {
     icon: <ImageIcon className="h-8 w-8 text-primary" />,
     title: "Triển lãm chuyên đề",
     description: "Thư viện hình ảnh các hoạt động, mô hình và thành tích nổi bật của Liên đội.",
     href: "/vuon-uom/trien-lam-chuyen-de",
-    image: { src: "https://placehold.co/600x400.png", hint: "photo gallery exhibit" },
+    categorySlug: "trien-lam-chuyen-de",
   },
 ];
 
@@ -39,39 +44,81 @@ export default function GardenPage() {
         </p>
       </section>
 
-      <section>
-        <div className="bg-card p-8 rounded-lg shadow-inner">
-          <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-3">
-            {subCategories.map((category) => (
-              <Link key={category.title} href={category.href} className="block group">
-                  <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                      <div className="relative">
+      <section className="space-y-16">
+        {subCategories.map((category) => {
+          const articles = newsArticles
+            .filter(a => a.category === category.categorySlug)
+            .sort((a, b) => b.date.getTime() - a.date.getTime())
+            .slice(0, 4);
+
+          // "Triển lãm chuyên đề" is a gallery, not an article list, so we skip rendering articles for it.
+          const isGallery = category.categorySlug === 'trien-lam-chuyen-de';
+
+          return (
+            <div key={category.href} className="space-y-6">
+              <div className="text-center">
+                <Link href={category.href}>
+                  <h2 className="text-3xl font-headline font-bold tracking-tight inline-block group transition-all duration-300">
+                    <span className="gradient-text-orange group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-destructive group-hover:to-warning">
+                        {category.title}
+                    </span>
+                    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-destructive mx-auto"></span>
+                  </h2>
+                </Link>
+                <p className="text-muted-foreground mt-2">{category.description}</p>
+              </div>
+
+              {isGallery ? (
+                 <Card className="text-center py-8 bg-secondary/50">
+                    <CardContent>
+                      <p className="text-muted-foreground">Chuyên mục này là một thư viện hình ảnh. Hãy bấm vào tiêu đề để khám phá nhé!</p>
+                    </CardContent>
+                 </Card>
+              ) : articles.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {articles.map(article => (
+                    <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
+                      <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                        <CardHeader className="p-0">
                           <Image
-                              src={category.image.src}
-                              alt={category.title}
-                              data-ai-hint={category.image.hint}
-                              width={600}
-                              height={400}
-                              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                            src={article.image.src}
+                            alt={article.title}
+                            data-ai-hint={article.image.hint}
+                            width={400}
+                            height={250}
+                            className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                          <div className="absolute inset-0 bg-black/20"></div>
-                      </div>
-                      <CardHeader>
-                        <div className="flex items-center gap-4">
-                            <div className="bg-secondary p-3 rounded-full">
-                                  {category.icon}
-                              </div>
-                            <CardTitle className="font-headline pt-2 text-xl group-hover:text-primary transition-colors">{category.title}</CardTitle>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="flex-grow">
-                          <p className="text-muted-foreground">{category.description}</p>
-                      </CardContent>
-                  </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
+                        </CardHeader>
+                        <CardContent className="p-4 flex flex-col flex-grow">
+                          <CardTitle className="font-headline text-base group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                            {article.title}
+                          </CardTitle>
+                           <CardDescription className="mt-2 text-sm line-clamp-2 flex-grow">
+                            {article.description}
+                          </CardDescription>
+                          <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground pt-4 border-t">
+                            <div className="flex items-center gap-1.5">
+                              <Calendar className="h-3.5 w-3.5" />
+                              <time dateTime={article.date.toISOString()}>
+                                {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                              </time>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                 <Card className="text-center py-8">
+                    <CardContent>
+                      <p className="text-muted-foreground">Chưa có bài viết cho chuyên mục này. Quay lại sau nhé!</p>
+                    </CardContent>
+                 </Card>
+              )}
+            </div>
+          )
+        })}
       </section>
     </div>
   );
