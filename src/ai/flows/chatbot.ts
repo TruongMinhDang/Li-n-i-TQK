@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A chatbot flow that answers questions based on the website's content.
@@ -137,31 +138,31 @@ const chatbotFlow = ai.defineFlow(
         const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
         const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
         
-        let imageUrl: string | undefined;
-
-        // Start image generation only if requested.
-        if (isImageRequest) {
-            try {
-                const imageResult = await generateImage({ prompt: input.query });
-                imageUrl = imageResult.imageUrl;
-            } catch (e) {
-                console.error("Image generation failed", e);
-                // The text response will still be generated, but imageUrl will be undefined.
-            }
-        }
-        
         // Retrieve context only if it's a knowledge-based question.
         const context = useKnowledgeBase ? retrieveContext(input.query) : undefined;
-        
-        // Generate text response
-        const { output } = await chatbotPrompt({
+
+        // Start image and text generation in parallel
+        const imagePromise = isImageRequest 
+            ? generateImage({ prompt: input.query }).catch(e => {
+                console.error("Image generation failed", e);
+                return null; // Return null on failure to not break Promise.all
+            })
+            : Promise.resolve(null);
+
+        const textPromise = chatbotPrompt({
             query: input.query,
             context: context,
         });
 
+        // Wait for both to complete
+        const [imageResult, textResult] = await Promise.all([imagePromise, textPromise]);
+        
+        const output = textResult.output!;
+        const imageUrl = imageResult?.imageUrl;
+
         // Combine results
         return {
-            ...output!,
+            ...output,
             imageUrl: imageUrl,
         };
     }
