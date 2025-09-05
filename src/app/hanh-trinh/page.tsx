@@ -1,7 +1,12 @@
+
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Handshake, Star, Building2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { BookOpen, Handshake, Star, Building2, Calendar, User } from "lucide-react";
 import Image from "next/image";
+import { newsArticles } from "@/lib/constants";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Badge } from "@/components/ui/badge";
 
 const subCategories = [
   {
@@ -9,30 +14,37 @@ const subCategories = [
     title: "Làm theo lời Bác",
     description: "Những câu chuyện và hoạt động học tập, làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh.",
     href: "/hanh-trinh/lam-theo-loi-bac",
-    image: { src: "https://placehold.co/600x400.png", hint: "students studying history" },
+    categorySlug: "lam-theo-loi-bac",
   },
   {
     icon: <Handshake className="h-8 w-8 text-destructive" />,
     title: "Xây Dựng Đội Vững Mạnh",
     description: "Các hoạt động rèn luyện kỹ năng, nghiệp vụ công tác Đội, nâng cao chất lượng đội viên.",
     href: "/hanh-trinh/xay-dung-doi-vung-manh",
-    image: { src: "https://placehold.co/600x400.png", hint: "students team building" },
+    categorySlug: "xay-dung-doi-vung-manh",
   },
   {
     icon: <Star className="h-8 w-8 text-warning" />,
     title: "Cùng Tiến Bước Lên Đoàn",
     description: "Hành trình phấn đấu của các đội viên ưu tú để được đứng vào hàng ngũ của Đoàn TNCS Hồ Chí Minh.",
     href: "/hanh-trinh/cung-tien-buoc-len-doan",
-    image: { src: "https://placehold.co/600x400.png", hint: "youth union ceremony" },
+    categorySlug: "cung-tien-buoc-len-doan",
   },
    {
     icon: <Building2 className="h-8 w-8 text-success" />,
     title: "Không Gian Văn Hóa Hồ Chí Minh",
     description: "Nơi học tập, lan tỏa tư tưởng, đạo đức và phong cách của Chủ tịch Hồ Chí Minh.",
     href: "/hanh-trinh/khong-gian-van-hoa-hcm",
-    image: { src: "https://placehold.co/600x400.png", hint: "ho chi minh museum" },
+    categorySlug: "khong-gian-van-hoa-hcm", // Note: This category might not have articles yet
   },
 ];
+
+const categoryMap: {[key: string]: string} = {
+  'xay-dung-doi-vung-manh': 'Xây Dựng Đội Vững Mạnh',
+  'lam-theo-loi-bac': 'Làm theo lời Bác',
+  'cung-tien-buoc-len-doan': 'Cùng Tiến Bước Lên Đoàn',
+  'su-kien-noi-bat': 'Sự Kiện Nổi Bật',
+};
 
 export default function JourneyPage() {
   return (
@@ -57,42 +69,71 @@ export default function JourneyPage() {
         </p>
       </section>
 
-      <section>
-        <div className="bg-card p-8 rounded-lg shadow-inner">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
-            {subCategories.map((category) => (
-              <Link key={category.title} href={category.href} className="block group">
-                  <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                      <div className="relative">
+      <section className="space-y-16">
+        {subCategories.map((category) => {
+          const articles = newsArticles
+            .filter(a => a.category === category.categorySlug)
+            .sort((a, b) => b.date.getTime() - a.date.getTime())
+            .slice(0, 4);
+
+          return (
+            <div key={category.href} className="space-y-6">
+              <div className="text-center">
+                <Link href={category.href}>
+                  <h2 className="text-3xl font-headline font-bold tracking-tight inline-block group transition-all duration-300">
+                    <span className="gradient-text-orange group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-destructive group-hover:to-warning">
+                        {category.title}
+                    </span>
+                    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-destructive mx-auto"></span>
+                  </h2>
+                </Link>
+                <p className="text-muted-foreground mt-2">{category.description}</p>
+              </div>
+
+              {articles.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {articles.map(article => (
+                    <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
+                      <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                        <CardHeader className="p-0">
                           <Image
-                              src={category.image.src}
-                              alt={category.title}
-                              data-ai-hint={category.image.hint}
-                              width={600}
-                              height={400}
-                              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                            src={article.image.src}
+                            alt={article.title}
+                            data-ai-hint={article.image.hint}
+                            width={400}
+                            height={250}
+                            className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                           <div className="absolute inset-0 bg-black/20"></div>
-                      </div>
-                      <CardHeader>
-                          <div className="flex items-center gap-4">
-                              <div className="bg-secondary p-3 rounded-full">
-                                  {category.icon}
-                              </div>
-                              <CardTitle className="font-headline pt-2 text-xl group-hover:text-transparent group-hover:gradient-text-orange transition-colors duration-300">
-                                {category.title}
-                              </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 flex flex-col flex-grow">
+                          <CardTitle className="font-headline text-base group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                            {article.title}
+                          </CardTitle>
+                          <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground pt-2 border-t">
+                            <div className="flex items-center gap-1.5">
+                              <Calendar className="h-3.5 w-3.5" />
+                              <time dateTime={article.date.toISOString()}>
+                                {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                              </time>
+                            </div>
                           </div>
-                      </CardHeader>
-                      <CardContent className="flex-grow">
-                          <p className="text-muted-foreground">{category.description}</p>
-                      </CardContent>
-                  </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                 <Card className="text-center py-8">
+                    <CardContent>
+                      <p className="text-muted-foreground">Chưa có bài viết cho chuyên mục này. Quay lại sau nhé!</p>
+                    </CardContent>
+                 </Card>
+              )}
+            </div>
+          )
+        })}
       </section>
     </div>
   );
 }
+
