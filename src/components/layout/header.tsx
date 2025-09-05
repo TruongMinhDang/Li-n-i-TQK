@@ -1,9 +1,10 @@
+
 "use client"
 
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, Search } from "lucide-react"
+import { Menu, Search, LogIn, LogOut, LayoutDashboard } from "lucide-react"
 import React from "react"
 
 import { cn } from "@/lib/utils"
@@ -16,6 +17,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import {
   Accordion,
@@ -24,6 +26,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { ThemeToggle } from "./theme-toggle"
+import { useAuth } from "@/context/auth-context"
+import { logoutUser } from "@/actions/auth"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 function SearchInput() {
   const router = useRouter();
@@ -51,6 +56,58 @@ function SearchInput() {
 
 const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9F937877-6455-41C5-B814-8D0FD806C613";
 
+function AuthButton() {
+    const { user, loading } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await logoutUser();
+        router.push('/'); // Redirect to home after logout
+    };
+
+    if (loading) {
+        return <Button variant="ghost" size="icon" disabled><div className="h-6 w-6 rounded-full bg-muted animate-pulse" /></Button>;
+    }
+
+    if (user) {
+        return (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                        <Avatar className="h-8 w-8">
+                            <AvatarImage src={user.photoURL || ''} alt="Admin" />
+                            <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+                        </Avatar>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                        <Link href="/admin/dashboard">
+                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                            <span>Bảng điều khiển</span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Đăng xuất</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        );
+    }
+
+    return (
+        <Button asChild variant="outline" size="sm">
+            <Link href="/login">
+                <LogIn className="mr-2 h-4 w-4" />
+                Đăng Nhập
+            </Link>
+        </Button>
+    );
+}
+
+
 export function SiteHeader() {
   const pathname = usePathname()
   const [openMenus, setOpenMenus] = React.useState<Record<string, boolean>>({})
@@ -64,6 +121,7 @@ export function SiteHeader() {
   }
 
   const isLinkActive = (href: string, subLinks?: any[]) => {
+    if (pathname.startsWith('/admin')) return false; // Don't show active state for main nav when in admin
     if (href === '/') return pathname === '/';
     if (subLinks) {
       return pathname.startsWith(href);
@@ -176,6 +234,7 @@ export function SiteHeader() {
               <SearchInput />
             </div>
             <ThemeToggle />
+            <AuthButton />
           </div>
         </div>
         
@@ -225,6 +284,9 @@ export function SiteHeader() {
                   <Accordion type="multiple" className="w-full">
                     {navLinks.map((link) => renderNavLink(link, true))}
                   </Accordion>
+                </div>
+                 <div className="mt-auto border-t pt-4">
+                    <AuthButton />
                 </div>
               </SheetContent>
             </Sheet>

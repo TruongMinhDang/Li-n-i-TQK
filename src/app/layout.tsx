@@ -10,6 +10,7 @@ import { ChatBubble } from '@/components/layout/chat-bubble'
 import { ThemeProvider } from '@/components/layout/theme-provider'
 import { AnnouncementTicker } from '@/components/layout/announcement-ticker'
 import { GoogleAnalytics } from '@/components/layout/google-analytics'
+import { AuthProvider } from '@/context/auth-context'
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -39,22 +40,24 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <FirebaseProvider>
-            <GoogleAnalytics />
-            <div id="fb-root"></div>
-            <script async defer crossOrigin="anonymous" src={`https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=${FACEBOOK_APP_ID}&autoLogAppEvents=1`} nonce="aBcDeFg"></script>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <AnnouncementTicker />
-              <main className="flex-1 container py-8">
-                {children}
-              </main>
-              <SiteFooter />
-              <BackToTopButton />
-              <ChatBubble />
-            </div>
-            <Toaster />
-          </FirebaseProvider>
+          <AuthProvider>
+            <FirebaseProvider>
+              <GoogleAnalytics />
+              <div id="fb-root"></div>
+              <script async defer crossOrigin="anonymous" src={`https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=${FACEBOOK_APP_ID}&autoLogAppEvents=1`} nonce="aBcDeFg"></script>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <AnnouncementTicker />
+                <main className="flex-1 container py-8">
+                  {children}
+                </main>
+                <SiteFooter />
+                <BackToTopButton />
+                <ChatBubble />
+              </div>
+              <Toaster />
+            </FirebaseProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
