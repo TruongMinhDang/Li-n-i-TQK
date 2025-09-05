@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { submitContactForm } from '@/actions/contact';
 
 
 const contactInfo = [
@@ -47,14 +48,22 @@ const ContactForm = () => {
     defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    // Đây là nơi xử lý việc gửi form, ví dụ như gọi một API
-    console.log(data);
-    toast({
-      title: "Gửi thành công!",
-      description: "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất có thể.",
-    });
-    form.reset();
+  const onSubmit = async (data: ContactFormData) => {
+    const result = await submitContactForm(data);
+
+    if (result.success) {
+      toast({
+        title: "Gửi thành công!",
+        description: "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất có thể.",
+      });
+      form.reset();
+    } else {
+       toast({
+        title: "Lỗi",
+        description: result.error || "Không thể gửi tin nhắn của bạn. Vui lòng thử lại.",
+        variant: "destructive",
+      });
+    }
   };
   
   return (
@@ -74,7 +83,7 @@ const ContactForm = () => {
                                 <FormItem>
                                 <FormLabel>Họ và Tên</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Tên của bạn" {...field} />
+                                    <Input placeholder="Tên của bạn" {...field} disabled={form.formState.isSubmitting} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -87,7 +96,7 @@ const ContactForm = () => {
                                 <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Email của bạn" {...field} />
+                                    <Input placeholder="Email của bạn" {...field} disabled={form.formState.isSubmitting}/>
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -101,7 +110,7 @@ const ContactForm = () => {
                             <FormItem>
                             <FormLabel>Chủ đề</FormLabel>
                             <FormControl>
-                                <Input placeholder="Về vấn đề bạn quan tâm" {...field} />
+                                <Input placeholder="Về vấn đề bạn quan tâm" {...field} disabled={form.formState.isSubmitting}/>
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -114,15 +123,15 @@ const ContactForm = () => {
                             <FormItem>
                             <FormLabel>Nội dung</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Viết nội dung của bạn ở đây..." className="min-h-[100px]" {...field} />
+                                <Textarea placeholder="Viết nội dung của bạn ở đây..." className="min-h-[100px]" {...field} disabled={form.formState.isSubmitting}/>
                             </FormControl>
                             <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" size="lg" className="w-full">
+                    <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting}>
                         <Send />
-                        Gửi Đi
+                        {form.formState.isSubmitting ? 'Đang gửi...' : 'Gửi Đi'}
                     </Button>
                 </form>
               </Form>
