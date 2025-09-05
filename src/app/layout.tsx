@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: 'Website chính thức của Liên Đội THCS Trần Quang Khải',
 };
 
+const FACEBOOK_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "YOUR_FACEBOOK_APP_ID_PLACEHOLDER";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
-        <meta property="fb:app_id" content="YOUR_FACEBOOK_APP_ID" />
+        <meta property="fb:app_id" content={FACEBOOK_APP_ID} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;500;700&family=Pacifico&family=Dancing+Script&display=swap" rel="stylesheet" />
@@ -40,7 +42,7 @@ export default function RootLayout({
           <FirebaseProvider>
             <GoogleAnalytics />
             <div id="fb-root"></div>
-            <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=YOUR_FACEBOOK_APP_ID&autoLogAppEvents=1" nonce="aBcDeFg"></script>
+            <script async defer crossOrigin="anonymous" src={`https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=${FACEBOOK_APP_ID}&autoLogAppEvents=1`} nonce="aBcDeFg"></script>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
               <AnnouncementTicker />
