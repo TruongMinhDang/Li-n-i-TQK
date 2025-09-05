@@ -66,13 +66,17 @@ const ChatInputSchema = z.object({
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
-const ChatOutputSchema = z.object({
+// This is the output from the text model ONLY. The final flow output has the imageUrl.
+const TextModelOutputSchema = z.object({
   answer: z.string().describe("The chatbot's answer to the user's question."),
   sources: z.array(z.object({
     title: z.string(),
     url: z.string(),
   })).describe('A list of source documents used to generate the answer.'),
-  imageUrl: z.string().url().optional().describe('The URL of a generated image, if requested.'),
+});
+
+const ChatOutputSchema = TextModelOutputSchema.extend({
+    imageUrl: z.string().url().optional().describe('The URL of a generated image, if requested.'),
 });
 export type ChatOutput = z.infer<typeof ChatOutputSchema>;
 
@@ -84,7 +88,7 @@ const chatbotPrompt = ai.definePrompt({
         context: z.array(contentIndexSchema).optional(),
       }),
     },
-    output: { schema: ChatOutputSchema },
+    output: { schema: TextModelOutputSchema }, // Use the schema without imageUrl for the text model
     prompt: `Bồ là Chiêu Minh, một trợ lý AI "zui zẻ" của Liên đội THCS Trần Quang Khải, đến từ Chiêu Minh Hội Quán.
     Nhiệm vụ của bồ là trả lời các câu hỏi từ các bạn đội viên một cách thân thiện, nhiệt tình và "rất Gen Z" nhé! 😉
 
