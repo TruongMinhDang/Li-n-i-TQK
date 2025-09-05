@@ -39,13 +39,22 @@ const subCategories = [
 export default function BackpackPage() {
   return (
     <div className="space-y-12">
-      <section className="text-center">
-        <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Balo
-        </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-          Hành trang số với đầy đủ tài liệu, kế hoạch và kiến thức cần thiết cho mỗi đội viên.
-        </p>
+      <section className="relative py-20 md:py-32 rounded-xl overflow-hidden bg-amber-50 dark:bg-amber-950/20">
+        <Image 
+          src="https://placehold.co/1600x900.png"
+          alt="Balo"
+          data-ai-hint="books library knowledge"
+          fill
+          className="object-cover object-center absolute inset-0 z-0 opacity-10"
+        />
+        <div className="container relative z-10 text-center">
+            <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text-orange mb-4">
+              Balo
+            </h1>
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
+              Hành trang số với đầy đủ tài liệu, kế hoạch và kiến thức cần thiết cho mỗi đội viên.
+            </p>
+        </div>
       </section>
 
       <section>

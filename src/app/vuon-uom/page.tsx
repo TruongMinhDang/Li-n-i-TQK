@@ -35,13 +35,22 @@ const subCategories = [
 export default function GardenPage() {
   return (
     <div className="space-y-12">
-      <section className="text-center">
-        <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Vườn Ươm
-        </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-          Nơi vinh danh những bông hoa đẹp, những tấm gương sáng và những việc làm tốt của Liên đội.
-        </p>
+      <section className="relative py-20 md:py-32 rounded-xl overflow-hidden bg-green-50 dark:bg-green-950/20">
+        <Image 
+          src="https://placehold.co/1600x900.png"
+          alt="Vườn Ươm"
+          data-ai-hint="garden leaves nature"
+          fill
+          className="object-cover object-center absolute inset-0 z-0 opacity-10"
+        />
+        <div className="container relative z-10 text-center">
+            <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text-green mb-4">
+              Vườn Ươm
+            </h1>
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
+              Nơi vinh danh những bông hoa đẹp, những tấm gương sáng và những việc làm tốt của Liên đội.
+            </p>
+        </div>
       </section>
 
       <section className="space-y-16">

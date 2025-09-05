@@ -6,7 +6,6 @@ import Image from "next/image";
 import { newsArticles } from "@/lib/constants";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
-import { Badge } from "@/components/ui/badge";
 
 const subCategories = [
   {
@@ -49,13 +48,22 @@ const categoryMap: {[key: string]: string} = {
 export default function JourneyPage() {
   return (
     <div className="space-y-12">
-      <section className="text-center">
-        <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Hành Trình
-        </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-          Khám phá các hoạt động, sự kiện và phong trào sôi nổi của Liên đội qua các chuyên mục.
-        </p>
+      <section className="relative py-20 md:py-32 rounded-xl overflow-hidden bg-blue-50 dark:bg-blue-950/20">
+        <Image 
+          src="https://placehold.co/1600x900.png"
+          alt="Hành Trình"
+          data-ai-hint="journey path abstract"
+          fill
+          className="object-cover object-center absolute inset-0 z-0 opacity-10"
+        />
+        <div className="container relative z-10 text-center">
+            <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text mb-4">
+              Hành Trình
+            </h1>
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
+              Khám phá các hoạt động, sự kiện và phong trào sôi nổi của Liên đội qua các chuyên mục.
+            </p>
+        </div>
       </section>
 
        <section className="prose prose-lg dark:prose-invert max-w-4xl mx-auto">
@@ -64,9 +72,6 @@ export default function JourneyPage() {
             Hành trình của mỗi đội viên tại Liên đội THCS Trần Quang Khải là một chuỗi những trải nghiệm học tập, rèn luyện và trưởng thành. Đó là con đường tiếp thu tri thức, trau dồi đạo đức theo 5 điều Bác Hồ dạy, tham gia các hoạt động tập thể để xây dựng một tổ chức Đội vững mạnh, và không ngừng phấn đấu để trở thành những đoàn viên ưu tú trong tương lai.
           </p>
         </blockquote>
-        <p>
-          Chuyên mục "Hành Trình" ghi lại những dấu ấn trên con đường đó, được chia thành các chủ đề chính: học tập và làm theo tấm gương đạo đức Hồ Chí Minh, các hoạt động xây dựng Đội, và quá trình phấn đấu để được đứng vào hàng ngũ của Đoàn. Mỗi bài viết, mỗi hình ảnh là một mảnh ghép tạo nên bức tranh toàn cảnh về sự phát triển của mỗi đội viên dưới mái nhà chung Trần Quang Khải.
-        </p>
       </section>
 
       <section className="space-y-16">
@@ -136,4 +141,3 @@ export default function JourneyPage() {
     </div>
   );
 }
-
