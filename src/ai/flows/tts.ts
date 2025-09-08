@@ -47,8 +47,6 @@ export type GenerateArticleAudioOutput = z.infer<
   typeof GenerateArticleAudioOutputSchema
 >;
 
-// The toWavBuffer function is not needed for the text-to-speech-1 model as it returns WAV directly.
-
 function expandAbbreviations(text: string): string {
     const replacements: { [key: string]: string } = {
         'THCS': 'Trung học cơ sở',
@@ -102,17 +100,14 @@ const ttsFlow = ai.defineFlow(
     const fullTextToRead = `Bạn đang nghe tin của Liên đội Trần Quang Khải. ${expandedTitle}. Tác giả: ${author}. ${expandedContent}. Cảm ơn bạn đã nghe tin!`;
 
     const { media } = await ai.generate({
-      model: 'googleai/text-to-speech-1', // Using the more cost-effective model
+      model: 'googleai/text-to-speech-1',
+      prompt: fullTextToRead,
+      voice: 'vi-VN-Standard-A',
+      audio: {
+        encoding: 'LINEAR16',
+        sampleRate: 24000,
+      },
       config: {
-        // Different models might have different config structures
-        // This model uses a more direct configuration.
-        voiceConfig: {
-          voiceName: 'vi-VN-Standard-A', // A standard Vietnamese voice
-        },
-        audioConfig: {
-          audioEncoding: 'LINEAR16', // WAV format
-          sampleRateHertz: 24000,
-        },
         safetySettings: [
             {
                 category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
@@ -131,8 +126,7 @@ const ttsFlow = ai.defineFlow(
                 threshold: 'BLOCK_ONLY_HIGH',
             }
         ]
-      },
-      prompt: fullTextToRead,
+      }
     });
 
     if (!media) {
