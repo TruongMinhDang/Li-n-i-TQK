@@ -34,7 +34,7 @@ const subCategories = [
     title: "Không Gian Văn Hóa Hồ Chí Minh",
     description: "Nơi học tập, lan tỏa tư tưởng, đạo đức và phong cách của Chủ tịch Hồ Chí Minh.",
     href: "/hanh-trinh/khong-gian-van-hoa-hcm",
-    categorySlug: "khong-gian-van-hoa-hcm", // Note: This category might not have articles yet
+    categorySlug: "khong-gian-van-hoa-hcm",
   },
 ];
 
@@ -43,6 +43,7 @@ const categoryMap: {[key: string]: string} = {
   'lam-theo-loi-bac': 'Làm theo lời Bác',
   'cung-tien-buoc-len-doan': 'Cùng Tiến Bước Lên Đoàn',
   'su-kien-noi-bat': 'Sự Kiện Nổi Bật',
+  'khong-gian-van-hoa-hcm': 'Không Gian Văn Hóa Hồ Chí Minh',
 };
 
 export default function JourneyPage() {

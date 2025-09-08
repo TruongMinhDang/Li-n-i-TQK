@@ -26,6 +26,7 @@ const categoryMap: {[key: string]: {name: string, href: string}} = {
   'cau-chuyen-dep': { name: 'Mỗi Tuần Một Câu Chuyện Đẹp', href: '/vuon-uom/cau-chuyen-dep' },
   'mang-non-tieu-bieu': { name: 'Măng Non Tiêu Biểu', href: '/vuon-uom/mang-non-tieu-bieu' },
   'su-kien-noi-bat': { name: 'Sự Kiện Nổi Bật', href: '/lich-su-kien' }, 
+  'khong-gian-van-hoa-hcm': { name: 'Không Gian Văn Hóa Hồ Chí Minh', href: '/hanh-trinh/khong-gian-van-hoa-hcm' },
 };
 
 function calculateReadingTime(content: string): number {

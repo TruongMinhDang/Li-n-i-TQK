@@ -70,6 +70,50 @@ const createNewsDate = (year: number, month: number, day: number) => new Date(ye
 
 export const newsArticles: NewsArticle[] = [
   {
+    slug: "thu-bac-ho-gui-hoc-sinh-ngay-khai-truong-dau-tien",
+    category: "khong-gian-van-hoa-hcm",
+    date: createNewsDate(2024, 8, 26),
+    author: "Ban Biên Tập",
+    title: "Thư Bác Hồ gửi học sinh nhân ngày khai trường đầu tiên của nước Việt Nam Dân chủ Cộng hòa",
+    description: "Ngày 5/9/1945, chỉ ít ngày sau khi đất nước giành được độc lập, Chủ tịch Hồ Chí Minh đã gửi bức thư lịch sử đến các em học sinh nhân dịp khai trường đầu tiên của nước Việt Nam Dân chủ Cộng hòa.",
+    image: { src: "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Kh%C3%B4ng%20gian%20V%C4%83n%20ho%CC%81a%20H%C3%B4%CC%80%20Chi%CC%81%20Minh%2F545185619_1516425880488174_6127544855963415475_n.jpg?alt=media&token=a2426507-ce5a-497d-b08a-f596c3a054fd", hint: "President Ho Chi Minh" },
+    content: `Ngày 5/9/1945, chỉ ít ngày sau khi đất nước giành được độc lập, Chủ tịch Hồ Chí Minh đã gửi bức thư lịch sử đến các em học sinh nhân dịp khai trường đầu tiên của nước Việt Nam Dân chủ Cộng hòa. Đây không chỉ là một văn bản mang tính thời sự lúc bấy giờ, mà còn là một di sản tinh thần quý báu, góp phần hình thành nên không gian văn hóa Hồ Chí Minh trong đời sống dân tộc.
+
+Bức thư ngắn gọn, giản dị nhưng chứa đựng nhiều tầng ý nghĩa sâu sắc. Trước hết, đó là tình cảm yêu thương tha thiết của Bác dành cho thiếu nhi. Người đã đặt các em học sinh vào vị trí trung tâm, coi thế hệ trẻ là mầm non của đất nước, là niềm tin và hy vọng cho tương lai dân tộc.
+
+Thứ hai, bức thư khẳng định vai trò to lớn của tri thức và giáo dục. Câu nói bất hủ của Bác:
+
+<blockquote>Non sông Việt Nam có trở nên tươi đẹp hay không… chính là nhờ một phần lớn ở công học tập của các em.</blockquote>
+
+không chỉ là lời nhắn nhủ, mà còn là định hướng chiến lược cho sự phát triển đất nước: muốn đi lên, muốn sánh vai cùng bạn bè năm châu, dân tộc Việt Nam phải bắt đầu từ sự nghiệp giáo dục.
+
+Thứ ba, bức thư còn mang trong mình giá trị văn hóa và nhân văn sâu sắc. Trong hoàn cảnh đất nước vừa thoát khỏi ách nô lệ, Bác đã khơi dậy niềm tự hào dân tộc, tinh thần tự chủ, đồng thời gieo vào lòng các em học sinh khát vọng xây dựng một nước Việt Nam độc lập, giàu mạnh, văn minh.
+
+Gần 80 năm đã trôi qua, nhưng bức thư của Bác vẫn giữ nguyên giá trị, trở thành lời nhắc nhở thiêng liêng đối với các thế hệ học sinh Việt Nam. Đọc lại bức thư hôm nay, chúng ta càng thêm thấm thía tầm nhìn xa rộng, tình yêu thương bao la và niềm tin bất diệt của Bác đối với thế hệ trẻ.
+
+Có thể khẳng định rằng, bức thư Bác Hồ gửi học sinh không chỉ là một văn kiện lịch sử, mà còn là một di sản văn hóa tinh thần vô giá, góp phần nuôi dưỡng không gian văn hóa Hồ Chí Minh trong tâm hồn mỗi người Việt Nam, đặc biệt là thế hệ học sinh – những chủ nhân tương lai của đất nước.
+
+Toàn văn bức thư Bác Hồ gửi học sinh nhân ngày khai trường đầu tiên của nước Việt Nam Dân chủ Cộng hòa
+
+Các em học sinh,
+
+Ngày hôm nay là ngày khai trường đầu tiên ở Nước Việt Nam Dân chủ Cộng hòa. Tôi đã tưởng tượng thấy trước mắt cái cảnh nhộn nhịp tưng bừng của ngày tựu trường ở khắp các nơi. Các em hẳn thấy đều vui vẻ vì sau mấy tháng giời nghỉ học, sau bao nhiêu cuộc chuyển biến khác thường, các em lại được gặp thầy gặp bạn. Nhưng sung sướng hơn nữa, từ giờ phút này giờ đi các em bắt đầu được nhận một nền giáo dục hoàn toàn Việt Nam. Trước đây cha anh các em, và có thể ngay chính các em nữa, đã phải chịu nhận một nền học vấn nô lệ, nghĩa là do một chế độ thực dân làm sai, tạo cho nó để thỏa một bọn thực dân người Pháp.
+
+Ngày nay các em được cái may mắn cho cha anh là được hưởng một nền giáo dục mới mẻ, hoàn toàn Việt Nam. Các em được đi học để sau này giúp nước Việt Nam trở nên một nước hoàn toàn độc lập, một nước hoàn toàn dân chủ, một nước hoàn toàn giàu mạnh. Các em học sinh yêu quý, trong lúc cả nước đang sôi nổi trong công cuộc xây dựng nước nhà, các em cũng được may mắn hơn cha anh các em ngày trước là ngày nay các em được sống một cuộc đời hạnh phúc, một nền tự do độc lập, và nhất là được học hành đầy đủ.
+
+Tôi mong các em cố gắng học tập, ngoan ngoãn, nghe thầy, yêu bạn. Sau 80 năm giời nô lệ làm cho nước nhà bị yếu hèn, ngày nay chúng ta cần phải xây dựng lại cơ đồ mà tổ tiên đã để lại cho chúng ta, làm sao cho chúng ta theo kịp các nước khác trên hoàn cầu. Trong công cuộc kiến thiết đó, nước nhà trông mong chờ ở các em rất nhiều.
+
+Non sông Việt Nam có trở nên tươi đẹp hay không, dân tộc Việt Nam có bước tới đài vinh quang để sánh vai với các cường quốc năm châu được hay không, chính là nhờ một phần lớn ở công học tập của các em.
+
+Đối riêng với các em lớn, tôi khuyên thêm một điều này: chúng ta đã đánh đuổi được thực dân, chúng ta đã giành được độc lập. Nhưng giặc Pháp còn lăm le quay lại. Chúng về và kẻ khác mạnh hơn mà trở lại. Tất nhiên chúng sẽ bị bại, vì tất cả các quốc dân đoàn kết chặt chẽ và được giáo dục đầy đủ sẽ thắng. Nhưng sự thắng lợi ấy sẽ chắc chắn và mau lẹ hơn nếu các em chuẩn bị từ bây giờ để sau này trở nên những người công dân tốt. Phải siêng năng học tập, siêng năng rèn luyện để mai sau các em có đủ tài, đủ đức phụng sự nước nhà, phục vụ đồng bào.
+
+Các em học sinh yêu quý, ngày mai mở đầu một năm học mới. Tôi đã tưởng tượng thấy các em vui tươi đón ngày khai trường. Tôi tin chắc các em sẽ vui vẻ và vững vàng kết quả tốt đẹp.
+
+Chào các em thân yêu.
+
+Hồ Chí Minh`
+  },
+  {
     slug: "hoi-nghi-tong-ket-cuoi-cung-quan-tan-phu",
     category: "xay-dung-doi-vung-manh",
     date: createNewsDate(2025, 6, 13),

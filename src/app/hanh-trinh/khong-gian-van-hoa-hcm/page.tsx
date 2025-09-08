@@ -1,46 +1,77 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { newsArticles } from "@/lib/constants";
 import Image from "next/image";
-import { BookOpen } from "lucide-react";
+import Link from "next/link";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Calendar, User } from "lucide-react";
 
 export default function HoChiMinhCulturalSpacePage() {
+  const category = "khong-gian-van-hoa-hcm";
+  const categoryArticles = newsArticles
+    .filter((article) => article.category === category)
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
+  
+  const categoryMap: {[key: string]: string} = {
+    'khong-gian-van-hoa-hcm': 'Không Gian Văn Hóa Hồ Chí Minh'
+  };
+  const categoryName = categoryMap[category] || category;
+
   return (
     <div className="space-y-12">
       <section className="text-center">
         <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
-          Không Gian Văn Hóa Hồ Chí Minh
+          {categoryName}
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
           Nơi học tập, lan tỏa tư tưởng, đạo đức và phong cách của Chủ tịch Hồ Chí Minh.
         </p>
       </section>
-
-      <section>
-        <Card className="overflow-hidden">
-          <CardHeader className="p-0">
-             <Image
-              src="https://placehold.co/1200x500.png"
-              alt="Không Gian Văn Hóa Hồ Chí Minh"
-              data-ai-hint="ho chi minh museum"
-              width={1200}
-              height={500}
-              className="w-full h-auto object-cover"
-            />
-          </CardHeader>
-          <CardContent className="p-6 md:p-8">
-            <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-headline">
-              <p>
-                Không gian văn hóa Hồ Chí Minh tại Liên đội THCS Trần Quang Khải là một dự án trọng điểm, được xây dựng với mục tiêu tạo ra một môi trường giáo dục trực quan, sinh động để các bạn đội viên, thiếu nhi có thể tìm hiểu, học tập và làm theo tư tưởng, đạo đức, phong cách của Bác.
-              </p>
-              <blockquote>
-                Đây không chỉ là nơi trưng bày tư liệu, hình ảnh về cuộc đời và sự nghiệp vĩ đại của Người, mà còn là không gian tổ chức các hoạt động, buổi sinh hoạt chuyên đề, cuộc thi kể chuyện, giúp các em thấm nhuần hơn những bài học quý báu mà Bác đã để lại.
-              </blockquote>
-              <p>
-                Thông qua các hoạt động tại đây, Liên đội mong muốn mỗi đội viên sẽ trở thành một bông hoa đẹp trong vườn hoa nghìn việc tốt, luôn ghi nhớ và thực hiện tốt 5 điều Bác Hồ dạy, xứng đáng là con ngoan, trò giỏi, cháu ngoan Bác Hồ.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+      
+      {categoryArticles.length > 0 ? (
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categoryArticles.map((article) => (
+            <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
+              <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <CardHeader className="p-0">
+                  <Image
+                    src={article.image.src}
+                    alt={article.title}
+                    data-ai-hint={article.image.hint}
+                    width={600}
+                    height={400}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </CardHeader>
+                <CardContent className="p-4 flex flex-col flex-grow">
+                  <CardTitle className="font-headline text-lg group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                    {article.title}
+                  </CardTitle>
+                  <CardDescription className="mt-2 text-sm line-clamp-3 flex-grow">
+                    {article.description}
+                  </CardDescription>
+                  <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground pt-4 border-t border-border">
+                    <div className="flex items-center gap-1.5">
+                      <User className="h-3.5 w-3.5" />
+                      <span>{article.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="h-3.5 w-3.5" />
+                      <time dateTime={article.date.toISOString()}>
+                        {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                      </time>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </section>
+      ) : (
+        <section className="text-center py-16">
+            <p className="text-muted-foreground">Chưa có bài viết nào trong chuyên mục này.</p>
+        </section>
+      )}
     </div>
   );
 }
