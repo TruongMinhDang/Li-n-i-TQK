@@ -2,10 +2,11 @@
 "use client"
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { FileText, Search } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface SearchableContent {
   title: string;
@@ -42,7 +43,7 @@ const contentIndex: SearchableContent[] = [
   { title: 'Infographic', description: 'Thông tin, kiến thức được trình bày một cách trực quan.', url: '/balo/infographic', keywords: 'infographic an toàn mạng' },
 ];
 
-export default function SearchPage() {
+function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const [results, setResults] = useState<SearchableContent[]>([]);
@@ -111,4 +112,36 @@ export default function SearchPage() {
       </section>
     </div>
   );
+}
+
+function SearchSkeleton() {
+    return (
+        <div className="space-y-8">
+            <section className="text-center space-y-4">
+                <Skeleton className="h-12 w-3/4 mx-auto" />
+                <Skeleton className="h-6 w-1/2 mx-auto" />
+            </section>
+            <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {[...Array(3)].map((_, i) => (
+                    <Card key={i}>
+                        <CardHeader>
+                           <Skeleton className="h-6 w-2/3" />
+                        </CardHeader>
+                        <CardContent>
+                           <Skeleton className="h-4 w-full" />
+                           <Skeleton className="h-4 w-5/6 mt-2" />
+                        </CardContent>
+                    </Card>
+                ))}
+            </section>
+        </div>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<SearchSkeleton />}>
+            <SearchResults />
+        </Suspense>
+    );
 }
