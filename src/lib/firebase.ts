@@ -2,6 +2,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -20,6 +21,15 @@ if (!getApps().length) {
 } else {
   firebaseApp = getApp();
 }
+
+// Initialize App Check
+if (typeof window !== 'undefined') {
+  const appCheck = initializeAppCheck(firebaseApp, {
+    provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_RECAPTCHA_V3_SITE_KEY!),
+    isTokenAutoRefreshEnabled: true
+  });
+}
+
 
 // Initialize services
 getFirestore(firebaseApp);
