@@ -47,30 +47,7 @@ export type GenerateArticleAudioOutput = z.infer<
   typeof GenerateArticleAudioOutputSchema
 >;
 
-async function toWavBuffer(
-  pcmData: Buffer,
-  channels = 1,
-  rate = 24000,
-  sampleWidth = 2
-): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const writer = new wav.Writer({
-      channels,
-      sampleRate: rate,
-      bitDepth: sampleWidth * 8,
-    });
-    const bufs: any[] = [];
-    writer.on('error', reject);
-    writer.on('data', function (d) {
-      bufs.push(d);
-    });
-    writer.on('end', function () {
-      resolve(Buffer.concat(bufs));
-    });
-    writer.write(pcmData);
-    writer.end();
-  });
-}
+// The toWavBuffer function is not needed for the text-to-speech-1 model as it returns WAV directly.
 
 function expandAbbreviations(text: string): string {
     const replacements: { [key: string]: string } = {
@@ -125,13 +102,16 @@ const ttsFlow = ai.defineFlow(
     const fullTextToRead = `Bạn đang nghe tin của Liên đội Trần Quang Khải. ${expandedTitle}. Tác giả: ${author}. ${expandedContent}. Cảm ơn bạn đã nghe tin!`;
 
     const { media } = await ai.generate({
-      model: 'googleai/gemini-2.5-flash-preview-tts',
+      model: 'googleai/text-to-speech-1', // Using the more cost-effective model
       config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Algenib' },
-          },
+        // Different models might have different config structures
+        // This model uses a more direct configuration.
+        voiceConfig: {
+          voiceName: 'vi-VN-Standard-A', // A standard Vietnamese voice
+        },
+        audioConfig: {
+          audioEncoding: 'LINEAR16', // WAV format
+          sampleRateHertz: 24000,
         },
         safetySettings: [
             {
@@ -159,15 +139,14 @@ const ttsFlow = ai.defineFlow(
       throw new Error('AI did not return any media.');
     }
 
-    // 3. Convert PCM audio from AI to WAV format
+    // 3. Convert base64 from data URI to a Buffer
     const audioBuffer = Buffer.from(
       media.url.substring(media.url.indexOf(',') + 1),
       'base64'
     );
-    const wavBuffer = await toWavBuffer(audioBuffer);
 
     // 4. Upload the new WAV file to Firebase Storage
-    await uploadBytes(storageRef, wavBuffer, { contentType: 'audio/wav' });
+    await uploadBytes(storageRef, audioBuffer, { contentType: 'audio/wav' });
 
     // 5. Get the public URL of the uploaded file
     const downloadUrl = await getDownloadURL(storageRef);
