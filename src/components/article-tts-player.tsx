@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -39,7 +40,9 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
     const setAudioData = () => setDuration(audio.duration);
     const setAudioTime = () => setCurrentTime(audio.currentTime);
     const handleEnded = () => {
-      setCurrentTime(audio.duration);
+      if (audioRef.current) {
+        setCurrentTime(audioRef.current.duration);
+      }
       setStatus('idle');
     };
 
@@ -118,7 +121,7 @@ export function ArticleTTSPlayer({ article }: ArticleTTSPlayerProps) {
   };
 
   const formatTime = (time: number) => {
-    if (isNaN(time) || time === Infinity) return "0:00";
+    if (isNaN(time) || !isFinite(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;

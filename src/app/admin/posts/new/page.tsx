@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,11 +20,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon, FileUp, Save } from "lucide-react";
 import Link from "next/link";
-import { authors, newsArticles } from "@/lib/constants";
+import { authors } from "@/lib/constants";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const categoryMap: { [key: string]: string } = {
@@ -33,6 +35,7 @@ const categoryMap: { [key: string]: string } = {
   'cau-chuyen-dep': 'Mỗi Tuần Một Câu Chuyện Đẹp',
   'mang-non-tieu-bieu': 'Măng Non Tiêu Biểu',
   'su-kien-noi-bat': 'Sự Kiện Nổi Bật',
+  'khong-gian-van-hoa-hcm': 'Không Gian Văn Hóa Hồ Chí Minh',
 };
 
 const postFormSchema = z.object({
