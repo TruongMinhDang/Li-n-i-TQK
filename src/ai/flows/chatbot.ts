@@ -138,12 +138,8 @@ const chatbotFlow = ai.defineFlow(
         const queryLower = input.query.toLowerCase();
         const isImageRequest = imageKeywords.some(keyword => queryLower.includes(keyword));
 
-        // School-related keywords to decide whether to use the knowledge base
-        const schoolKeywords = ['liên đội', 'trường', 'trần quang khải', 'lđtqk', 'nhà xanh', 'chiêu minh', 'thầy đăng'];
-        const useKnowledgeBase = schoolKeywords.some(keyword => queryLower.includes(keyword));
-        
-        // Retrieve context only if it's a knowledge-based question.
-        const context = useKnowledgeBase ? retrieveContext(input.query) : undefined;
+        // Always retrieve context from knowledge base
+        const context = retrieveContext(input.query);
 
         // Start image and text generation in parallel
         const imagePromise = isImageRequest 
