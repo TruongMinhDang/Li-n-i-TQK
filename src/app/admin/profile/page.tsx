@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -50,6 +51,14 @@ export default function ProfilePage() {
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast({
+          title: "Lỗi Tải Lên",
+          description: "Kích thước ảnh không được vượt quá 5MB.",
+          variant: "destructive",
+        });
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
@@ -101,49 +110,67 @@ export default function ProfilePage() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <Card>
-                <CardContent className="pt-6">
-                    <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
-                        <div className="relative group">
-                            <Avatar className="h-24 w-24 border">
-                                <AvatarImage src={photoPreview || user.photoURL || undefined} alt={user.displayName || 'User'} />
-                                <AvatarFallback><UserIcon /></AvatarFallback>
-                            </Avatar>
-                             <label htmlFor="photo-upload" className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-full cursor-pointer">
-                                <Camera className="h-8 w-8 text-white" />
-                            </label>
-                            <Input id="photo-upload" type="file" className="hidden" accept="image/*" onChange={handlePhotoChange} />
-                        </div>
-                        <div className="flex-1 text-center sm:text-left">
-                            <FormField
-                                control={form.control}
-                                name="displayName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Tên hiển thị</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Tên của bạn" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem className="mt-4">
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} disabled />
-                                    </FormControl>
+                <CardHeader>
+                    <CardTitle>Thông Tin Cá Nhân</CardTitle>
+                    <CardDescription>Cập nhật ảnh đại diện và tên hiển thị của bạn.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <FormField
+                        control={form.control}
+                        name="photo"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Ảnh đại diện</FormLabel>
+                                <div className="flex items-center gap-6">
+                                    <div className="relative group">
+                                        <Avatar className="h-24 w-24 border">
+                                            <AvatarImage src={photoPreview || user.photoURL || undefined} alt={user.displayName || 'User'} />
+                                            <AvatarFallback><UserIcon className="h-10 w-10 text-muted-foreground" /></AvatarFallback>
+                                        </Avatar>
+                                        <label htmlFor="photo-upload" className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-full cursor-pointer">
+                                            <Camera className="h-8 w-8 text-white" />
+                                        </label>
+                                        <Input id="photo-upload" type="file" className="hidden" accept="image/png, image/jpeg, image/gif" onChange={handlePhotoChange} />
+                                    </div>
                                     <FormDescription>
-                                        Email không thể thay đổi.
+                                        Nhấn vào ảnh để thay đổi. <br/>
+                                        Ảnh nên có định dạng JPG, PNG, hoặc GIF và nhỏ hơn 5MB.
                                     </FormDescription>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                                </div>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="displayName"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Tên hiển thị</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Tên của bạn" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                    <Input {...field} disabled />
+                                </FormControl>
+                                <FormDescription>
+                                    Email không thể thay đổi.
+                                </FormDescription>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                 </CardContent>
             </Card>
