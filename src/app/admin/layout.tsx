@@ -14,6 +14,10 @@ const adminNavItems = [
     href: "/admin/dashboard",
   },
   {
+    title: "Hồ Sơ",
+    href: "/admin/profile",
+  },
+  {
     title: "Tin Nhắn",
     href: "/admin/messages",
   },
