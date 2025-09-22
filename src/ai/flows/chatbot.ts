@@ -24,7 +24,7 @@ const contentIndexSchema = z.object({
 
 type ContentIndex = z.infer<typeof contentIndexSchema>;
 
-const stopWords = new Set(['của', 'với', 'cho', 'tại', 'là', 'một', 'và']);
+const stopWords = new Set(['của', 'với', 'cho', 'tại', 'là', 'một', 'và', 'có', 'không', 'được', 'khi']);
 
 // Enhanced search function with basic keyword tokenization and stop words removal
 const retrieveContext = (query: string): ContentIndex[] => {
@@ -138,8 +138,12 @@ const chatbotFlow = ai.defineFlow(
         const queryLower = input.query.toLowerCase();
         const isImageRequest = imageKeywords.some(keyword => queryLower.includes(keyword));
 
-        // Always retrieve context from knowledge base
-        const context = retrieveContext(input.query);
+        // Keywords to decide if we should search the knowledge base
+        const schoolKeywords = ['trường', 'liên đội', 'chiêu minh', 'trần quang khải', 'ldtqk', 'thầy', 'cô', 'hoạt động', 'sự kiện', 'đội viên', 'nhà xanh', 'học sinh'];
+        const isSchoolRelatedQuery = schoolKeywords.some(keyword => queryLower.includes(keyword));
+
+        // Only retrieve context if the query seems related to the school.
+        const context = isSchoolRelatedQuery ? retrieveContext(input.query) : [];
 
         // Start image and text generation in parallel
         const imagePromise = isImageRequest 
