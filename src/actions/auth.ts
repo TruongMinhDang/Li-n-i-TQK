@@ -38,7 +38,9 @@ export async function loginUser(credentials: z.infer<typeof loginSchema>) {
     return { success: true, userId: userCredential.user.uid };
   } catch (error: any) {
     let errorMessage = "Email hoặc mật khẩu không đúng.";
-    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+    if (error.code === 'auth/invalid-api-key') {
+      errorMessage = "Lỗi cấu hình: API Key của Firebase không hợp lệ. Vui lòng kiểm tra lại file .env.";
+    } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
         errorMessage = "Email hoặc mật khẩu không đúng.";
     }
     return { success: false, error: errorMessage };
