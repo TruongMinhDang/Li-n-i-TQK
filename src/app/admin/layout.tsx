@@ -1,7 +1,7 @@
 
 "use client";
 
-import { AuthProvider, ProtectedRoute } from "@/context/auth-context";
+import { ProtectedRoute } from "@/context/auth-context";
 import { SidebarNav } from "./_components/sidebar-nav";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ export default function AdminLayout({
   const handleLogout = async () => {
     await logoutUser();
     router.push('/login');
+    router.refresh();
   };
 
   return (

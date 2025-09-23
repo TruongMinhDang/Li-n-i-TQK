@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +32,7 @@ type LoginFormData = z.infer<typeof loginFormSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const { toast } = useToast();
   
   const form = useForm<LoginFormData>({
@@ -46,7 +47,9 @@ export default function LoginPage() {
         title: "Đăng nhập thành công!",
         description: "Chào mừng quản trị viên quay trở lại.",
       });
+      // Chuyển hướng ngay sau khi đăng nhập thành công
       router.push("/admin/dashboard");
+      router.refresh(); // Tải lại trạng thái server để đảm bảo layout admin nhận đúng user
     } else {
       toast({
         title: "Đăng nhập thất bại",
@@ -57,10 +60,12 @@ export default function LoginPage() {
   };
 
   // If user is already logged in, redirect to dashboard
-  if (user) {
-    router.push('/admin/dashboard');
-    return null; // Render nothing while redirecting
-  }
+  useEffect(() => {
+    if (!loading && user) {
+        router.push('/admin/dashboard');
+    }
+  }, [user, loading, router]);
+
 
   return (
     <div className="flex items-center justify-center py-12">
