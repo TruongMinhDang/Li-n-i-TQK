@@ -5,6 +5,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { Loader2 } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface AuthContextType {
   user: User | null;
@@ -34,7 +35,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={value}>
-        {/* We don't render children until loading is false */}
         {children}
     </AuthContext.Provider>
   );
@@ -48,13 +48,15 @@ export const useAuth = () => {
 // A wrapper component to protect routes
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const { user, loading } = useAuth();
-    const router = (globalThis.window as any)?.next?.router;
+    const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
-        if (!loading && !user) {
+        // We don't want to redirect while loading, and we don't want to redirect if we're already on the login page.
+        if (!loading && !user && pathname !== '/login') {
             router.push('/login');
         }
-    }, [user, loading, router]);
+    }, [user, loading, router, pathname]);
 
     if (loading) {
         return (
@@ -65,10 +67,10 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     }
 
     if (!user) {
-        // This will be shown briefly before the redirect happens
+        // User is not logged in, but we are letting the useEffect handle the redirect.
+        // Returning null prevents rendering the protected content.
         return null;
     }
 
     return <>{children}</>;
 };
-
