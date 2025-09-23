@@ -45,6 +45,7 @@ const activityHistory = [
 export default function ProfilePage() {
   const { user, loading } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -58,13 +59,15 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (!isEditing && user) {
         form.reset({
             displayName: user.displayName || '',
             photo: null,
         });
+        setPhotoPreview(user.photoURL);
+        setPhotoDataUrl(null);
     }
-  }, [user, form]);
+  }, [user, form, isEditing]);
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -97,17 +100,32 @@ export default function ProfilePage() {
         title: "Cập nhật thành công!",
         description: result.message,
       });
-      // A page reload is needed to reflect the updated auth state everywhere
-      window.location.reload(); 
+      // Delay slightly to allow auth state to propagate, then refresh server components
+      setTimeout(() => {
+        router.refresh();
+        setIsEditing(false);
+      }, 500); 
     } else {
       toast({
         title: "Cập nhật thất bại",
         description: result.error,
         variant: "destructive",
       });
+      setIsEditing(false);
     }
-    setIsEditing(false);
   };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Reset form to original user data
+    if (user) {
+        form.reset({
+            displayName: user.displayName || '',
+        });
+        setPhotoPreview(user.photoURL);
+        setPhotoDataUrl(null);
+    }
+  }
 
   if (loading || !user) {
     return (
@@ -180,7 +198,7 @@ export default function ProfilePage() {
                     </Card>
                     
                     <div className="flex justify-end gap-2">
-                        <Button type="button" variant="outline" onClick={() => setIsEditing(false)}>Hủy</Button>
+                        <Button type="button" variant="outline" onClick={handleCancel}>Hủy</Button>
                         <Button type="submit" disabled={form.formState.isSubmitting}>
                             {form.formState.isSubmitting ? (
                                 <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Đang lưu...</>
