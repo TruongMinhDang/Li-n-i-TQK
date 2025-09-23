@@ -10,20 +10,32 @@ import { useRouter, usePathname } from 'next/navigation';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  isAdmin: false,
 });
+
+// Danh sách các email được phép làm quản trị viên
+const ADMIN_EMAILS = ['truongminhdang1@gmail.com'];
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      // Kiểm tra xem email của người dùng có nằm trong danh sách admin không
+      if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
       setLoading(false);
     });
 
@@ -31,7 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
-  const value = { user, loading };
+  const value = { user, loading, isAdmin };
 
   return (
     <AuthContext.Provider value={value}>
@@ -47,30 +59,36 @@ export const useAuth = () => {
 
 // A wrapper component to protect routes
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-    const { user, loading } = useAuth();
+    const { user, loading, isAdmin } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        // We don't want to redirect while loading, and we don't want to redirect if we're already on the login page.
-        if (!loading && !user && pathname !== '/login') {
-            router.push('/login');
-        }
-    }, [user, loading, router, pathname]);
+        if (loading) return; // Đợi cho đến khi xác thực hoàn tất
 
-    if (loading) {
+        // Nếu không có người dùng, chuyển về trang đăng nhập
+        if (!user) {
+            if (pathname !== '/login') {
+                router.push('/login');
+            }
+            return;
+        }
+
+        // Nếu có người dùng nhưng không phải admin, chuyển về trang chủ
+        if (user && !isAdmin) {
+            router.push('/');
+        }
+        
+    }, [user, loading, isAdmin, router, pathname]);
+
+    if (loading || !user || !isAdmin) {
         return (
             <div className="flex h-screen items-center justify-center">
                 <Loader2 className="h-12 w-12 animate-spin text-primary" />
             </div>
         );
     }
-
-    if (!user) {
-        // User is not logged in, but we are letting the useEffect handle the redirect.
-        // Returning null prevents rendering the protected content.
-        return null;
-    }
-
+    
+    // Nếu là admin, hiển thị nội dung được bảo vệ
     return <>{children}</>;
 };
