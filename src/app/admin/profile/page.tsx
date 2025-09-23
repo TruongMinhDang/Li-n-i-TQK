@@ -43,7 +43,7 @@ const activityHistory = [
 
 
 export default function ProfilePage() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -59,7 +59,7 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (!isEditing && user) {
+    if (user && !form.formState.isDirty) {
         form.reset({
             displayName: user.displayName || '',
             photo: null,
@@ -67,7 +67,7 @@ export default function ProfilePage() {
         setPhotoPreview(user.photoURL);
         setPhotoDataUrl(null);
     }
-  }, [user, form, isEditing]);
+  }, [user, form]);
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -111,7 +111,6 @@ export default function ProfilePage() {
         description: result.error,
         variant: "destructive",
       });
-      setIsEditing(false);
     }
   };
 
@@ -223,8 +222,8 @@ export default function ProfilePage() {
                     <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
                     <AvatarFallback><UserIcon className="h-16 w-16 text-muted-foreground" /></AvatarFallback>
                 </Avatar>
-                <h2 className="text-2xl font-bold mt-4">{user.displayName}</h2>
-                <Badge variant="secondary" className="mt-2">Quản trị viên</Badge>
+                <h2 className="text-2xl font-bold mt-4">{user.displayName || user.email}</h2>
+                <Badge variant="secondary" className="mt-2">{isAdmin ? "Quản trị viên" : "Thành viên"}</Badge>
                 <div className="mt-6 flex justify-center">
                     <Button onClick={() => setIsEditing(true)}>
                         <Edit className="mr-2 h-4 w-4"/>
@@ -240,39 +239,39 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex items-center gap-3">
                     <UserRound className="h-4 w-4 text-primary" />
-                    <span>Vai trò: Administrator</span>
+                    <span>Vai trò: {isAdmin ? "Administrator" : "User"}</span>
                 </div>
             </div>
         </Card>
-
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <History className="h-5 w-5 text-primary" />
-                    Lịch sử hoạt động
-                </CardTitle>
-                <CardDescription>
-                    Các hành động gần đây của bạn trên hệ thống.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <ul className="space-y-4">
-                    {activityHistory.map((activity, index) => (
-                        <li key={index} className="flex items-start gap-4">
-                            <div className="bg-muted p-2 rounded-full mt-1">
-                                {activity.icon}
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium text-foreground">{activity.text}</p>
-                                <p className="text-xs text-muted-foreground">{activity.time}</p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </CardContent>
-        </Card>
+        
+        {isAdmin && (
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <History className="h-5 w-5 text-primary" />
+                        Lịch sử hoạt động
+                    </CardTitle>
+                    <CardDescription>
+                        Các hành động gần đây của bạn trên hệ thống.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <ul className="space-y-4">
+                        {activityHistory.map((activity, index) => (
+                            <li key={index} className="flex items-start gap-4">
+                                <div className="bg-muted p-2 rounded-full mt-1">
+                                    {activity.icon}
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-foreground">{activity.text}</p>
+                                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </CardContent>
+            </Card>
+        )}
     </div>
   );
 }
-
-    
