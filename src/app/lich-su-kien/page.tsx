@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { events as allEvents, type Event } from "@/lib/constants";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import React, { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
 
 const iconMap: { [key: string]: React.ElementType } = {
   default: CalendarIcon,
@@ -56,13 +59,20 @@ const colorClasses: { [key: string]: any } = {
 };
 
 export default function EventsPage() {
-    // GMT+7
-    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
-    now.setHours(0, 0, 0, 0); // Start of the day
+    const [upcomingEvents, setUpcomingEvents] = useState<Event[] | null>(null);
 
-    const upcomingEvents = allEvents
-        .filter(event => event.date >= now)
-        .sort((a, b) => a.date.getTime() - b.date.getTime());
+    useEffect(() => {
+        // This logic now runs only on the client, after hydration
+        const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+        now.setHours(0, 0, 0, 0); // Start of the day
+
+        const filteredEvents = allEvents
+            .filter(event => event.date >= now)
+            .sort((a, b) => a.date.getTime() - b.date.getTime());
+        
+        setUpcomingEvents(filteredEvents);
+    }, []);
+
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -115,7 +125,21 @@ export default function EventsPage() {
         initial="hidden"
         animate="visible"
       >
-        {upcomingEvents.length > 0 ? (
+        {upcomingEvents === null ? (
+            // Skeleton loader while waiting for client-side mount
+            <div className="space-y-6">
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-6 p-4 rounded-lg bg-muted/50">
+                        <Skeleton className="h-16 w-16 rounded-lg" />
+                        <div className="flex-grow space-y-2">
+                           <Skeleton className="h-4 w-1/4" />
+                           <Skeleton className="h-5 w-3/4" />
+                           <Skeleton className="h-4 w-1/2" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        ) : upcomingEvents.length > 0 ? (
             upcomingEvents.map((event, index) => {
                 const classes = colorClasses[event.color] || colorClasses.blue;
                 const Icon = iconMap[event.icon] || iconMap.default;
