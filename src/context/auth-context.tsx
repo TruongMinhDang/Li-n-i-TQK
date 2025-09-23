@@ -4,8 +4,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { Loader2 } from 'lucide-react';
-import { useRouter, usePathname } from 'next/navigation';
 
 interface AuthContextType {
   user: User | null;
@@ -51,29 +49,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   return useContext(AuthContext);
-};
-
-export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-    const { user, loading, isAdmin } = useAuth();
-    const router = useRouter();
-    const pathname = usePathname();
-
-    useEffect(() => {
-        if (loading) return; 
-
-        if (!user || !isAdmin) {
-            router.push('/login');
-        }
-        
-    }, [user, loading, isAdmin, router, pathname]);
-
-    if (loading || !user || !isAdmin) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            </div>
-        );
-    }
-    
-    return <>{children}</>;
 };
