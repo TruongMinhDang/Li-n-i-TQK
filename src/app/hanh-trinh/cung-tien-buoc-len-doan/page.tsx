@@ -1,16 +1,16 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { newsArticles } from "@/lib/constants";
+import { getArticles } from "@/actions/posts";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { Calendar, User } from "lucide-react";
 
-export default function AdvancingToTheUnionPage() {
+export default async function AdvancingToTheUnionPage() {
   const category = "cung-tien-buoc-len-doan";
-  const categoryArticles = newsArticles
-    .filter((article) => article.category === category)
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
+  const allArticles = await getArticles();
+  const categoryArticles = allArticles
+    .filter((article) => article.category === category);
   
   const categoryMap: {[key: string]: string} = {
     'cung-tien-buoc-len-doan': 'Cùng Tiến Bước Lên Đoàn'
@@ -58,7 +58,7 @@ export default function AdvancingToTheUnionPage() {
                     <div className="flex items-center gap-1.5">
                       <Calendar className="h-3.5 w-3.5" />
                       <time dateTime={article.date.toISOString()}>
-                        {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                        {format(new Date(article.date), "dd/MM/yyyy", { locale: vi })}
                       </time>
                     </div>
                   </div>

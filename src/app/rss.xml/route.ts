@@ -1,4 +1,4 @@
-import { newsArticles } from '@/lib/constants';
+import { getArticles } from '@/actions/posts';
 
 function escapeXml(unsafe: string): string {
     return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -15,16 +15,16 @@ function escapeXml(unsafe: string): string {
 
 export async function GET() {
     const siteUrl = 'https://ldtqk.website';
+    const articles = await getArticles();
 
-    const feedItems = newsArticles
-        .sort((a, b) => b.date.getTime() - a.date.getTime())
+    const feedItems = articles
         .map((article) => {
             return `
         <item>
           <title>${escapeXml(article.title)}</title>
           <link>${siteUrl}/tin-tuc/${article.slug}</link>
           <description>${escapeXml(article.description)}</description>
-          <pubDate>${article.date.toUTCString()}</pubDate>
+          <pubDate>${new Date(article.date).toUTCString()}</pubDate>
           <guid isPermaLink="true">${siteUrl}/tin-tuc/${article.slug}</guid>
         </item>
       `;

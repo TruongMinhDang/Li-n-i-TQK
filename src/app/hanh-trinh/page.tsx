@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BookOpen, Handshake, Star, Building2, Calendar, User } from "lucide-react";
 import Image from "next/image";
-import { newsArticles } from "@/lib/constants";
+import { getArticles } from "@/actions/posts";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 
@@ -38,15 +38,9 @@ const subCategories = [
   },
 ];
 
-const categoryMap: {[key: string]: string} = {
-  'xay-dung-doi-vung-manh': 'Xây Dựng Đội Vững Mạnh',
-  'lam-theo-loi-bac': 'Làm theo lời Bác',
-  'cung-tien-buoc-len-doan': 'Cùng Tiến Bước Lên Đoàn',
-  'su-kien-noi-bat': 'Sự Kiện Nổi Bật',
-  'khong-gian-van-hoa-hcm': 'Không Gian Văn Hóa Hồ Chí Minh',
-};
+export default async function JourneyPage() {
+  const allArticles = await getArticles();
 
-export default function JourneyPage() {
   return (
     <div className="space-y-12">
       <section className="relative py-20 md:py-32 rounded-xl overflow-hidden bg-blue-50 dark:bg-blue-950/20">
@@ -77,9 +71,8 @@ export default function JourneyPage() {
 
       <section className="space-y-16">
         {subCategories.map((category) => {
-          const articles = newsArticles
+          const articles = allArticles
             .filter(a => a.category === category.categorySlug)
-            .sort((a, b) => b.date.getTime() - a.date.getTime())
             .slice(0, 4);
 
           return (
@@ -119,7 +112,7 @@ export default function JourneyPage() {
                             <div className="flex items-center gap-1.5">
                               <Calendar className="h-3.5 w-3.5" />
                               <time dateTime={article.date.toISOString()}>
-                                {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                                {format(new Date(article.date), "dd/MM/yyyy", { locale: vi })}
                               </time>
                             </div>
                           </div>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BookOpen, Star, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
-import { newsArticles } from "@/lib/constants";
+import { getArticles } from "@/actions/posts";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { Calendar } from "lucide-react";
@@ -32,7 +32,9 @@ const subCategories = [
   },
 ];
 
-export default function GardenPage() {
+export default async function GardenPage() {
+  const allArticles = await getArticles();
+
   return (
     <div className="space-y-12">
       <section className="relative py-20 md:py-32 rounded-xl overflow-hidden bg-green-50 dark:bg-green-950/20">
@@ -55,9 +57,8 @@ export default function GardenPage() {
 
       <section className="space-y-16">
         {subCategories.map((category) => {
-          const articles = newsArticles
+          const articles = allArticles
             .filter(a => a.category === category.categorySlug)
-            .sort((a, b) => b.date.getTime() - a.date.getTime())
             .slice(0, 4);
 
           // "Triển lãm chuyên đề" is a gallery, not an article list, so we skip rendering articles for it.
@@ -109,7 +110,7 @@ export default function GardenPage() {
                             <div className="flex items-center gap-1.5">
                               <Calendar className="h-3.5 w-3.5" />
                               <time dateTime={article.date.toISOString()}>
-                                {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                                {format(new Date(article.date), "dd/MM/yyyy", { locale: vi })}
                               </time>
                             </div>
                           </div>

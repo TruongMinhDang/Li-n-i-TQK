@@ -1,13 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { newsArticles } from "@/lib/constants";
+import { getArticles } from "@/actions/posts";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { Calendar, User } from "lucide-react";
 
-export default function AllNewsPage() {
-  const sortedArticles = [...newsArticles].sort((a, b) => b.date.getTime() - a.date.getTime());
+export default async function AllNewsPage() {
+  const articles = await getArticles();
 
   return (
     <div className="space-y-12">
@@ -21,7 +21,7 @@ export default function AllNewsPage() {
       </section>
       
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {sortedArticles.map((article) => (
+        {articles.map((article) => (
           <Link key={article.slug} href={`/tin-tuc/${article.slug}`} className="block group">
             <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <CardHeader className="p-0">
@@ -49,7 +49,7 @@ export default function AllNewsPage() {
                   <div className="flex items-center gap-1.5">
                     <Calendar className="h-3.5 w-3.5" />
                     <time dateTime={article.date.toISOString()}>
-                      {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                      {format(new Date(article.date), "dd/MM/yyyy", { locale: vi })}
                     </time>
                   </div>
                 </div>

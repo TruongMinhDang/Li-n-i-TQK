@@ -1,6 +1,5 @@
-
 import { notFound } from 'next/navigation';
-import { newsArticles } from '@/lib/constants';
+import { getArticles, getArticleBySlug } from '@/actions/posts';
 import Image from 'next/image';
 import { Calendar, User, Clock, ArrowLeft, ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
@@ -13,8 +12,10 @@ import { Separator } from '@/components/ui/separator';
 import { ArticleTTSPlayer } from '@/components/article-tts-player';
 import { AuthorBio } from '@/components/author-bio';
 
+// This function tells Next.js which slugs to pre-render at build time.
 export async function generateStaticParams() {
-  return newsArticles.map((article) => ({
+  const articles = await getArticles();
+  return articles.map((article) => ({
     slug: article.slug,
   }));
 }
@@ -48,21 +49,21 @@ function parseContent(content: string) {
     });
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const sortedArticles = [...newsArticles].sort((a, b) => b.date.getTime() - a.date.getTime());
-  const articleIndex = sortedArticles.findIndex((p) => p.slug === params.slug);
-
-  if (articleIndex === -1) {
+export default async function ArticlePage({ params }: { params: { slug: string } }) {
+  const article = await getArticleBySlug(params.slug);
+  
+  if (!article) {
     notFound();
   }
 
-  const article = sortedArticles[articleIndex];
-  const prevArticle = articleIndex < sortedArticles.length - 1 ? sortedArticles[articleIndex + 1] : null;
-  const nextArticle = articleIndex > 0 ? sortedArticles[articleIndex - 1] : null;
-  
-  const relatedArticles = newsArticles
+  const allArticles = await getArticles();
+  const articleIndex = allArticles.findIndex((p) => p.slug === params.slug);
+
+  const prevArticle = articleIndex > 0 ? allArticles[articleIndex - 1] : null;
+  const nextArticle = articleIndex < allArticles.length - 1 ? allArticles[articleIndex + 1] : null;
+
+  const relatedArticles = allArticles
     .filter(a => a.category === article.category && a.slug !== article.slug)
-    .sort((a, b) => b.date.getTime() - a.date.getTime())
     .slice(0, 3);
 
   const categoryInfo = categoryMap[article.category] || { name: article.category, href: '#' };
@@ -94,7 +95,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
             <time dateTime={article.date.toISOString()}>
-              {format(article.date, "dd 'tháng' M, yyyy", { locale: vi })}
+              {format(new Date(article.date), "dd 'tháng' M, yyyy", { locale: vi })}
             </time>
           </div>
            <div className="flex items-center gap-2">

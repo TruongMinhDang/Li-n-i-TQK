@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlusCircle, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { newsArticles } from "@/lib/constants";
+import { getArticles } from "@/actions/posts";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -29,6 +29,7 @@ const categoryMap: { [key: string]: string } = {
   'cau-chuyen-dep': 'Mỗi Tuần Một Câu Chuyện Đẹp',
   'mang-non-tieu-bieu': 'Măng Non Tiêu Biểu',
   'su-kien-noi-bat': 'Sự Kiện Nổi Bật',
+  'khong-gian-van-hoa-hcm': 'Không Gian Văn Hóa Hồ Chí Minh',
 };
 
 const categoryColorMap: { [key: string]: "default" | "secondary" | "destructive" } = {
@@ -40,8 +41,8 @@ const categoryColorMap: { [key: string]: "default" | "secondary" | "destructive"
     'su-kien-noi-bat': 'destructive',
 };
 
-export default function AdminPostsPage() {
-  const sortedArticles = [...newsArticles].sort((a, b) => b.date.getTime() - a.date.getTime());
+export default async function AdminPostsPage() {
+  const articles = await getArticles();
 
   return (
     <div className="space-y-6">
@@ -79,7 +80,7 @@ export default function AdminPostsPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {sortedArticles.map((article) => (
+                    {articles.map((article) => (
                         <TableRow key={article.slug}>
                             <TableCell className="font-medium">{article.title}</TableCell>
                             <TableCell className="hidden md:table-cell">
@@ -89,7 +90,7 @@ export default function AdminPostsPage() {
                             </TableCell>
                             <TableCell className="hidden md:table-cell">{article.author}</TableCell>
                             <TableCell className="hidden sm:table-cell">
-                                {format(article.date, "dd/MM/yyyy", { locale: vi })}
+                                {format(new Date(article.date), "dd/MM/yyyy", { locale: vi })}
                             </TableCell>
                             <TableCell>
                                 <DropdownMenu>

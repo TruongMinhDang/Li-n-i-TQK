@@ -1,6 +1,7 @@
 
 import { MetadataRoute } from 'next'
-import { newsArticles, navLinks } from '@/lib/constants';
+import { navLinks } from '@/lib/constants';
+import { getArticles } from '@/actions/posts';
 
 function getAllPages(navLinks: any[]): string[] {
     let pages: string[] = [];
@@ -15,7 +16,7 @@ function getAllPages(navLinks: any[]): string[] {
     return pages;
 }
  
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = 'https://ldtqk.website';
 
   const staticPages = getAllPages(navLinks)
@@ -27,9 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
     }));
   
-  const articlePages = newsArticles.map(article => ({
+  const articles = await getArticles();
+  const articlePages = articles.map(article => ({
     url: `${siteUrl}/tin-tuc/${article.slug}`,
-    lastModified: article.date,
+    lastModified: new Date(article.date),
     changeFrequency: 'weekly' as 'weekly',
     priority: 1.0,
   }));
