@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -51,11 +51,20 @@ export default function ProfilePage() {
   
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
-    values: {
-        displayName: user?.displayName || '',
+    defaultValues: {
+        displayName: '',
         photo: null,
     },
   });
+
+  useEffect(() => {
+    if (user) {
+        form.reset({
+            displayName: user.displayName || '',
+            photo: null,
+        });
+    }
+  }, [user, form]);
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -247,3 +256,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+    
