@@ -1,27 +1,33 @@
 
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ChevronRight } from "lucide-react";
-import { events as allEvents } from "@/lib/constants";
+import { events as allEvents, type Event } from "@/lib/constants";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import { Skeleton } from "./ui/skeleton";
 
 export function EventHighlightSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[] | null>(null);
 
-  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
-  now.setHours(0, 0, 0, 0);
+  useEffect(() => {
+    // This logic now runs only on the client, after hydration
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+    now.setHours(0, 0, 0, 0); // Start of the day
 
-  const upcomingEvents = allEvents
-      .filter(event => event.date >= now)
-      .sort((a, b) => a.date.getTime() - b.date.getTime())
-      .slice(0, 3);
-
+    const filteredEvents = allEvents
+        .filter(event => event.date >= now)
+        .sort((a, b) => a.date.getTime() - b.date.getTime())
+        .slice(0, 3);
+    
+    setUpcomingEvents(filteredEvents);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -91,20 +97,31 @@ export function EventHighlightSection() {
               variants={containerVariants}
               className="space-y-4"
             >
-              {upcomingEvents.map((event, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.03 }}
-                  className="flex items-center gap-4 p-4 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
-                >
-                  <div className="flex flex-col items-center justify-center bg-primary text-primary-foreground rounded-md p-2 w-16 h-16">
-                    <span className="text-2xl font-bold leading-none">{format(event.date, "dd")}</span>
-                    <span className="text-xs font-semibold">Th {format(event.date, "M")}</span>
-                  </div>
-                  <h3 className="font-semibold text-foreground">{event.title}</h3>
-                </motion.div>
-              ))}
+              {upcomingEvents === null ? (
+                 <div className="space-y-4">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="flex items-center gap-4 p-4 rounded-lg bg-secondary/50">
+                          <Skeleton className="h-16 w-16 rounded-md flex-shrink-0" />
+                          <Skeleton className="h-5 w-full" />
+                      </div>
+                    ))}
+                 </div>
+              ) : (
+                upcomingEvents.map((event, index) => (
+                  <motion.div
+                    key={index}
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.03 }}
+                    className="flex items-center gap-4 p-4 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
+                  >
+                    <div className="flex flex-col items-center justify-center bg-primary text-primary-foreground rounded-md p-2 w-16 h-16 flex-shrink-0">
+                      <span className="text-2xl font-bold leading-none">{format(event.date, "dd")}</span>
+                      <span className="text-xs font-semibold">Th {format(event.date, "M", { locale: vi })}</span>
+                    </div>
+                    <h3 className="font-semibold text-foreground">{event.title}</h3>
+                  </motion.div>
+                ))
+              )}
             </motion.div>
           </div>
         </motion.div>
