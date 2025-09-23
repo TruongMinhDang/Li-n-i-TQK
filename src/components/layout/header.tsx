@@ -4,7 +4,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, Search, LogIn, LogOut, LayoutDashboard } from "lucide-react"
+import { Menu, Search, LogIn, LogOut, LayoutDashboard, User } from "lucide-react"
 import React from "react"
 
 import { cn } from "@/lib/utils"
@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu"
 import {
   Accordion,
@@ -57,16 +58,17 @@ function SearchInput() {
 const logoUrl = "https://firebasestorage.googleapis.com/v0/b/website-lin-i.firebasestorage.app/o/Logo-Lien-doi.png?alt=media&token=9F937877-6455-41C5-B814-8D0FD806C613";
 
 function AuthButton() {
-    const { user, loading } = useAuth();
+    const { user, loading, isAdmin } = useAuth();
     const router = useRouter();
 
     const handleLogout = async () => {
         await logoutUser();
         router.push('/'); // Redirect to home after logout
+        router.refresh();
     };
 
     if (loading) {
-        return <Button variant="ghost" size="icon" disabled><div className="h-6 w-6 rounded-full bg-muted animate-pulse" /></Button>;
+        return <Button variant="ghost" size="icon" disabled><div className="h-8 w-8 rounded-full bg-muted animate-pulse" /></Button>;
     }
 
     if (user) {
@@ -75,16 +77,28 @@ function AuthButton() {
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                         <Avatar className="h-8 w-8">
-                            <AvatarImage src={user.photoURL || ''} alt="Admin" />
+                            <AvatarImage src={user.photoURL || ''} alt={user.displayName || user.email || 'User'} />
                             <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
                         </Avatar>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>
+                        <p className="font-semibold truncate">{user.displayName || user.email}</p>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {isAdmin && (
+                         <DropdownMenuItem asChild>
+                            <Link href="/admin/dashboard">
+                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                <span>Bảng điều khiển</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem asChild>
-                        <Link href="/admin/dashboard">
-                            <LayoutDashboard className="mr-2 h-4 w-4" />
-                            <span>Bảng điều khiển</span>
+                         <Link href="/admin/profile">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Hồ sơ của tôi</span>
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />

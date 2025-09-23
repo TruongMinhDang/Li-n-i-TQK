@@ -1,37 +1,74 @@
 
 'use server';
 
-import { signInWithEmailAndPassword, signOut, updateProfile, getAuth } from 'firebase/auth';
+import { 
+    signInWithEmailAndPassword, 
+    signOut, 
+    updateProfile, 
+    getAuth,
+    createUserWithEmailAndPassword,
+    setPersistence,
+    browserSessionPersistence,
+    browserLocalPersistence
+} from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import * as z from 'zod';
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from 'firebase/storage';
 import firebaseApp from '@/lib/firebase';
 
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
+  email: z.string().email("Địa chỉ email không hợp lệ."),
+  password: z.string().min(1, "Vui lòng nhập mật khẩu."),
+  rememberMe: z.boolean().optional(),
 });
 
 export async function loginUser(credentials: z.infer<typeof loginSchema>) {
   const validation = loginSchema.safeParse(credentials);
   if (!validation.success) {
-    return { success: false, error: "Dữ liệu không hợp lệ." };
+    return { success: false, error: validation.error.errors[0].message };
   }
   
-  const { email, password } = validation.data;
+  const { email, password, rememberMe } = validation.data;
 
   try {
+    // Set session persistence based on "Remember Me"
+    await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+    
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    // You can optionally return user data if needed, but for session management,
-    // the client-side listener is more important.
     return { success: true, userId: userCredential.user.uid };
   } catch (error: any) {
     let errorMessage = "Email hoặc mật khẩu không đúng.";
-    // You can check for specific Firebase error codes if you want
-    // e.g., if (error.code === 'auth/user-not-found') { ... }
+    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        errorMessage = "Email hoặc mật khẩu không đúng.";
+    }
     return { success: false, error: errorMessage };
   }
 }
+
+const registerSchema = z.object({
+  email: z.string().email("Địa chỉ email không hợp lệ."),
+  password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
+});
+
+export async function registerUser(credentials: z.infer<typeof registerSchema>) {
+    const validation = registerSchema.safeParse(credentials);
+    if (!validation.success) {
+        return { success: false, error: validation.error.errors[0].message };
+    }
+    const { email, password } = validation.data;
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // You can add logic here to create a user profile in Firestore if needed
+        return { success: true, userId: userCredential.user.uid };
+    } catch (error: any) {
+        if (error.code === 'auth/email-already-in-use') {
+            return { success: false, error: "Địa chỉ email này đã được sử dụng." };
+        }
+        return { success: false, error: "Đã có lỗi xảy ra. Vui lòng thử lại." };
+    }
+}
+
 
 export async function logoutUser() {
   try {

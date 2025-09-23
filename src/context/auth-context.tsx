@@ -19,7 +19,6 @@ const AuthContext = createContext<AuthContextType>({
   isAdmin: false,
 });
 
-// Danh sách các email được phép làm quản trị viên
 const ADMIN_EMAILS = ['truongminhdang1@gmail.com'];
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -30,7 +29,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      // Kiểm tra xem email của người dùng có nằm trong danh sách admin không
       if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
         setIsAdmin(true);
       } else {
@@ -39,7 +37,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -52,31 +49,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook to use the auth context
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// A wrapper component to protect routes
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const { user, loading, isAdmin } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        if (loading) return; // Đợi cho đến khi xác thực hoàn tất
+        if (loading) return; 
 
-        // Nếu không có người dùng, chuyển về trang đăng nhập
-        if (!user) {
-            if (pathname !== '/login') {
-                router.push('/login');
-            }
-            return;
-        }
-
-        // Nếu có người dùng nhưng không phải admin, chuyển về trang chủ
-        if (user && !isAdmin) {
-            router.push('/');
+        if (!user || !isAdmin) {
+            router.push('/login');
         }
         
     }, [user, loading, isAdmin, router, pathname]);
@@ -89,6 +75,5 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
         );
     }
     
-    // Nếu là admin, hiển thị nội dung được bảo vệ
     return <>{children}</>;
 };

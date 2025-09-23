@@ -22,10 +22,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { LogIn } from "lucide-react";
-import { loginUser } from "@/actions/auth";
+import { UserPlus } from "lucide-react";
+import { registerUser } from "@/actions/auth";
 import { auth } from "@/lib/firebase";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 
 const GoogleIcon = () => (
@@ -37,47 +36,40 @@ const GoogleIcon = () => (
     </svg>
 );
 
-
-const loginFormSchema = z.object({
+const registerFormSchema = z.object({
   email: z.string().email({ message: "Vui lòng nhập địa chỉ email hợp lệ." }),
   password: z.string().min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự." }),
-  rememberMe: z.boolean().optional(),
 });
 
-type LoginFormData = z.infer<typeof loginFormSchema>;
+type RegisterFormData = z.infer<typeof registerFormSchema>;
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading } = useAuth();
   const { toast } = useToast();
   
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: { email: "", password: "", rememberMe: true },
+  const form = useForm<RegisterFormData>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: { email: "", password: "" },
   });
 
-  const handleLoginSuccess = () => {
+  const handleRegisterSuccess = () => {
     toast({
-      title: "Đăng nhập thành công!",
-      description: "Chào mừng bạn quay trở lại.",
+      title: "Đăng ký thành công!",
+      description: "Chào mừng bạn đến với Nhà Xanh. Tự động chuyển đến trang chủ.",
     });
-    // Check if the logged-in user is an admin
-    if (auth.currentUser && auth.currentUser.email === 'truongminhdang1@gmail.com') {
-      router.push("/admin/dashboard");
-    } else {
-      router.push("/"); // Redirect normal users to homepage
-    }
+    router.push("/");
     router.refresh();
   };
 
-  const onSubmit = async (data: LoginFormData) => {
-    const result = await loginUser(data);
+  const onSubmit = async (data: RegisterFormData) => {
+    const result = await registerUser(data);
     if (result.success) {
-      handleLoginSuccess();
+      handleRegisterSuccess();
     } else {
       toast({
-        title: "Đăng nhập thất bại",
-        description: result.error || "Email hoặc mật khẩu không đúng.",
+        title: "Đăng ký thất bại",
+        description: result.error,
         variant: "destructive",
       });
     }
@@ -87,10 +79,10 @@ export default function LoginPage() {
       const provider = new GoogleAuthProvider();
       try {
           await signInWithPopup(auth, provider);
-          handleLoginSuccess();
+          handleRegisterSuccess();
       } catch (error: any) {
           toast({
-              title: "Đăng nhập Google thất bại",
+              title: "Đăng ký Google thất bại",
               description: "Đã có lỗi xảy ra. Vui lòng thử lại.",
               variant: "destructive",
           });
@@ -99,24 +91,21 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-        if (isAdmin) {
-            router.push('/admin/dashboard');
-        } else {
-            router.push('/');
-        }
+      router.push('/');
     }
-  }, [user, loading, isAdmin, router]);
-
+  }, [user, loading, router]);
+  
   if (loading || user) {
-     return <div className="flex h-64 items-center justify-center"><LogIn className="h-12 w-12 animate-spin text-primary" /></div>;
+     return <div className="flex h-64 items-center justify-center"><UserPlus className="h-12 w-12 animate-spin text-primary" /></div>;
   }
+
 
   return (
     <div className="flex items-center justify-center py-12">
         <Card className="w-full max-w-md">
             <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-headline">Đăng Nhập</CardTitle>
-                <CardDescription>Chào mừng bạn quay trở lại Nhà Xanh!</CardDescription>
+                <CardTitle className="text-2xl font-headline">Tạo Tài Khoản</CardTitle>
+                <CardDescription>Tham gia cộng đồng Nhà Xanh ngay hôm nay!</CardDescription>
             </CardHeader>
             <CardContent>
                  <Form {...form}>
@@ -147,26 +136,9 @@ export default function LoginPage() {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="rememberMe"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <div className="space-y-1 leading-none">
-                                    <FormLabel>Ghi nhớ đăng nhập</FormLabel>
-                                </div>
-                                </FormItem>
-                            )}
-                        />
                         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                            <LogIn className="mr-2" />
-                            {form.formState.isSubmitting ? "Đang xử lý..." : "Đăng Nhập"}
+                            <UserPlus className="mr-2" />
+                            {form.formState.isSubmitting ? "Đang tạo..." : "Tạo Tài Khoản"}
                         </Button>
                     </form>
                  </Form>
@@ -179,9 +151,9 @@ export default function LoginPage() {
                     Tiếp tục với Google
                  </Button>
                  <p className="mt-6 text-center text-sm text-muted-foreground">
-                    Chưa có tài khoản?{" "}
-                    <Link href="/register" className="font-semibold text-primary hover:underline">
-                        Đăng ký ngay
+                    Đã có tài khoản?{" "}
+                    <Link href="/login" className="font-semibold text-primary hover:underline">
+                        Đăng nhập
                     </Link>
                 </p>
             </CardContent>
