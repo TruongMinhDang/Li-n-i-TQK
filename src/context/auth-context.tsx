@@ -17,7 +17,8 @@ const AuthContext = createContext<AuthContextType>({
   isAdmin: false,
 });
 
-const ADMIN_EMAILS = ['truongminhdang1@gmail.com'];
+// Lấy danh sách email admin từ biến môi trường
+const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || '').split(',').filter(Boolean);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      // Kiểm tra xem email người dùng có trong danh sách admin không
       if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
         setIsAdmin(true);
       } else {
