@@ -15,21 +15,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let firebaseApp;
-if (!getApps().length) {
-  firebaseApp = initializeApp(firebaseConfig);
-} else {
-  firebaseApp = getApp();
-}
-
-// Initialize App Check
-if (typeof window !== 'undefined') {
-  const appCheck = initializeAppCheck(firebaseApp, {
-    provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_RECAPTCHA_V3_SITE_KEY!),
-    isTokenAutoRefreshEnabled: true
-  });
-}
-
+const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // Initialize services
 getFirestore(firebaseApp);
