@@ -96,7 +96,7 @@ function AuthButton() {
                         </DropdownMenuItem>
                     )}
                     <DropdownMenuItem asChild>
-                         <Link href="/admin/profile">
+                         <Link href="/ho-so">
                             <User className="mr-2 h-4 w-4" />
                             <span>Hồ sơ của tôi</span>
                         </Link>
