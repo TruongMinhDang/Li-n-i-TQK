@@ -5,45 +5,42 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
-interface AuthContextType {
+interface AuthState {
   user: User | null;
   loading: boolean;
   isAdmin: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthState>({
   user: null,
   loading: true,
   isAdmin: false,
 });
 
-// Lấy danh sách email admin từ biến môi trường
 const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || '').split(',').filter(Boolean);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [authState, setAuthState] = useState<AuthState>({
+    user: null,
+    loading: true,
+    isAdmin: false,
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      // Kiểm tra xem email người dùng có trong danh sách admin không
-      if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-      setLoading(false);
+      const userIsAdmin = !!(user && user.email && ADMIN_EMAILS.includes(user.email));
+      setAuthState({
+        user,
+        isAdmin: userIsAdmin,
+        loading: false,
+      });
     });
 
     return () => unsubscribe();
   }, []);
 
-  const value = { user, loading, isAdmin };
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={authState}>
         {children}
     </AuthContext.Provider>
   );

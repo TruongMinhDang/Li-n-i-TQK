@@ -6,9 +6,11 @@ import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { Menu, Search, LogIn, LogOut, LayoutDashboard, User } from "lucide-react"
 import React from "react"
+import { signOut } from "firebase/auth"
 
 import { cn } from "@/lib/utils"
 import { navLinks } from "@/lib/constants"
+import { auth } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
@@ -28,7 +30,6 @@ import {
 } from "@/components/ui/accordion"
 import { ThemeToggle } from "./theme-toggle"
 import { useAuth } from "@/context/auth-context"
-import { logoutUser } from "@/actions/auth"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 function SearchInput() {
@@ -62,9 +63,13 @@ function AuthButton() {
     const router = useRouter();
 
     const handleLogout = async () => {
-        await logoutUser();
-        router.push('/'); // Redirect to home after logout
-        router.refresh();
+        try {
+            await signOut(auth);
+            router.push('/'); // Redirect to home after logout
+            router.refresh();
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
     };
 
     if (loading) {

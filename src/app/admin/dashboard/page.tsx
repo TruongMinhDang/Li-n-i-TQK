@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, Newspaper, Users } from "lucide-react";
+import { EditableScoreTable } from "./_components/editable-score-table";
 
 export default function AdminDashboardPage() {
   return (
@@ -8,7 +9,7 @@ export default function AdminDashboardPage() {
       <div>
         <h2 className="text-2xl font-bold tracking-tight">Bảng Điều Khiển</h2>
         <p className="text-muted-foreground">
-          Tổng quan về trang web của bạn.
+          Tổng quan về trang web của bạn và nhập liệu thi đua.
         </p>
       </div>
 
@@ -56,6 +57,10 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Editable Score Table is added here */}
+      <EditableScoreTable />
+
     </div>
   )
 }

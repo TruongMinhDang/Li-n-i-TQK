@@ -11,6 +11,7 @@ import { ThemeProvider } from '@/components/layout/theme-provider'
 import { AnnouncementTicker } from '@/components/layout/announcement-ticker'
 import { GoogleAnalytics } from '@/components/layout/google-analytics'
 import { AuthProvider } from '@/context/auth-context'
+import { FacebookSdkLoader } from '@/components/layout/facebook-sdk-loader' // Import the new component
 
 export const metadata: Metadata = {
   title: 'Liên Đội THCS Trần Quang Khải',
@@ -43,8 +44,8 @@ export default function RootLayout({
           <AuthProvider>
             <FirebaseProvider>
               <GoogleAnalytics />
-              <div id="fb-root"></div>
-              <script async defer crossOrigin="anonymous" src={`https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=${FACEBOOK_APP_ID}&autoLogAppEvents=1`} nonce="aBcDeFg"></script>
+              <FacebookSdkLoader /> {/* Add the component here */}
+              {/* The old script tags have been removed */}
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
                 <AnnouncementTicker />
