@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -23,7 +22,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera, Save, User as UserIcon, Loader2, Edit, Pencil, Newspaper, History, Mail, UserRound } from "lucide-react";
-import { updateUserProfile } from "@/actions/auth";
+// import { updateUserProfile } from "@/actions/auth";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
@@ -90,28 +89,31 @@ export default function ProfilePage() {
   };
 
   const onSubmit = async (data: ProfileFormData) => {
-    const result = await updateUserProfile({
-        displayName: data.displayName,
-        ...(photoDataUrl && { photoDataUrl: photoDataUrl }),
-    });
+    // const result = await updateUserProfile({
+    //     displayName: data.displayName,
+    //     ...(photoDataUrl && { photoDataUrl: photoDataUrl }),
+    // });
 
-    if (result.success) {
-      toast({
-        title: "Cập nhật thành công!",
-        description: result.message,
-      });
-      // Delay slightly to allow auth state to propagate, then refresh server components
-      setTimeout(() => {
-        router.refresh();
-        setIsEditing(false);
-      }, 500); 
-    } else {
-      toast({
-        title: "Cập nhật thất bại",
-        description: result.error,
-        variant: "destructive",
-      });
-    }
+    // if (result.success) {
+    //   toast({
+    //     title: "Cập nhật thành công!",
+    //     description: result.message,
+    //   });
+    //   // Delay slightly to allow auth state to propagate, then refresh server components
+    //   setTimeout(() => {
+    //     router.refresh();
+    //     setIsEditing(false);
+    //   }, 500); 
+    // } else {
+    //   toast({
+    //     title: "Cập nhật thất bại",
+    //     description: result.error,
+    //     variant: "destructive",
+    //   });
+    // }
+    console.log("Profile update is currently disabled.");
+    toast({ title: "Chức năng đang bảo trì", description: "Không thể lưu hồ sơ ngay lúc này.", variant: "destructive"});
+
   };
 
   const handleCancel = () => {

@@ -1,7 +1,7 @@
 
 import { NextResponse } from 'next/server';
 import { collection, getDocs, writeBatch, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { firestore } from '@/lib/firebase';
 
 // This is a one-time script to migrate data from the old `statistics` collection
 // to the new `statistics_weekly` collection.
@@ -9,8 +9,8 @@ import { db } from '@/lib/firebase/config';
 
 export async function POST() {
   try {
-    const legacyCollectionRef = collection(db, 'statistics');
-    const newCollectionRef = collection(db, 'statistics_weekly');
+    const legacyCollectionRef = collection(firestore, 'statistics');
+    const newCollectionRef = collection(firestore, 'statistics_weekly');
     
     // 1. Fetch all legacy data
     const legacySnapshot = await getDocs(legacyCollectionRef);
@@ -20,7 +20,7 @@ export async function POST() {
     }
 
     // 2. Prepare a batch write for the new collection
-    const batch = writeBatch(db);
+    const batch = writeBatch(firestore);
 
     legacySnapshot.forEach(legacyDoc => {
       const legacyData = legacyDoc.data();

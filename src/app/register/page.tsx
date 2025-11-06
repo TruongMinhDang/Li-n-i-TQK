@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { UserPlus } from "lucide-react";
-import { registerUser } from "@/actions/auth";
+// import { registerUser } from "@/actions/auth";
 import { auth } from "@/lib/firebase";
 import { Separator } from "@/components/ui/separator";
 
@@ -63,16 +63,18 @@ export default function RegisterPage() {
   };
 
   const onSubmit = async (data: RegisterFormData) => {
-    const result = await registerUser(data);
-    if (result.success) {
-      handleRegisterSuccess();
-    } else {
-      toast({
-        title: "Đăng ký thất bại",
-        description: result.error,
-        variant: "destructive",
-      });
-    }
+    // const result = await registerUser(data);
+    // if (result.success) {
+    //   handleRegisterSuccess();
+    // } else {
+    //   toast({
+    //     title: "Đăng ký thất bại",
+    //     description: result.error,
+    //     variant: "destructive",
+    //   });
+    // }
+    console.log("Email/password registration is currently disabled.");
+    toast({ title: "Chức năng đang bảo trì", description: "Vui lòng sử dụng đăng ký bằng Google.", variant: "destructive"});
   };
 
   const handleGoogleSignIn = async () => {

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { firestore } from '@/lib/firebase';
 
 // This route fetches the OLD data from the original 'statistics' collection.
 
 export async function GET() {
   try {
     // Reference to the OLD collection
-    const chiDoiRef = collection(db, 'statistics');
+    const chiDoiRef = collection(firestore, 'statistics');
     const snapshot = await getDocs(chiDoiRef);
 
     if (snapshot.empty) {
