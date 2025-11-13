@@ -23,6 +23,7 @@ const discoveryLinks = [
   { name: 'Podcast Nhà Xanh', href: '/podcast' },
   { name: 'Chiêu Minh Hội Quán', href: '/balo/chieu-minh-hoi-quan' },
   { name: 'Thống kê Thi đua', href: '/statistics' },
+  { name: 'Bình chọn', href: '/voting' },
 ] as const;
 
 const infoLinks = [

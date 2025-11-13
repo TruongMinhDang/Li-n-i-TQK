@@ -1,0 +1,47 @@
+type User @table {
+  username: String!
+  passwordHash: String!
+  role: String!
+  displayName: String
+  email: String
+  studentId: String
+  grade: Int
+}
+
+type Event @table {
+  name: String!
+  startTime: Timestamp!
+  endTime: Timestamp!
+  location: String!
+  createdAt: Timestamp!
+  description: String
+  isRegistrationOpen: Boolean
+  maxParticipants: Int
+  creator: User
+}
+
+type EventRegistration @table(key: ["user", "event"]) {
+  registrationDate: Timestamp!
+  status: String!
+  note: String
+  user: User!
+  event: Event!
+}
+
+type Document @table {
+  title: String!
+  uploadDate: Timestamp!
+  fileUrl: String!
+  description: String
+  documentType: String
+  uploader: User
+}
+
+type NewsArticle @table {
+  title: String!
+  publishDate: Timestamp!
+  content: String!
+  imageUrl: String
+  category: String
+  author: User
+}
