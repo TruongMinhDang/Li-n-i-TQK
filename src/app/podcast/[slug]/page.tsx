@@ -8,14 +8,17 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+type Props = {
+    params: { slug: string };
+};
+
 export async function generateStaticParams() {
     return podcasts.map((podcast) => ({
       slug: podcast.slug,
     }));
 }
 
-// Add async to the function signature to see if it resolves the type inference issue.
-export default async function PodcastDetailPage({ params }: { params: { slug: string } }) {
+export default async function PodcastDetailPage({ params }: Props) {
     const podcast = podcasts.find((p) => p.slug === params.slug);
 
     if (!podcast) {
