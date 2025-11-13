@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { useState, useEffect } from 'react';
+import { db } from '@/lib/firebase';
 import {
   collection,
   doc,
@@ -9,32 +9,27 @@ import {
   runTransaction,
   query,
   onSnapshot,
-} from "firebase/firestore";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Cell,
-} from "recharts";
-import { useToast } from "@/hooks/use-toast";
+} from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import dynamic from 'next/dynamic';
 
-const VOTE_OPTIONS = ["9/1", "9/2", "9/3", "9/4", "9/5", "9/6", "9/7", "9/8"];
-const VOTING_COLLECTION = "yearbook-votes-2024";
+const VOTE_OPTIONS = ['9/1', '9/2', '9/3', '9/4', '9/5', '9/6', '9/7', '9/8'];
+const VOTING_COLLECTION = 'yearbook-votes-2024';
 const COLORS = [
-  "#0088FE",
-  "#00C49F",
-  "#FFBB28",
-  "#FF8042",
-  "#AF19FF",
-  "#FF4560",
-  "#775DD0",
-  "#FFC300",
+  '#0088FE',
+  '#00C49F',
+  '#FFBB28',
+  '#FF8042',
+  '#AF19FF',
+  '#FF4560',
+  '#775DD0',
+  '#FFC300',
 ];
+
+const DynamicBarChart = dynamic(
+  () => import('@/components/voting-chart'), // Create a new component for the chart
+  { ssr: false }
+);
 
 export default function VotingPage() {
   const [votes, setVotes] = useState<any[]>([]);
@@ -67,10 +62,10 @@ export default function VotingPage() {
   const handleVote = async (option: string) => {
     if (voted) {
       toast({
-        title: "Bạn đã bình chọn rồi",
+        title: 'Bạn đã bình chọn rồi',
         description:
-          "Mỗi người chỉ được bình chọn 1 lần duy nhất cho cuộc bình chọn này.",
-        variant: "destructive",
+          'Mỗi người chỉ được bình chọn 1 lần duy nhất cho cuộc bình chọn này.',
+        variant: 'destructive',
       });
       return;
     }
@@ -86,19 +81,19 @@ export default function VotingPage() {
         }
       });
 
-      localStorage.setItem(VOTING_COLLECTION, "true");
+      localStorage.setItem(VOTING_COLLECTION, 'true');
       setVoted(true);
 
       toast({
-        title: "Bình chọn thành công!",
+        title: 'Bình chọn thành công!',
         description: `Cảm ơn bạn đã bình chọn cho lớp ${option}.`,
       });
     } catch (error) {
-      console.error("Error voting: ", error);
+      console.error('Error voting: ', error);
       toast({
-        title: "Bình chọn thất bại",
-        description: "Có lỗi xảy ra, vui lòng thử lại.",
-        variant: "destructive",
+        title: 'Bình chọn thất bại',
+        description: 'Có lỗi xảy ra, vui lòng thử lại.',
+        variant: 'destructive',
       });
     }
   };
@@ -132,7 +127,7 @@ export default function VotingPage() {
             className="text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none"
             style={{
               backgroundColor: voted
-                ? "#9CA3AF"
+                ? '#9CA3AF'
                 : COLORS[index % COLORS.length],
             }}
           >
@@ -151,39 +146,8 @@ export default function VotingPage() {
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
           Kết quả bình chọn (cập nhật tự động)
         </h2>
-        <div style={{ width: "100%", height: 400 }}>
-          <ResponsiveContainer>
-            <BarChart
-              data={votes}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 0,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis allowDecimals={false} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  backdropFilter: "blur(4px)",
-                  border: "1px solid #ccc",
-                  borderRadius: "0.5rem",
-                }}
-              />
-              <Legend />
-              <Bar dataKey="votes" name="Số phiếu">
-                {votes.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[VOTE_OPTIONS.indexOf(entry.name) % COLORS.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+        <div style={{ width: '100%', height: 400 }}>
+          <DynamicBarChart votes={votes} />
         </div>
       </div>
     </div>
