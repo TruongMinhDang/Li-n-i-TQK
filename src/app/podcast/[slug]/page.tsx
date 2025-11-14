@@ -7,23 +7,27 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-type Props = {
-    params: { slug: string };
+import type { InferGetStaticPropsType, GetStaticProps } from 'next';
+ 
+export const getStaticPaths = async () => {
+  const paths = podcasts.map((podcast) => ({
+    params: { slug: podcast.slug },
+  }));
+  return { paths, fallback: false };
 };
 
-export async function generateStaticParams() {
-    return podcasts.map((podcast) => ({
-      slug: podcast.slug,
-    }));
-}
-
-export default async function PodcastDetailPage({ params }: Props) {
-    const podcast = podcasts.find((p) => p.slug === params.slug);
+export const getStaticProps: GetStaticProps = async (context) => {
+    const slug = context.params?.slug as string;
+    const podcast = podcasts.find((p) => p.slug === slug);
 
     if (!podcast) {
-        notFound();
+        return { notFound: true };
     }
+
+    return { props: { podcast } };
+}; 
+
+export default function PodcastDetailPage({ podcast }: InferGetStaticPropsType<typeof getStaticProps>) {
 
     return (
         <div className="max-w-4xl mx-auto">
