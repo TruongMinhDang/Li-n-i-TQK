@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { podcasts } from "@/lib/constants";
@@ -7,28 +6,35 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { InferGetStaticPropsType, GetStaticProps } from 'next';
- 
-export const getStaticPaths = async () => {
+// LƯU Ý: Bỏ hết các import liên quan đến GetStaticProps
+
+// 1. ĐỔI TÊN HÀM: "getStaticPaths" -> "generateStaticParams"
+export async function generateStaticParams() {
   const paths = podcasts.map((podcast) => ({
-    params: { slug: podcast.slug },
+    slug: podcast.slug, // Chỉ trả về object chứa slug
   }));
-  return { paths, fallback: false };
-};
+  return paths;
+}
 
-export const getStaticProps: GetStaticProps = async (context) => {
-    const slug = context.params?.slug as string;
+// 2. TẠO HÀM LẤY DỮ LIỆU (thay thế getStaticProps)
+// Hàm này có thể đặt ở tệp riêng hoặc ngay tại đây
+async function getPodcastData(slug: string) {
     const podcast = podcasts.find((p) => p.slug === slug);
-
     if (!podcast) {
-        return { notFound: true };
+        notFound(); // Tự động gọi trang 404 nếu không tìm thấy
     }
+    return podcast;
+}
 
-    return { props: { podcast } };
-}; 
+// 3. THAY ĐỔI CÁCH NHẬN PROPS CỦA PAGE
+// Page component giờ nhận 'params' làm prop
+export default async function PodcastDetailPage({ params }: { params: { slug: string } }) {
 
-export default function PodcastDetailPage({ podcast }: InferGetStaticPropsType<typeof getStaticProps>) {
+    // 4. GỌI HÀM LẤY DỮ LIỆU
+    // 'await' trực tiếp bên trong Server Component
+    const podcast = await getPodcastData(params.slug);
 
+    // Phần JSX (giao diện) của bệ hạ giữ nguyên
     return (
         <div className="max-w-4xl mx-auto">
             <div className="mb-8">
@@ -74,8 +80,8 @@ export default function PodcastDetailPage({ podcast }: InferGetStaticPropsType<t
                 </div>
                  <CardContent className="p-6 pt-0">
                     <div className="prose prose-lg dark:prose-invert max-w-none mt-6">
-                         <h2 className="font-headline text-xl">Nội dung tập này</h2>
-                         <p>{podcast.description}</p>
+                        <h2 className="font-headline text-xl">Nội dung tập này</h2>
+                        <p>{podcast.description}</p>
                     </div>
                 </CardContent>
             </Card>
