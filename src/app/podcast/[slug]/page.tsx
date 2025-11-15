@@ -6,33 +6,43 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// LƯU Ý: Bỏ hết các import liên quan đến GetStaticProps
 
-// 1. ĐỔI TÊN HÀM: "getStaticPaths" -> "generateStaticParams"
+// ----- BẮT ĐẦU SỬA ĐỔI (LẦN 2) -----
+
+// Tâu bệ hạ, chúng ta định nghĩa một kiểu (type) rõ ràng cho props của trang
+// để tránh xung đột với kiểu 'PageProps' chung của hệ thống.
+type PodcastPageProps = {
+  params: {
+    slug: string;
+  }
+};
+
+// 1. Hàm generateStaticParams (giữ nguyên như cũ)
 export async function generateStaticParams() {
   const paths = podcasts.map((podcast) => ({
-    slug: podcast.slug, // Chỉ trả về object chứa slug
+    slug: podcast.slug,
   }));
   return paths;
 }
 
-// 2. TẠO HÀM LẤY DỮ LIỆU (thay thế getStaticProps)
-// Hàm này có thể đặt ở tệp riêng hoặc ngay tại đây
+// 2. Hàm lấy dữ liệu (giữ nguyên như cũ)
 async function getPodcastData(slug: string) {
     const podcast = podcasts.find((p) => p.slug === slug);
+    
     if (!podcast) {
-        notFound(); // Tự động gọi trang 404 nếu không tìm thấy
+        notFound(); 
     }
     return podcast;
 }
 
-// 3. THAY ĐỔI CÁCH NHẬN PROPS CỦA PAGE
-// Page component giờ nhận 'params' làm prop
-export default async function PodcastDetailPage({ params }: { params: { slug: string } }) {
+// 3. THAY ĐỔI COMPONENT CHÍNH
+// Sử dụng kiểu 'PodcastPageProps' đã định nghĩa ở trên
+export default async function PodcastDetailPage({ params }: PodcastPageProps) {
 
-    // 4. GỌI HÀM LẤY DỮ LIỆU
-    // 'await' trực tiếp bên trong Server Component
+    // 4. Gọi hàm lấy dữ liệu (giữ nguyên như cũ)
     const podcast = await getPodcastData(params.slug);
+
+// ----- KẾT THÚC SỬA ĐỔI (LẦN 2) -----
 
     // Phần JSX (giao diện) của bệ hạ giữ nguyên
     return (
