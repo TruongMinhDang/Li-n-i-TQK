@@ -65,7 +65,7 @@ function expandAbbreviations(text: string): string {
         'HĐĐ': 'Hội đồng Đội',
     };
 
-    // Use a regex with word boundaries (\b) to replace whole words only
+    // Use a regex with word boundaries (\\b) to replace whole words only
     const regex = new RegExp(`\\b(${Object.keys(replacements).join('|')})\\b`, 'g');
     return text.replace(regex, (match) => replacements[match]);
 }
@@ -101,12 +101,12 @@ const ttsFlow = ai.defineFlow(
     const { media } = await ai.generate({
       model: 'googleai/text-to-speech-1',
       prompt: fullTextToRead,
-      voice: 'vi-VN-Standard-A',
-      audio: {
-        encoding: 'LINEAR16',
-        sampleRate: 24000,
-      },
       config: {
+        voice: 'vi-VN-Standard-A',
+        audio: {
+          encoding: 'LINEAR16',
+          sampleRate: 24000,
+        },
         safetySettings: [
             {
                 category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
