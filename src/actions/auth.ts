@@ -1,29 +1,33 @@
+"use server";
 
-"use server"
-
-import { admin } from "@/lib/firebase-admin";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
-// Get the auth service from the admin instance
-const auth = admin.auth();
+import { auth } from "@/lib/firebase-admin"; 
 
 export async function logoutUser() {
+  // Lấy session cookie
   const sessionCookie = cookies().get("session")?.value;
 
   if (sessionCookie) {
     try {
-      const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
-      await auth.revokeRefreshTokens(decodedClaims.sub);
+      // Xác thực cookie — kiểm tra luôn token bị revoke hay chưa
+      const decoded = await auth.verifySessionCookie(sessionCookie, true);
+
+      // Thu hồi refresh tokens trong trường hợp user đăng xuất
+      await auth.revokeRefreshTokens(decoded.sub);
+
+      // Xóa cookie session
       cookies().delete("session");
+
       console.log("User logged out successfully and session revoked.");
     } catch (error) {
-      console.error("Error logging out:", error);
-      // Even if revocation fails, try to clear the cookie to log the user out on the client-side
+      console.error("Logout error:", error);
+
+      // Dù verify lỗi vẫn xóa session cookie để logout client
       cookies().delete("session");
     }
   }
 
-  // Redirect to login page regardless of whether a session existed or not
+  // Điều hướng người dùng về trang login
   redirect("/login");
 }

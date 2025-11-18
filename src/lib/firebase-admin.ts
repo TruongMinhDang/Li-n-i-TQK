@@ -1,20 +1,28 @@
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import { getAuth } from 'firebase-admin/auth';
 
-import * as admin from 'firebase-admin';
+// --- NGĂN KHỞI TẠO 2 LẦN TRONG NEXT.JS ---
+if (!getApps().length) {
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
-// IMPORTANT: Hide this configuration from the client-side.
-// We are using a server-side environment variable to store the private key.
-// This is a more secure way to handle credentials than committing a JSON file.
-const serviceAccount = {
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-};
+  if (!projectId || !clientEmail || !privateKey) {
+    throw new Error('Firebase Admin environment variables are missing.');
+  }
 
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
-    });
+  initializeApp({
+    credential: cert({
+      projectId,
+      clientEmail,
+      privateKey,
+    }),
+  });
 }
 
-const firestore = admin.firestore();
-export { firestore, admin };
+// --- EXPORT FIRESTORE & AUTH (THEO CÚ PHÁP MỚI) ---
+const firestore = getFirestore();
+const auth = getAuth();
+
+export { firestore, auth };

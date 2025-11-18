@@ -12,7 +12,10 @@ import { Separator } from '@/components/ui/separator';
 import { ArticleTTSPlayer } from '@/components/article-tts-player';
 import { AuthorBio } from '@/components/author-bio';
 
-// This function tells Next.js which slugs to pre-render at build time.
+// ----- SỬA PHẦN LỖI CHÍNH CỦA NEXT.JS 15 -----
+// Không dùng interface PageProps tự định nghĩa.
+// Type inline là cách Next.js 15 yêu cầu cho dynamic route.
+
 export async function generateStaticParams() {
   const articles = await getArticles();
   return articles.map((article) => ({
@@ -31,62 +34,74 @@ const categoryMap: {[key: string]: {name: string, href: string}} = {
 };
 
 function calculateReadingTime(content: string): number {
-    const wordsPerMinute = 200;
-    const wordCount = content.split(/\s+/).length;
-    return Math.ceil(wordCount / wordsPerMinute);
+  const wordsPerMinute = 200;
+  const wordCount = content.split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
 }
 
 function parseContent(content: string) {
-    return content.split('\n\n').map((paragraph, index) => {
-        if (paragraph.startsWith('<blockquote>')) {
-             return (
-                <blockquote key={index}>
-                    {paragraph.replace('<blockquote>', '').replace('</blockquote>', '')}
-                </blockquote>
-            );
-        }
-        return <p key={index}>{paragraph}</p>
-    });
+  return content.split('\n\n').map((paragraph, index) => {
+    if (paragraph.startsWith('<blockquote>')) {
+      return (
+        <blockquote key={index}>
+          {paragraph.replace('<blockquote>', '').replace('</blockquote>', '')}
+        </blockquote>
+      );
+    }
+    return <p key={index}>{paragraph}</p>;
+  });
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage(
+  { params }: { params: { slug: string } }   // <-- Type inline đúng chuẩn Next.js 15
+) {
+
   const article = await getArticleBySlug(params.slug);
   
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
 
   const allArticles = await getArticles();
   const articleIndex = allArticles.findIndex((p) => p.slug === params.slug);
 
-  const prevArticle = articleIndex > 0 ? allArticles[articleIndex - 1] : null;
-  const nextArticle = articleIndex < allArticles.length - 1 ? allArticles[articleIndex + 1] : null;
+  const prevArticle =
+    articleIndex > 0 ? allArticles[articleIndex - 1] : null;
+
+  const nextArticle =
+    articleIndex < allArticles.length - 1 ? allArticles[articleIndex + 1] : null;
 
   const relatedArticles = allArticles
     .filter(a => a.category === article.category && a.slug !== article.slug)
     .slice(0, 3);
 
-  const categoryInfo = categoryMap[article.category] || { name: article.category, href: '#' };
+  const categoryInfo = categoryMap[article.category] || {
+    name: article.category,
+    href: '#'
+  };
+
   const readingTime = calculateReadingTime(article.content);
   const parsedContent = parseContent(article.content);
   const fullUrl = `https://ldtqk.website/tin-tuc/${article.slug}`;
 
   const ttsArticleData = {
-      slug: article.slug,
-      title: article.title,
-      author: article.author,
-      content: article.content,
+    slug: article.slug,
+    title: article.title,
+    author: article.author,
+    content: article.content,
   };
 
   return (
     <article className="max-w-6xl mx-auto py-8 px-4 md:px-6">
+
+      {/* HEADER */}
       <header className="max-w-3xl mx-auto text-center mb-8">
         <Link href={categoryInfo.href}>
           <Badge variant="default" className="mb-4">{categoryInfo.name}</Badge>
         </Link>
+
         <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl gradient-text">
           {article.title}
         </h1>
+
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground mt-6">
           <div className="flex items-center gap-2">
             <User className="h-4 w-4" />
@@ -98,124 +113,142 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               {format(new Date(article.date), "dd 'tháng' M, yyyy", { locale: vi })}
             </time>
           </div>
-           <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <Clock className="h-4 w-4" />
             <span>{readingTime} phút đọc</span>
           </div>
         </div>
       </header>
 
+      {/* IMAGE */}
       <div className="my-8">
-          <Image
-            src={article.image.src}
-            alt={article.title}
-            data-ai-hint={article.image.hint}
-            width={1600}
-            height={900}
-            className="w-full h-auto object-cover rounded-lg shadow-lg"
-            priority
-          />
-          <figcaption className="text-center text-xs text-muted-foreground mt-2">Nguồn: {article.author}</figcaption>
+        <Image
+          src={article.image.src}
+          alt={article.title}
+          data-ai-hint={article.image.hint}
+          width={1600}
+          height={900}
+          className="w-full h-auto object-cover rounded-lg shadow-lg"
+          priority
+        />
+        <figcaption className="text-center text-xs text-muted-foreground mt-2">
+          Nguồn: {article.author}
+        </figcaption>
       </div>
 
+      {/* BODY & SIDEBAR */}
       <div className="grid grid-cols-12 gap-8 mt-12">
         <main className="col-span-12 lg:col-span-8">
-            <div className="max-w-3xl mx-auto">
-                 {/* Lead Paragraph */}
-                <p className="lead text-xl/relaxed md:text-2xl/loose italic text-muted-foreground my-8">{article.description}</p>
-                
-                {/* TTS Player */}
-                <ArticleTTSPlayer article={ttsArticleData} />
-                
-                {/* Main Content */}
-                <div className="article-body">
-                    {parsedContent}
-                </div>
+          <div className="max-w-3xl mx-auto">
+            <p className="lead text-xl/relaxed md:text-2xl/loose italic text-muted-foreground my-8">
+              {article.description}
+            </p>
+
+            <ArticleTTSPlayer article={ttsArticleData} />
+
+            <div className="article-body">
+              {parsedContent}
             </div>
+          </div>
         </main>
 
         <aside className="col-span-12 lg:col-span-4 lg:sticky top-24 self-start space-y-6">
-             <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />
-             <Card>
-                <CardHeader>
-                    <CardTitle className="text-base">Tác giả</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <AuthorBio authorName={article.author} />
-                </CardContent>
-             </Card>
+          <ArticleActions articleUrl={fullUrl} articleSlug={article.slug} />
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Tác giả</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AuthorBio authorName={article.author} />
+            </CardContent>
+          </Card>
         </aside>
       </div>
 
-
-      {/* Article Navigation & Related */}
+      {/* NAVIGATION AND RELATED */}
       <div className="max-w-5xl mx-auto">
+
         {(prevArticle || nextArticle) && (
-            <div className="flex flex-col sm:flex-row justify-between gap-8 my-12">
+          <div className="flex flex-col sm:flex-row justify-between gap-8 my-12">
             {prevArticle ? (
-                <Link href={`/tin-tuc/${prevArticle.slug}`} className="group flex-1">
+              <Link href={`/tin-tuc/${prevArticle.slug}`} className="group flex-1">
                 <Card className="p-4 h-full hover:border-primary transition-colors">
-                    <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <ArrowLeft className="h-4 w-4" />
                     <span>Bài viết trước đó</span>
-                    </div>
-                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">{prevArticle.title}</p>
+                  </div>
+                  <p className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                    {prevArticle.title}
+                  </p>
                 </Card>
-                </Link>
-            ) : <div className="flex-1"></div>}
+              </Link>
+            ) : <div className="flex-1" />}
+
             {nextArticle ? (
-                <Link href={`/tin-tuc/${nextArticle.slug}`} className="group flex-1">
+              <Link href={`/tin-tuc/${nextArticle.slug}`} className="group flex-1">
                 <Card className="p-4 h-full hover:border-primary transition-colors">
-                    <div className="flex items-center justify-end gap-2 text-muted-foreground mb-2">
+                  <div className="flex items-center justify-end gap-2 text-muted-foreground mb-2">
                     <span>Bài viết kế tiếp</span>
                     <ArrowRight className="h-4 w-4" />
-                    </div>
-                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-right line-clamp-2">{nextArticle.title}</p>
+                  </div>
+                  <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-right line-clamp-2">
+                    {nextArticle.title}
+                  </p>
                 </Card>
-                </Link>
-            ) : <div className="flex-1"></div>}
-            </div>
+              </Link>
+            ) : <div className="flex-1" />}
+          </div>
         )}
 
         {relatedArticles.length > 0 && (
-            <>
+          <>
             <Separator className="my-8" />
             <div className="my-12">
-                <h2 className="text-2xl font-headline font-bold mb-6 text-center">Bài Viết Liên Quan</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {relatedArticles.map((related) => (
-                        <Link key={related.slug} href={`/tin-tuc/${related.slug}`} className="block group">
-                            <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
-                                <CardHeader className="p-0">
-                                    <Image 
-                                        src={related.image.src}
-                                        alt={related.title}
-                                        data-ai-hint={related.image.hint}
-                                        width={400}
-                                        height={250}
-                                        className="w-full h-32 object-cover"
-                                    />
-                                </CardHeader>
-                                <CardContent className="p-4">
-                                    <h3 className="font-semibold text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors">
-                                        {related.title}
-                                    </h3>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    ))}
-                </div>
+              <h2 className="text-2xl font-headline font-bold mb-6 text-center">
+                Bài Viết Liên Quan
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {relatedArticles.map((related) => (
+                  <Link key={related.slug} href={`/tin-tuc/${related.slug}`} className="block group">
+                    <Card className="overflow-hidden h-full hover:shadow-lg transition-shadow">
+                      <CardHeader className="p-0">
+                        <Image
+                          src={related.image.src}
+                          alt={related.title}
+                          data-ai-hint={related.image.hint}
+                          width={400}
+                          height={250}
+                          className="w-full h-32 object-cover"
+                        />
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <h3 className="font-semibold text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                          {related.title}
+                        </h3>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
             </div>
-            </>
+          </>
         )}
 
-        {/* Comments Section */}
         <div className="mt-12">
-            <h3 className="text-2xl font-headline font-bold mb-4 text-center">Bình luận</h3>
-            <Card className="p-2">
-                <div className="fb-comments" data-href={fullUrl} data-width="100%" data-numposts="5"></div>
-            </Card>
+          <h3 className="text-2xl font-headline font-bold mb-4 text-center">
+            Bình luận
+          </h3>
+          <Card className="p-2">
+            <div
+              className="fb-comments"
+              data-href={fullUrl}
+              data-width="100%"
+              data-numposts="5"
+            />
+          </Card>
         </div>
+
       </div>
     </article>
   );
