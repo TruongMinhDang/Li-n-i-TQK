@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { podcasts } from "@/lib/constants";
@@ -20,11 +19,14 @@ async function getPodcastData(slug: string) {
   return podcast;
 }
 
-// SỬA LỖI: Thêm kiểu trả về Promise<JSX.Element>
-export default async function PodcastDetailPage(
-  { params }: { params: { slug: string } }
-): Promise<JSX.Element> {
-  const podcast = await getPodcastData(params.slug);
+export default async function PodcastDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params;
+
+  const podcast = await getPodcastData(slug);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -49,14 +51,11 @@ export default async function PodcastDetailPage(
               className="w-full h-auto object-cover"
             />
           </div>
-
           <div className="md:col-span-2 p-6 flex flex-col">
             <Badge className="w-fit mb-2">Tập {podcast.episodeNumber}</Badge>
-
             <h1 className="text-3xl font-headline font-bold text-foreground">
               {podcast.title}
             </h1>
-
             <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2 mb-4">
               <div className="flex items-center gap-1.5">
                 <Calendar className="h-4 w-4" />
@@ -67,7 +66,6 @@ export default async function PodcastDetailPage(
                 <span>{podcast.duration}</span>
               </div>
             </div>
-
             <div className="mt-auto">
               <audio controls className="w-full" src={podcast.audioSrc}>
                 Your browser does not support the audio element.
